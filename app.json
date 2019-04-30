@@ -1,7 +1,4 @@
 {
-  "expo": {
-    "sdkVersion": "19.0.0"
-  },
   "name": "flinteats",
-  "displayName": "Flint Eats"
+  "displayName": "flinteats"
 }
