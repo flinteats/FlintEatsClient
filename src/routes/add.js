@@ -41,24 +41,25 @@ export default class AddScreen extends React.Component {
           <Row style={{flex: 1}} />
           <Row style={{flex: 1, alignContent: 'center', justifyContent: 'center' }}>
             <Text style={styles.text}>
-              What do you want to add?
+              Choose a type of content you want to share
             </Text>
           </Row>
           <Row style={{flex: 1}} />
           <Row style={{flex: 1}}>
-{true ? null : (<View>
             <Col style={{flex: 2}} />
+{/* Review Food */}
             <Col style={{flex: 1, alignItems: 'center'}}>
               <TouchableOpacity style={styles.button}
-                  onPress={() => navigate('CreateRecipe')}>
+                  onPress={() => navigate({ type: 'Review' })}>
                 <Image
                     style={{width: 40, height: 40}}
-                    source={require('../../res/recipe1.png')}
+                    source={require('../../res/review1.png')}
                 />
               </TouchableOpacity>
-              <Text style={styles.typeText}>Recipe</Text>
+              <Text style={styles.typeText}>Review Food</Text>
             </Col>
             <Col style={{flex: 1}}/>
+{/* Review Location */}
             <Col style={{flex: 1, alignItems: 'center'}}>
               <TouchableOpacity style={styles.button}
                   onPress={() => navigate('SelectMarket', { type: 'Review' })}>
@@ -67,10 +68,9 @@ export default class AddScreen extends React.Component {
                     source={require('../../res/review1.png')}
                 />
               </TouchableOpacity>
-              <Text style={styles.typeText}>Review</Text>
+              <Text style={styles.typeText}>Review Location</Text>
             </Col>
             <Col style={{flex: 2}} />
-</View>)}
           </Row>
           <Row style={{flex: 1}}>
             <Col style={{flex: 1}} />
@@ -97,6 +97,21 @@ export default class AddScreen extends React.Component {
             </Col>
             <Col style={{flex: 1}} />
           </Row>
+          <Row style={{flex: 1}}>
+            <Col style={{flex: 2}} />
+
+            <Col style={{flex: 1, alignItems: 'center'}}>
+              <TouchableOpacity style={styles.button}
+                  onPress={() => navigate('CreateRecipe')}>
+                <Image
+                    style={{width: 40, height: 40}}
+                    source={require('../../res/recipe1.png')}
+                />
+              </TouchableOpacity>
+              <Text style={styles.typeText}>Recipe</Text>
+            </Col>
+            <Col style={{flex: 2}} />
+          </Row>
           <Row style={{flex: 1}} />
         </Grid>
       </LinearGradient>
@@ -121,12 +136,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     color: '#FFF',
     fontSize: 26,
-    fontWeight: 'bold',
-    textAlign: 'center'
+    fontWeight: '300',
+    textAlign: 'center',
+    width: 300
   },
   typeText: {
     backgroundColor: 'transparent',
-    color: '#FFF'
+    color: '#FFF',
+    textAlign: 'center',
+    width: 80
   }
 });
 

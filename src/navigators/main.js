@@ -13,6 +13,7 @@ import AboutScreen from '../routes/about';
 import AddScreen from '../routes/add';
 import CreateDealScreen from '../routes/create-deal';
 import CreateTipScreen from '../routes/create-tip';
+import CreateRecipeScreen from '../routes/create-recipe';
 import FeedScreen from '../routes/feed';
 import FollowScreen from '../routes/follow';
 import HelpScreen from '../routes/help';
@@ -72,6 +73,7 @@ export const AppNavigator = StackNavigator(
     About: { screen: AboutScreen },
     CreateDeal: { screen: CreateDealScreen },
     CreateTip: { screen: CreateTipScreen },
+    CreateRecipe: {screen: CreateRecipeScreen},
     Follow: { screen: FollowScreen },
     Help: { screen: HelpScreen },
     Market: { screen: MarketScreen },

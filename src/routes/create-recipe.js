@@ -9,7 +9,7 @@ export default class CreateRecipeScreen extends React.Component {
     super(props);
     this.state = {text: ''};
   }
-
+/**
   static navigationOptions = ({ navigation }) => ({
     title: `New deal at ${navigation.state.params.target.name}`
   });
@@ -23,6 +23,7 @@ export default class CreateRecipeScreen extends React.Component {
         console.log(err);
       });
   };
+  */
 
   render() {
     return (
@@ -31,7 +32,7 @@ export default class CreateRecipeScreen extends React.Component {
             autoFocus = {true}
             onChangeText = {(text) => this.setState({text})}
             onSubmitEditing = {() => this.submit}
-            placeholder = 'Sale!'
+            placeholder = 'Enter Recipe'
             returnKeyType = {"next"}
         />
         <Button
