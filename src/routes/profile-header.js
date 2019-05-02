@@ -19,10 +19,16 @@ const recipe1 = require('../../res/recipe1.png');
 const review0 = require('../../res/review0.png');
 const review1 = require('../../res/review1.png');
 
+const buttonsmallwidth = 40;
+const buttonsmallheight = 40;
+const buttonbigwidth = 47;
+const buttonbigheight = 47;
+
+
 class ProfileHeaderView extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {uri: false};
+    this.state = { uri: false };
   }
 
   checkPermissions(isMe) {
@@ -34,28 +40,28 @@ class ProfileHeaderView extends React.Component {
     Permissions.checkMultiple(['camera', 'photo'])
       .then(res => {
         if (res.camera == 'authorized'
-            && res.photo == 'authorized') {
+          && res.photo == 'authorized') {
           this.changePic();
         } else if (res.camera != 'authorized'
-            && res.photo == 'authorized') {
+          && res.photo == 'authorized') {
           Permissions.request('camera')
             .then(rez => {
               if (rez == 'authorized') {
                 this.changePic();
               } else {
                 Alert.alert('Insufficient Permissions',
-                    'Flint Eats was not granted Camera permissions.');
+                  'Flint Eats was not granted Camera permissions.');
               }
             });
         } else if (res.photo != 'authorized'
-            && res.camera == 'authorized') {
+          && res.camera == 'authorized') {
           Permissions.request('photo')
             .then(rez => {
               if (rez == 'authorized') {
                 this.changePic();
               } else {
                 Alert.alert('Insufficient Permissions',
-                    'Flint Eats was not granted Photo permissions.');
+                  'Flint Eats was not granted Photo permissions.');
               }
             });
         } else {
@@ -68,12 +74,12 @@ class ProfileHeaderView extends React.Component {
                       this.changePic();
                     } else {
                       Alert.alert('Insufficient Permissions',
-                          'Flint Eats was not granted Camera permissions.');
+                        'Flint Eats was not granted Camera permissions.');
                     }
                   });
               } else {
                 Alert.alert('Insufficient Permissions',
-                    'Flint Eats was not granted Photo permissions.');
+                  'Flint Eats was not granted Photo permissions.');
               }
             });
         }
@@ -95,154 +101,168 @@ class ProfileHeaderView extends React.Component {
         av[this.props.me.id] = uri;
         this.props.mergeAvatars(av);
         MSU.put('/users/me/avatar', uri.replace(/\n/g, ''))
-//                .then(() => navigate('Me', {uri}))
+          //                .then(() => navigate('Me', {uri}))
           .catch(err => console.log(err));
       }
     });
   }
 
   render() {
-    //Alert.alert('Hello it is me the developer Tom');
+
     let isMe = false;
     let user = this.props.user;
     if (!user || user == this.props.me) {
       user = this.props.me;
       isMe = true;
     }
-      
+
     const { navigate, state } = this.props.navigation;
     return (
       <LinearGradient
-          start={{x: 0, y: 0.5}}
-          end={{x: 1, y: 0.5}}
-          colors={['#ABE894', '#54E085']}>
+        start={{ x: 0, y: 0.5 }}
+        end={{ x: 1, y: 0.5 }}
+        colors={['#ABE894', '#54E085']}>
         <View style={styles.infoContainer}>
           <View style={styles.innerInfoContainer}>
             <Left>
               {isMe ? null :
                 <TouchableOpacity
-                    accessibilityLabel='back'
-                    onPress={() => this.props.navigation.goBack()}>
+                  accessibilityLabel='back'
+                  onPress={() => this.props.navigation.goBack()}>
                   <Icon name='arrow-back' />
                 </TouchableOpacity>
               }
-{false ? 
-              <TouchableOpacity
+              {false ?
+                <TouchableOpacity
                   accessibilityLabel='badges'
                   onPress={null}>
-                <Icon name='trophy' />
-              </TouchableOpacity>
-: null}
+                  <Icon name='trophy' />
+                </TouchableOpacity>
+                : null}
             </Left>
-            <Text style={{backgroundColor: 'transparent', fontWeight: 'bold'}}>
-              {user 
+            <Text style={{ backgroundColor: 'transparent', fontWeight: 'bold' }}>
+              {user
                 ? user.username
                 : '. . .'}
             </Text>
             <Right>
               {isMe
                 ? <TouchableOpacity
-                      accessibilityLabel='settings'
-                      onPress={() => navigate('Settings')}>
-                    <Icon style={{backgroundColor: 'transparent'}} name='settings' />
-                  </TouchableOpacity>
+                  accessibilityLabel='settings'
+                  onPress={() => navigate('Settings')}>
+                  <Icon style={{ backgroundColor: 'transparent' }} name='settings' />
+                </TouchableOpacity>
                 : null}
             </Right>
           </View>
           <View style={styles.innerInfoContainer}>
             <TouchableOpacity
-                accessibilityLabel='followers'
-                style={styles.follow}
-                onPress={() => navigate('Follow', { target: user, dir: 'ers', isMe })}>
-              <Text style={{backgroundColor: 'transparent', textAlign: 'center'}}>Followers</Text>
+              accessibilityLabel='followers'
+              style={styles.follow}
+              onPress={() => navigate('Follow', { target: user, dir: 'ers', isMe })}>
+              <Text style={{ backgroundColor: 'transparent', textAlign: 'center' }}>Followers</Text>
             </TouchableOpacity>
             <TouchableOpacity
-                accessibilityLabel={isMe ? 'my profile picture' : user.username + '\'s profile picture'}
-                onPress={() => this.checkPermissions(isMe)}>
+              accessibilityLabel={isMe ? 'my profile picture' : user.username + '\'s profile picture'}
+              onPress={() => this.checkPermissions(isMe)}>
               <Image
-                  style={styles.pic}
-                  source={user && this.props.avatars[user.id]
-                                ? {uri: 'data:image/png;base64,' + this.props.avatars[user.id]}
-                                : profile}
+                style={styles.pic}
+                source={user && this.props.avatars[user.id]
+                  ? { uri: 'data:image/png;base64,' + this.props.avatars[user.id] }
+                  : profile}
               />
             </TouchableOpacity>
             <TouchableOpacity
-                accessibilityLabel='following'
-                style={styles.follow}
-                onPress={() => navigate('Follow', { target: user, dir: 'ees', isMe })}>
-              <Text style={{backgroundColor: 'transparent', textAlign: 'center'}}>Following</Text>
+              accessibilityLabel='following'
+              style={styles.follow}
+              onPress={() => navigate('Follow', { target: user, dir: 'ees', isMe })}>
+              <Text style={{ backgroundColor: 'transparent', textAlign: 'center' }}>Following</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.innerInfoContainer}>
             <View />
             <TouchableOpacity
-                accessibilityLabel={isMe ? 'my posts' : 'user posts'}
-                style={{margin: 3, width: 85, height: 20, borderRadius: 20,
-                    backgroundColor: this.props.faveMode ? '#B0BEC5' : '#FF6F00'}}
-                onPress={() => this.props.setFaveMode(false)}>
-              <Text style={{backgroundColor: 'transparent', textAlign: 'center'}}>{isMe ? 'My' : 'User'} Posts</Text>
+              accessibilityLabel={isMe ? 'my posts' : 'user posts'}
+              style={{
+                margin: 3, width: 85, height: 20, borderRadius: 20,
+                backgroundColor: this.props.faveMode ? '#B0BEC5' : '#FF6F00'
+              }}
+              onPress={() => this.props.setFaveMode(false)}>
+              <Text style={{ backgroundColor: 'transparent', textAlign: 'center' }}>{isMe ? 'My' : 'User'} Posts</Text>
             </TouchableOpacity>
             <TouchableOpacity
-                accessibilityLabel={isMe ? 'my favorites' : 'user favorites'}
-                style={{margin: 3, width: 85, height: 20, borderRadius: 20,
-                    backgroundColor: this.props.faveMode ? '#FF6F00' : '#B0BEC5'}}
-                onPress={() => this.props.setFaveMode(true)}>
-              <Text style={{backgroundColor: 'transparent', textAlign: 'center'}}>Favorites</Text>
+              accessibilityLabel={isMe ? 'my favorites' : 'user favorites'}
+              style={{
+                margin: 3, width: 85, height: 20, borderRadius: 20,
+                backgroundColor: this.props.faveMode ? '#FF6F00' : '#B0BEC5'
+              }}
+              onPress={() => this.props.setFaveMode(true)}>
+              <Text style={{ backgroundColor: 'transparent', textAlign: 'center' }}>Favorites</Text>
             </TouchableOpacity>
             <View />
           </View>
         </View>
 
-        {/* These are tips, deals, reviews, and recipes buttons */}
 
+        {/* This view is the tips, deals, reviews, and recipes buttons */}
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button}
-              accessibilityLabel='tips'
-              onPress={() => this.props.setFocus('tip')}>
-            <Image
-                style={{width: 40, height: 40}}
-                source={this.props.focus == 'tip'
-                          ? tip1
-                          : tip0}
-            />
+
+          <TouchableOpacity accessibilityLabel='tips' onPress={() => this.props.setFocus('tip')}>
+
+            {this.props.focus == 'tip' ?
+              <View style={{ height: buttonbigheight, width: buttonbigwidth, justifyContent:'center', alignItems:'center' }}>
+                <Image style={{ height: buttonbigheight, width: buttonbigwidth }} source={tip1} />
+              </View>
+              :
+              <View style={{ height: buttonbigheight, width: buttonbigwidth, justifyContent:'center', alignItems:'center' }}>
+                <Image style={{ height: buttonsmallheight, width: buttonsmallwidth }} source={tip0} />
+              </View>
+            }
+
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}
-              accessibilityLabel='deals'
-              onPress={() => this.props.setFocus('deal')}>
-            <Image
-                style={{width: 40, height: 40}}
-                source={this.props.focus == 'deal'
-                          ? deal1
-                          : deal0}
-            />
+
+          <TouchableOpacity accessibilityLabel='deals' onPress={() => this.props.setFocus('deal')}>
+
+            {this.props.focus == 'deal' ?
+              <View style={{ height: buttonbigheight, width: buttonbigwidth, justifyContent:'center', alignItems:'center' }}>
+                <Image style={{ height: buttonbigheight, width: buttonbigwidth }} source={deal1} />
+              </View>
+              :
+              <View style={{ height: buttonbigheight, width: buttonbigwidth, justifyContent:'center', alignItems:'center' }}>
+                <Image style={{ height: buttonsmallheight, width: buttonsmallwidth }} source={deal0} />
+              </View>
+            }
+
           </TouchableOpacity>
-          {/* <View> */}
-          
-          <TouchableOpacity style={styles.button}
-              accessibilityLabel='reviews'
-              //onPress={this.props.handler}>
-              onPress={() => this.props.setFocus('reviews')}>
-            {/* <Icon name='document' /> */}
-            <Image
-                style={{width: 40, height: 40}}
-                source={this.props.focus == 'reviews'
-                          ? review1
-                          : review0}
-            />
+
+          <TouchableOpacity accessibilityLabel='reviews' onPress={() => this.props.setFocus('review')}>
+
+            {this.props.focus == 'review' ?
+              <View style={{ height: buttonbigheight, width: buttonbigwidth, justifyContent:'center', alignItems:'center' }}>
+                <Image style={{ height: buttonbigheight, width: buttonbigwidth }} source={review1} />
+              </View>
+              :
+              <View style={{ height: buttonbigheight, width: buttonbigwidth, justifyContent:'center', alignItems:'center' }}>
+                <Image style={{ height: buttonsmallheight, width: buttonsmallwidth }} source={review0} />
+              </View>
+            }
+
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}
-              accessibilityLabel='recipes'
-              // onPress={this.props.handler}>
-              onPress={() => this.props.setFocus('recipes')}>
-            {/* <Icon name='beaker' /> */}
-            <Image
-                style={{width: 40, height: 40}}
-                source={this.props.focus == 'recipes'
-                          ? recipe1
-                          : recipe0}
-            />
+
+          <TouchableOpacity accessibilityLabel='recipes' onPress={() => this.props.setFocus('recipe')}>
+
+            {this.props.focus == 'recipe' ?
+              <View style={{ height: buttonbigheight, width: buttonbigwidth, justifyContent:'center', alignItems:'center' }}>
+                <Image style={{ height: buttonbigheight, width: buttonbigwidth }} source={recipe1} />
+              </View>
+              :
+              <View style={{ height: buttonbigheight, width: buttonbigwidth, justifyContent:'center', alignItems:'center' }}>
+                <Image style={{ height: buttonsmallheight, width: buttonsmallwidth }} source={recipe0} />
+              </View>
+            }
+
           </TouchableOpacity>
-          {/* </View> */}
+
         </View>
 
 
@@ -282,10 +302,11 @@ const styles = StyleSheet.create({
     marginRight: 15
   },
   buttonContainer: {
-    marginTop: 10,
+    marginTop: 2,
+    marginBottom: 5,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    height: 45
+    height: 48
   },
   button: {
     alignContent: 'center',
