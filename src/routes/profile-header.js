@@ -14,6 +14,10 @@ const deal0 = require('../../res/deal0.png');
 const deal1 = require('../../res/deal1.png');
 const tip0 = require('../../res/tip0.png');
 const tip1 = require('../../res/tip1.png');
+const recipe0 = require('../../res/recipe0.png');
+const recipe1 = require('../../res/recipe1.png');
+const review0 = require('../../res/review0.png');
+const review1 = require('../../res/review1.png');
 
 class ProfileHeaderView extends React.Component {
   constructor(props) {
@@ -98,6 +102,7 @@ class ProfileHeaderView extends React.Component {
   }
 
   render() {
+    //Alert.alert('Hello it is me the developer Tom');
     let isMe = false;
     let user = this.props.user;
     if (!user || user == this.props.me) {
@@ -187,6 +192,9 @@ class ProfileHeaderView extends React.Component {
             <View />
           </View>
         </View>
+
+        {/* These are tips, deals, reviews, and recipes buttons */}
+
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button}
               accessibilityLabel='tips'
@@ -208,19 +216,36 @@ class ProfileHeaderView extends React.Component {
                           : deal0}
             />
           </TouchableOpacity>
-{false ? <View>
+          {/* <View> */}
+          
           <TouchableOpacity style={styles.button}
               accessibilityLabel='reviews'
-              onPress={this.props.handler}>
-            <Icon name='document' />
+              //onPress={this.props.handler}>
+              onPress={() => this.props.setFocus('reviews')}>
+            {/* <Icon name='document' /> */}
+            <Image
+                style={{width: 40, height: 40}}
+                source={this.props.focus == 'reviews'
+                          ? review1
+                          : review0}
+            />
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}
               accessibilityLabel='recipes'
-              onPress={this.props.handler}>
-            <Icon name='beaker' />
+              // onPress={this.props.handler}>
+              onPress={() => this.props.setFocus('recipes')}>
+            {/* <Icon name='beaker' /> */}
+            <Image
+                style={{width: 40, height: 40}}
+                source={this.props.focus == 'recipes'
+                          ? recipe1
+                          : recipe0}
+            />
           </TouchableOpacity>
-</View> : null}
+          {/* </View> */}
         </View>
+
+
       </LinearGradient>
     );
   }
@@ -257,6 +282,7 @@ const styles = StyleSheet.create({
     marginRight: 15
   },
   buttonContainer: {
+    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-around',
     height: 45
