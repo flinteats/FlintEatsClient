@@ -9,6 +9,8 @@ import FeedList from './feed-list';
 const icon0 = require('../../res/me0.png')
 const icon1 = require('../../res/me1.png')
 
+//profile.js is the view for any user that is not the local user(user with account in app)
+
 export default class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -41,11 +43,13 @@ export default class ProfileScreen extends React.Component {
     const { user } = this.props.navigation.state.params;
     return (
       <View style={{flex: 1}}>
+        
         <ProfileHeader
             user={user}
             navigation={this.props.navigation}
         />
-        <View style={{flex: 1}}>
+        
+        <View style={{flex: 1, marginTop:25}}>
           <FeedList
               feedKey={user.id}
               user={user}

@@ -19,10 +19,10 @@ const recipe1 = require('../../res/recipe1.png');
 const review0 = require('../../res/review0.png');
 const review1 = require('../../res/review1.png');
 
-const buttonsmallwidth = 40;
-const buttonsmallheight = 40;
-const buttonbigwidth = 47;
-const buttonbigheight = 47;
+const buttonsmallwidth = 45;
+const buttonsmallheight = 45;
+const buttonbigwidth = 50;
+const buttonbigheight = 50;
 
 
 class ProfileHeaderView extends React.Component {
@@ -123,6 +123,7 @@ class ProfileHeaderView extends React.Component {
         end={{ x: 1, y: 0.5 }}
         colors={['#ABE894', '#54E085']}>
         <View style={styles.infoContainer}>
+          
           <View style={styles.innerInfoContainer}>
             <Left>
               {isMe ? null :
@@ -278,7 +279,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 5,
+    marginBottom: 35,
     marginLeft: 25,
     marginRight: 25,
     marginTop: 5,
@@ -302,11 +303,15 @@ const styles = StyleSheet.create({
     marginRight: 15
   },
   buttonContainer: {
-    marginTop: 2,
-    marginBottom: 5,
+    position: 'absolute',
+    top:120,
+    left:0,
+    width: '100%',
+    //marginTop: 2,
+    //marginBottom: 5,
     flexDirection: 'row',
     justifyContent: 'space-around',
-    height: 48
+    height: buttonbigheight,
   },
   button: {
     alignContent: 'center',

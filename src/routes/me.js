@@ -11,6 +11,8 @@ import FeedList from './feed-list';
 const icon0 = require('../../res/me0.png')
 const icon1 = require('../../res/me1.png')
 
+// me.js is specifically the local user (the owner of the apps) profile display.
+
 class MeScreenView extends React.Component {
   constructor(props) {
     super(props);
@@ -19,12 +21,12 @@ class MeScreenView extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     header: null,
     tabBarLabel: 'Me',
-    tabBarIcon: ({focused}) => <Image
-                                style={{width: 25, height: 25}}
-                                source={focused
-                                          ? icon1
-                                          : icon0}
-                             />,
+    tabBarIcon: ({ focused }) => <Image
+      style={{ width: 25, height: 25 }}
+      source={focused
+        ? icon1
+        : icon0}
+    />,
   });
 
   componentDidMount() {
@@ -37,16 +39,18 @@ class MeScreenView extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        
         <ProfileHeader
-            navigation={this.props.navigation}
+          navigation={this.props.navigation}
         />
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1, marginTop:25 }}>
           <FeedList
-              feedKey={this.props.me.id}
-              user={this.props.me}
-              navigation={this.props.navigation}
+            feedKey={this.props.me.id}
+            user={this.props.me}
+            navigation={this.props.navigation}
           />
         </View>
+        
       </View>
     );
   }
