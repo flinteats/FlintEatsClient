@@ -14,6 +14,7 @@ import AddScreen from '../routes/add';
 import CreateDealScreen from '../routes/create-deal';
 import CreateTipScreen from '../routes/create-tip';
 import CreateRecipeScreen from '../routes/create-recipe';
+import CreateRecipeScreen2 from '../routes/create-recipe-step2';
 import FeedScreen from '../routes/feed';
 import FollowScreen from '../routes/follow';
 import HelpScreen from '../routes/help';
@@ -74,6 +75,7 @@ export const AppNavigator = StackNavigator(
     CreateDeal: { screen: CreateDealScreen },
     CreateTip: { screen: CreateTipScreen },
     CreateRecipe: {screen: CreateRecipeScreen},
+    CreateRecipe2: {screen: CreateRecipeScreen2},
     Follow: { screen: FollowScreen },
     Help: { screen: HelpScreen },
     Market: { screen: MarketScreen },
@@ -84,6 +86,8 @@ export const AppNavigator = StackNavigator(
     Settings: { screen: SettingsScreen },
     ViewDeal: { screen: ViewDealScreen },
     ViewTip: { screen: ViewTipScreen },
+
+    Add: { screen: AddScreen },
   },
   {
     navigationOptions: {
