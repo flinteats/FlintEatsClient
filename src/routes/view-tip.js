@@ -10,6 +10,7 @@ import MSU from '../msu';
 const like0 = require('../../res/like0.png');
 const like1 = require('../../res/like1.png');
 const profile = require('../../res/me0.png');
+const comment = require('../../res/comment.png');
 
 const { width, height } = Dimensions.get('window');
 
@@ -173,17 +174,17 @@ class ViewTipScreenView extends React.Component {
                   : profile}
               />
             </TouchableOpacity>
-            <Body style={{flexDirection: 'column', justifyContent:"flex-start"}}>
-              <Text style={{ fontWeight: 'bold', fontSize:17}}>
+            <Body style={{ flexDirection: 'column', justifyContent: "flex-start" }}>
+              <Text style={{ fontWeight: 'bold', fontSize: 17 }}>
                 {obj.usr.username}
               </Text>
-              <Text note style={{fontSize:11}}>
+              <Text note style={{ fontSize: 11 }}>
                 {clazz}
               </Text>
             </Body>
             <TouchableOpacity
               accessibilityLabel={this.state.reacted ? 'unlike' : 'like'}
-              style={{ padding: 8, alignItems:'center' }}
+              style={{ padding: 8, alignItems: 'center' }}
               onPress={() => this.react(obj.id, 1)}>
               <Image
                 style={{ width: 30, height: 30 }}
@@ -196,7 +197,7 @@ class ViewTipScreenView extends React.Component {
           {/* The image of the tip is rendered here, based on if obj.image64 exists */}
           {obj.image64 && <Image
             style={styles.tipPic}
-            source={{ uri: 'data:image/png;base64,' + obj.image64 }}/>}
+            source={{ uri: 'data:image/png;base64,' + obj.image64 }} />}
           <CardItem>
             {/* The text of the tip is rendered here */}
             <AutoLink text={obj.text} />
@@ -206,6 +207,15 @@ class ViewTipScreenView extends React.Component {
             {tagBubbles}
           </CardItem>
         </Card>
+
+
+
+        {/* This starts the comments section of the page */}
+        <View backgroundColor={'#b1b2b5'} style={{ height: '10%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+          <Image style={{ height: 25, width: 25 }} source={comment} />
+          <Text note style={{ marginLeft: 7 }}>COMMENTS</Text>
+        </View>
+
         <Card>
           {!this.state.comments
             ? <Spinner />
@@ -234,6 +244,9 @@ class ViewTipScreenView extends React.Component {
             </View>
           }
         </Card>
+        <View backgroundColor={'#b1b2b5'} style={{ height: 70, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+          
+        </View>
       </ScrollView>
     );
   }
