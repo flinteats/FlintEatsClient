@@ -161,7 +161,7 @@ class ViewTipScreenView extends React.Component {
     }
 
     return (
-      <ScrollView style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} style={{ flex: 1, }}>
         <Card>
           <CardItem>
             <TouchableOpacity
@@ -226,26 +226,31 @@ class ViewTipScreenView extends React.Component {
                 keyExtractor={(item, idx) => item ? item.id : idx}
                 renderItem={this.renderComment}
               />
-              <TextInput
-                value={this.state.text}
-                onChangeText={(text) => this.setState({ text })}
-                onSubmitEditing={() => this.addComment}
-                placeholder='New comment'
-              />
-              {this.state.commenting
-                ? <Spinner />
-                : <Button
-                  title='Submit Comment'
-                  color='#00CE66'
-                  onPress={this.addComment}
-                  disabled={!this.state.text}
-                />
-              }
+              
             </View>
           }
         </Card>
-        <View backgroundColor={'#b1b2b5'} style={{ height: 70, justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-          
+
+        {/* This is the last box on the screen for submitting new comments */}
+        <View backgroundColor={'#b1b2b5'} style={{ height: '10%', justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', marginTop:5 }}>
+          <View style={{borderRadius:50, width:'75%', backgroundColor:'#f7f7f7'}}>
+            <TextInput
+              style={{ width: '100%', textAlign: 'center' }}
+              value={this.state.text}
+              onChangeText={(text) => this.setState({ text })}
+              onSubmitEditing={() => this.addComment}
+              placeholder='New comment'
+            />
+          </View>
+          {this.state.commenting
+            ? <Spinner />
+            : <Button
+              title='Submit'
+              color='#00CE66'
+              onPress={this.addComment}
+              disabled={!this.state.text}
+            />
+          }
         </View>
       </ScrollView>
     );
