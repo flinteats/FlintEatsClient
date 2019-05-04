@@ -41,62 +41,33 @@ class FeedHeaderView extends React.Component {
         end={{ x: 1, y: 0.5 }}
         colors={['#ABE894', '#54E085']}
         style={{height:80}}>
+
+        {/* The following view is the container for the entire search bar */}
         <View style={styles.searchBar}>
-          <View style={{ flex: 1, flexDirection: 'row', alignContent: 'center' }}>
-            <Left>
-              <TouchableOpacity style={{ flex: 1, margin: 6 }}
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <Left style={{ alignItems:'center' }}>
+              {/* Search icon and button */}
+              <TouchableOpacity style={{ marginLeft:5, alignItems:'center' }}
                 onPress={() => this.search(this.props.queryText)}>
                 <Icon name='search' />
               </TouchableOpacity>
             </Left>
-            <TextInput style={{ flex: 6 }}
+            <TextInput style={{flex:6, fontSize:12 }}
               onChangeText={(text) => this.props.setQueryText(text)}
               onSubmitEditing={() => this.search(this.props.queryText)}
               placeholder={'Search'}
               value={this.props.queryText}
             />
-            <Right>
-              <TouchableOpacity style={{ flex: 1, margin: 6 }}
+            <Right style={{flex:1, marginRight:9}}>
+              {/* Cancel search button and icon */}
+              <TouchableOpacity style={{ }}
                 onPress={() => this.clear()}>
-                <Icon style={{ paddingRight: 10 }} name='close' />
+                <Icon style={{  }} name='close' />
               </TouchableOpacity>
             </Right>
           </View>
         </View>
-        {/* <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button}
-            accessibilityLabel='tips'
-            onPress={() => this.props.setFocus('tip')}>
-            <Image
-              style={{ width: 40, height: 40 }}
-              source={this.props.focus == 'tip'
-                ? tip1
-                : tip0}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}
-            accessibilityLabel='deals'
-            onPress={() => this.props.setFocus('deal')}>
-            <Image
-              style={{ width: 40, height: 40 }}
-              source={this.props.focus == 'deal'
-                ? deal1
-                : deal0}
-            />
-          </TouchableOpacity>
-          <View>
-            <TouchableOpacity style={styles.button}
-              accessibilityLabels='reviews'
-              onPress={this.props.handler}>
-              <Icon name='document' />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}
-              accessibilityLabels='recipes'
-              onPress={this.props.handler}>
-              <Icon name='beaker' />
-            </TouchableOpacity>
-          </View>
-        </View> */}
+        
         {/* This view is the tips, deals, reviews, and recipes buttons */}
         <View style={styles.buttonContainer}>
 
@@ -169,9 +140,13 @@ const styles = StyleSheet.create({
   },
   searchBar: {
     backgroundColor: '#FFF',
-    margin: 5,
-    borderRadius: 5,
-    height: 40
+    alignItems: 'center',
+    margin: 10,
+    borderRadius: 50,
+    height: 35,
+    width: '95%',
+    justifyContent: 'flex-start',
+    alignSelf: 'center'
   },
   buttonContainer: {
     position: 'absolute',
