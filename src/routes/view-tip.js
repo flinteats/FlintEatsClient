@@ -193,10 +193,10 @@ class ViewTipScreenView extends React.Component {
               />
             </TouchableOpacity>
           </CardItem>
-          <Image
+          {obj.image64 && <Image
               style={styles.tipPic}
               source={{uri: 'data:image/png;base64,'+obj.image64}}
-          />
+          />}
           <CardItem>
             <AutoLink text={obj.text} />
           </CardItem>
