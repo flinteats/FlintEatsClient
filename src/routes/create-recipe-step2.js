@@ -5,10 +5,9 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import MSU from '../msu';
 
-const camera = require('../../res/camera.png');
 const icon0 = require('../../res/add0.png');
 const icon1 = require('../../res/add1.png');
-const recipe = require('../../res/img_recipes.png');
+const addPhoto = require('../../res/addAphoto.png');
 
 
 export default class CreateRecipeScreen extends React.Component {
@@ -151,12 +150,12 @@ export default class CreateRecipeScreen extends React.Component {
               style={styles.pic}
               source={this.state.uri
                 ? { uri: 'data:image/png;base64,' + this.state.uri }
-                : recipe}
+                : addPhoto}
             />
           </TouchableOpacity>
         </View>
 
-        <View style={styles.view3}>
+        {/* <View style={styles.view3}>
           <View style={{
             width: '80%', textAlign: 'center', borderBottomWidth: 1,
             borderBottomColor: '#B8B8B8',
@@ -169,10 +168,10 @@ export default class CreateRecipeScreen extends React.Component {
               placeholder='Name a recipe'
               returnKeyType={"next"} />
           </View>
-        </View>
+        </View> */}
 
         <View style={styles.view4}>
-          <Text style={{ fontSize: 16, color: 'gray' }}>Step 1/5</Text>
+          <Text style={{ fontSize: 16, color: 'gray' }}>Step 2/5</Text>
         </View>
         <View style={styles.progressbar}>
           <LinearGradient
@@ -217,15 +216,17 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     maxHeight: 200,
     height: 200,
+    marginBottom: 100,
+    marginTop: 25,
   },
-  view3: {
-    flex: 1,
-    maxHeight: 50,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    marginBottom: 75,
-  },
+  // view3: {
+  //   flex: 1,
+  //   maxHeight: 50,
+  //   flexDirection: 'row',
+  //   justifyContent: 'center',
+  //   alignItems: 'stretch',
+  //   marginBottom: 75,
+  // },
   view4: {
     flex: 1,
     maxHeight: 30,
@@ -244,7 +245,7 @@ const styles = StyleSheet.create({
     height: 14,
   },
   progress: {
-    marginRight: 240,
+    marginRight: 185,
     borderRadius: 10,
     maxHeight: 14,
     height: 14,
@@ -258,7 +259,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
   },
   pic: {
-    width: 140,
-    height: 140,
+    width: 279,
+    height: 158,
   }
 });
