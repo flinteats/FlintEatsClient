@@ -4,6 +4,7 @@ import { Card, CardItem, Icon, Spinner } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Permissions from 'react-native-permissions';
 import ImagePicker from 'react-native-image-picker';
+import LinearGradient from 'react-native-linear-gradient';
 import Autocomplete from 'react-native-autocomplete-input';
 
 import MSU from '../msu';
@@ -27,14 +28,14 @@ export default class CreateTipScreen extends React.Component {
     return {
       title: `New Tip`,
       headerRight: (
-        <View style={{marginRight: 5}}>
-          { params.submitting
-              ? <Spinner />
-              : <Button
-                    color='#00CE66'
-                    title='Submit'
-                    onPress={() => params.submit()}
-                />
+        <View style={{ marginRight: 5 }}>
+          {params.submitting
+            ? <Spinner />
+            : <Button
+              color='#00CE66'
+              title='Submit'
+              onPress={() => params.submit()}
+            />
           }
         </View>
       )
@@ -46,14 +47,14 @@ export default class CreateTipScreen extends React.Component {
       this.props.navigation.navigate('Main');
       return true;
     });
-    this.props.navigation.setParams({submit: this.submit});
+    this.props.navigation.setParams({ submit: this.submit });
   }
 
   tagScan = (q) => {
-    this.setState({tagText: q});
-    MSU.get('/tags/search', {q})
+    this.setState({ tagText: q });
+    MSU.get('/tags/search', { q })
       .then(res => {
-        this.setState({tagResults: res});
+        this.setState({ tagResults: res });
       })
       .catch(err => {
         console.log(err);
@@ -63,34 +64,35 @@ export default class CreateTipScreen extends React.Component {
   addTag = (tag) => {
     // only add if not already added
     if (this.state.tags.indexOf(tag) < 0
-        && tag.name.length > 0) {
-      this.setState({tags: this.state.tags.concat([tag]), tagText: '', tagResults: []});
+      && tag.name.length > 0) {
+      this.setState({ tags: this.state.tags.concat([tag]), tagText: '', tagResults: [] });
     }
   }
 
   removeTag = (tag) => {
     let tags = this.state.tags;
     tags = tags.filter(e => e !== tag);
-    this.setState({tags});
+    this.setState({ tags });
   }
 
+
   submit = () => {
-    this.props.navigation.setParams({submitting: true});
+    this.props.navigation.setParams({ submitting: true });
     let tagNames = []
     this.state.tags.forEach(tag => tagNames.push(tag.name));
     MSU.post('/ugc/tips/create',
-        {
-          image: this.state.uri,
-          text: this.state.text,
-          tags: tagNames
-        })
+      {
+        image: this.state.uri,
+        text: this.state.text,
+        tags: tagNames
+      })
       .then(res => {
         this.props.navigation.navigate('Feed');
       })
       .catch(err => {
         console.log(err);
         Alert.alert('Error Submitting Tip', err);
-        this.props.navigation.setParams({submitting: false});
+        this.props.navigation.setParams({ submitting: false });
       });
   };
 
@@ -99,28 +101,28 @@ export default class CreateTipScreen extends React.Component {
     Permissions.checkMultiple(['camera', 'photo'])
       .then(res => {
         if (res.camera == 'authorized'
-            && res.photo == 'authorized') {
+          && res.photo == 'authorized') {
           this.setPic();
         } else if (res.camera != 'authorized'
-            && res.photo == 'authorized') {
+          && res.photo == 'authorized') {
           Permissions.request('camera')
             .then(rez => {
               if (rez == 'authorized') {
                 this.setPic();
               } else {
                 Alert.alert('Insufficient Permissions',
-                    'Flint Eats was not granted Camera permissions.');
+                  'Flint Eats was not granted Camera permissions.');
               }
             });
         } else if (res.photo != 'authorized'
-            && res.camera == 'authorized') {
+          && res.camera == 'authorized') {
           Permissions.request('photo')
             .then(rez => {
               if (rez == 'authorized') {
                 this.setPic();
               } else {
                 Alert.alert('Insufficient Permissions',
-                    'Flint Eats was not granted Photo permissions.');
+                  'Flint Eats was not granted Photo permissions.');
               }
             });
         } else {
@@ -133,12 +135,12 @@ export default class CreateTipScreen extends React.Component {
                       this.setPic();
                     } else {
                       Alert.alert('Insufficient Permissions',
-                          'Flint Eats was not granted Camera permissions.');
+                        'Flint Eats was not granted Camera permissions.');
                     }
                   });
               } else {
                 Alert.alert('Insufficient Permissions',
-                    'Flint Eats was not granted Photo permissions.');
+                  'Flint Eats was not granted Photo permissions.');
               }
             });
         }
@@ -157,7 +159,7 @@ export default class CreateTipScreen extends React.Component {
         console.log('User tapped custom button: ', res.customButton);
       } else {
         let uri = res.data;
-        this.setState({uri});
+        this.setState({ uri });
       }
     });
   }
@@ -166,65 +168,72 @@ export default class CreateTipScreen extends React.Component {
     let tags = [];
     this.state.tags.forEach(tag => {
       tags.push(
-        <TouchableOpacity
+        <LinearGradient
+          start={{ x: 0, y: 0.5 }}
+          end={{ x: 1, y: 0.5 }}
+          colors={['#ABE894', '#54E085']}
+          style = {{borderRadius:20, margin:2}}>
+          <TouchableOpacity
             key={tag.id}
-            style={{borderRadius: 20, backgroundColor: '#00CE66', paddingBottom: 2}}
+            style={{ }}
             onPress={() => this.removeTag(tag)}>
-          <Text style={{textAlign: 'center'}}>
-            {'  ' + tag.name + '  '}
-          </Text>
-        </TouchableOpacity>
+            <Text style={{ textAlign: 'center', color:'white', padding:2 }}>
+              {' #' + tag.name + '  '}
+            </Text>
+          </TouchableOpacity>
+        </LinearGradient>
       );
     });
-console.log(this.state.uri);
+    console.log(this.state.uri);
     return (
       <KeyboardAwareScrollView
-          style={styles.container}
-          keyboardShouldPersistTaps='always'
+        style={styles.container}
+        keyboardShouldPersistTaps='always'
       >
-        <View style={{flex: 20}} />
-        <Card style={{flex: 40}}>
-          <View style={{flex: 20, alignItems: 'flex-start', justifyContent: 'center'}}>
+        <View style={{ flex: 20 }} />
+        <Card style={{ flex: 40 }}>
+          <View style={{ flex: 20, alignItems: 'center', justifyContent: 'center' }}>
             <TouchableOpacity
-                onPress={() => this.checkPermissions()}>
+              onPress={() => this.checkPermissions()}>
               <Image
-                  style={styles.pic}
-                  source={this.state.uri
-                      ? {uri: 'data:image/png;base64,' + this.state.uri}
-                      : camera}
+                style={styles.pic}
+                source={this.state.uri
+                  ? { uri: 'data:image/png;base64,' + this.state.uri }
+                  : camera}
               />
             </TouchableOpacity>
           </View>
           <TextInput
-              onChangeText={(text) => this.setState({text})}
-              onSubmitEditing={() => this.submit}
-              multiline={true}
-              numberOfLines={5}
-              placeholder='What is the tip?'
+            onChangeText={(text) => this.setState({ text })}
+            onSubmitEditing={() => this.submit}
+            multiline={true}
+            numberOfLines={5}
+            placeholder='What is the tip?'
           />
         </Card>
-        <Card style={{flex: 20}}>
-          <CardItem>
+        <Card style={{ flex: 20 }}>
+          <CardItem style={{flexWrap:'wrap'}}>
             {tags}
           </CardItem>
+          
           <CardItem>
             <Autocomplete style={styles.autocompleteContainer}
-                autoCapitalize='none'
-                data={this.state.tagResults}
-                value={this.state.tagText}
-                onChangeText={(text) => this.tagScan(text)}
-                onSubmitEditing={() => this.addTag({name: this.state.tagText.toLowerCase(), id: this.state.tags.length})}
-                placeholder='Tags'
-                renderItem={(data) => (
-                  <TouchableOpacity
-                      onPress={() => this.addTag(data)}>
-                    <Text>{data.name}</Text>
-                  </TouchableOpacity>
-                )}
+              autoCapitalize='none'
+              data={this.state.tagResults}
+              value={this.state.tagText}
+              onChangeText={(text) => this.tagScan(text)}
+              onSubmitEditing={() => this.addTag({ name: this.state.tagText.toLowerCase(), id: this.state.tags.length })}
+              placeholder='Tags'
+              renderItem={(data) => (
+                <TouchableOpacity
+                  onPress={() => this.addTag(data)}>
+                  <Text>{data.name}</Text>
+                </TouchableOpacity>
+              )}
             />
           </CardItem>
         </Card>
-        <View style={{flex: 20}} />
+        <View style={{ flex: 20 }} />
       </KeyboardAwareScrollView>
     );
   }
@@ -237,7 +246,7 @@ const styles = StyleSheet.create({
   autocompleteContainer: {
     flex: 1,
     left: 0,
-//    position: 'absolute',
+    //    position: 'absolute',
     right: 0,
     top: 0,
     zIndex: 1
