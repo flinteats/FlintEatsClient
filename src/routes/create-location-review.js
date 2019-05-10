@@ -8,14 +8,14 @@ import Permissions from 'react-native-permissions';
 import ImagePicker from 'react-native-image-picker';
 
 import MSU from '../msu';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const camera = require('../../res/camera.png');
 
-let market;
-let id;
-let marketname;
+
 
 let marketimageJSX;
+let marketnameJSX;
 
 export default class CreateLocationReviewScreen extends React.Component {
     constructor(props) {
@@ -23,6 +23,7 @@ export default class CreateLocationReviewScreen extends React.Component {
         this.state = {
             draw: 0,
             uri: false,
+            market:null,
             marketResults: [],
             marketText: '',
             tags: [],
@@ -33,9 +34,12 @@ export default class CreateLocationReviewScreen extends React.Component {
         if (this.props.navigation.state.params.market) {
             // If the page has been passed a market when being navigated to,
             // fill the info this page uses with the given market.
-            market = this.props.navigation.state.params.market;
-            id = this.props.navigation.state.params.market.id;
-            marketname = this.props.navigation.state.params.market.name;
+            //market = this.props.navigation.state.params.market;
+            //id = this.props.navigation.state.params.market.id;
+            //marketname = this.props.navigation.state.params.market.name;
+            this.setState({market: this.props.navigation.params.market});
+            this.setState({marketText: this.props.navigation.params.market.name});
+            
         } else {
             market = null;
         }
@@ -61,22 +65,70 @@ export default class CreateLocationReviewScreen extends React.Component {
             });
     }
 
+    tagScan = (q) => {
+        this.setState({ tagText: q });
+        MSU.get('/tags/search', { q })
+            .then(res => {
+                this.setState({ tagResults: res });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+    addTag = (tag) => {
+        // only add if not already added
+        if (this.state.tags.indexOf(tag) < 0
+            && tag.name.length > 0) {
+            this.setState({ tags: this.state.tags.concat([tag]), tagText: '', tagResults: [] });
+        }
+    }
+
+    removeTag = (tag) => {
+        let tags = this.state.tags;
+        tags = tags.filter(e => e !== tag);
+        this.setState({ tags });
+    }
+
 
 
 
 
     render() {
-        if (market) {
-            marketimageJSX = <Image source={{ uri: 'data:image/png;base64,' + this.state.uri }} />
+        if (this.state.market) {
+            if(this.state.market.image64){
+                marketimageJSX = <Image source={{ uri: 'data:image/png;base64,' + this.state.market.image64 }} />
+            }else{
+                marketimageJSX = <Image source={camera} />
+            }
+            
+            marketnameJSX = <Text>{this.state.marketText}</Text>
         } else {
             marketimageJSX = <Image source={camera} />
+            marketnameJSX = <Text>Market Name Here</Text>
         }
 
+
+        let tags = [];
+        this.state.tags.forEach(tag => {
+            tags.push(
+                <TouchableOpacity
+                    key={tag.id}
+                    style={{ borderRadius: 20, backgroundColor: '#00CE66', paddingBottom: 2 }}
+                    onPress={() => this.removeTag(tag)}>
+                    <Text style={{ textAlign: 'center' }}>
+                        {'  ' + tag.name + '  '}
+                    </Text>
+                </TouchableOpacity>
+            );
+        });
+
+
         return (
-            <View>
+            <KeyboardAwareScrollView keyboardShouldPersistTaps={true}>
                 <Card style={{ justifyContent: 'center', alignItems: 'center' }}>
                     {marketimageJSX}
-                    <Text style={{ fontSize: 22 }}>Store Name Here</Text>
+                    {marketnameJSX}
                     <TextInput
                         style={{ width: '95%' }}
                         onChangeText={(text) => this.setState({ text })}
@@ -88,30 +140,55 @@ export default class CreateLocationReviewScreen extends React.Component {
                 </Card>
 
 
+                {/* This is the card for selecting the market the user would like to review. Currently it is just a drop down list of all markets */}
+                <Card style={{ height: 'auto' }}>
+                    <CardItem style={{alignItems:'flex-start'}}>
+                        <Icon name='pin' style={{marginTop:12}}/>
+                        <View style={{ margin: 5, flexDirection: 'row', justifyContent: 'center', alignItems: 'stretch' }}>
+                            <Autocomplete
+                                style={{ position: 'relative' }}
+                                data={this.state.marketResults}
+                                value={this.state.marketText}
+                                listUpwards={true}
+                                onChangeText={(text) => this.marketScan(text)}
+                                placeholder='Location'
+                                renderItem={(data) => (
+                                    <TouchableOpacity
+                                        onPress={() => this.setState({ market: { id: data.id }, marketText: data.name, marketResults: [] })}>
+                                        <Text>{data.name}</Text>
+                                    </TouchableOpacity>
+                                )}
+                            />
 
-                <Card style={{ height: '37%' }}>
-                    <View style={{margin:5, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start' }}>
-                        <Icon name='pin' style={{flex:1,marginRight:4}} />
+                        </View>
+                    </CardItem>
 
-                        <Autocomplete
-                            style={{ height: 60, flex:3 }}
-                            data={this.state.marketResults}
-                            value={this.state.marketText}
-                            listUpwards={true}
-                            onChangeText={(text) => this.marketScan(text)}
-                            placeholder='Location'
+                </Card>
+
+
+                <Card style={{ flex: 30, height: '50%' }}>
+                    <CardItem>
+                        {tags}
+                    </CardItem>
+                    <CardItem>
+                        <Autocomplete style={{ zIndex: 1, left: 0, right: 0, top: 0 }}
+                            autoCapitalize='none'
+                            data={this.state.tagResults}
+                            value={this.state.tagText}
+                            onChangeText={(text) => this.tagScan(text)}
+                            onSubmitEditing={() => this.addTag({ name: this.state.tagText.toLowerCase(), id: this.state.tags.length })}
+                            placeholder='Tags'
                             renderItem={(data) => (
                                 <TouchableOpacity
-                                    onPress={() => this.setState({ market: { id: data.id }, marketText: data.name, marketResults: [] })}>
+                                    onPress={() => this.addTag(data)}>
                                     <Text>{data.name}</Text>
                                 </TouchableOpacity>
                             )}
                         />
-                    </View>
-
+                    </CardItem>
                 </Card>
                 <Text>hi</Text>
-            </View>
+            </KeyboardAwareScrollView>
         );
     }
 }
