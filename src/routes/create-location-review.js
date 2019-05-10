@@ -25,6 +25,7 @@ export default class CreateLocationReviewScreen extends React.Component {
             uri: false,
             market:null,
             marketResults: [],
+            //marketName: '',
             marketText: '',
             tags: [],
             tagResults: [],
@@ -102,7 +103,7 @@ export default class CreateLocationReviewScreen extends React.Component {
                 marketimageJSX = <Image source={camera} />
             }
             
-            marketnameJSX = <Text>{this.state.marketText}</Text>
+            marketnameJSX = <Text>{this.state.market.name}</Text>
         } else {
             marketimageJSX = <Image source={camera} />
             marketnameJSX = <Text>Market Name Here</Text>
@@ -154,7 +155,7 @@ export default class CreateLocationReviewScreen extends React.Component {
                                 placeholder='Location'
                                 renderItem={(data) => (
                                     <TouchableOpacity
-                                        onPress={() => this.setState({ market: { id: data.id }, marketText: data.name, marketResults: [] })}>
+                                        onPress={() => this.setState({ market: { id: data.id, name: data.name }, marketText: data.name, marketResults: [] })}>
                                         <Text>{data.name}</Text>
                                     </TouchableOpacity>
                                 )}
