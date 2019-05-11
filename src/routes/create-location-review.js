@@ -2,10 +2,9 @@ import React from 'react';
 import { Alert, Image, Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Card, CardItem, Icon, Spinner } from 'native-base';
 import Autocomplete from 'react-native-autocomplete-input';
+import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 import { actions } from '../actions/index';
-import Permissions from 'react-native-permissions';
-import ImagePicker from 'react-native-image-picker';
 
 import MSU from '../msu';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -23,11 +22,20 @@ export default class CreateLocationReviewScreen extends React.Component {
         this.state = {
             draw: 0,
             uri: false,
-            market:null,
+
+            //Reference to the current market object 
+            market: null,
+
+            //The list of results from the market search drop-down
             marketResults: [],
-            //marketName: '',
+
+            //The current text of the market search
             marketText: '',
+
+            //The list of all tags the user has given to the market
             tags: [],
+
+            //The list of all results from tag search
             tagResults: [],
             tagText: '',
             text: '',
@@ -35,14 +43,12 @@ export default class CreateLocationReviewScreen extends React.Component {
         if (this.props.navigation.state.params.market) {
             // If the page has been passed a market when being navigated to,
             // fill the info this page uses with the given market.
-            //market = this.props.navigation.state.params.market;
-            //id = this.props.navigation.state.params.market.id;
-            //marketname = this.props.navigation.state.params.market.name;
-            this.setState({market: this.props.navigation.params.market});
-            this.setState({marketText: this.props.navigation.params.market.name});
-            
+            this.setState({ market: this.props.navigation.params.market });
+            this.setState({ marketText: this.props.navigation.params.market.name });
+
         } else {
-            market = null;
+            this.setState({ market: 'null' });
+            this.setState({ marketText: 'No Market Selected' });
         }
     }
 
@@ -97,12 +103,12 @@ export default class CreateLocationReviewScreen extends React.Component {
 
     render() {
         if (this.state.market) {
-            if(this.state.market.image64){
+            if (this.state.market.image64) {
                 marketimageJSX = <Image source={{ uri: 'data:image/png;base64,' + this.state.market.image64 }} />
-            }else{
+            } else {
                 marketimageJSX = <Image source={camera} />
             }
-            
+
             marketnameJSX = <Text>{this.state.market.name}</Text>
         } else {
             marketimageJSX = <Image source={camera} />
@@ -113,20 +119,26 @@ export default class CreateLocationReviewScreen extends React.Component {
         let tags = [];
         this.state.tags.forEach(tag => {
             tags.push(
-                <TouchableOpacity
-                    key={tag.id}
-                    style={{ borderRadius: 20, backgroundColor: '#00CE66', paddingBottom: 2 }}
-                    onPress={() => this.removeTag(tag)}>
-                    <Text style={{ textAlign: 'center' }}>
-                        {'  ' + tag.name + '  '}
-                    </Text>
-                </TouchableOpacity>
+                <LinearGradient
+                    style={{borderRadius:20, margin:1}}
+                    start={{ x: 0, y: 0.5 }}
+                    end={{ x: 1, y: 0.5 }}
+                    colors={['#ABE894', '#54E085']}>
+                    <TouchableOpacity
+                        key={tag.id}
+                        style={{ borderRadius: 20, paddingBottom: 2 }}
+                        onPress={() => this.removeTag(tag)}>
+                        <Text style={{ textAlign: 'center' }}>
+                            {'  ' + tag.name + '  '}
+                        </Text>
+                    </TouchableOpacity>
+                </LinearGradient>
             );
         });
 
 
         return (
-            <KeyboardAwareScrollView keyboardShouldPersistTaps={true}>
+            <KeyboardAwareScrollView keyboardShouldPersistTaps='always'>
                 <Card style={{ justifyContent: 'center', alignItems: 'center' }}>
                     {marketimageJSX}
                     {marketnameJSX}
@@ -142,9 +154,9 @@ export default class CreateLocationReviewScreen extends React.Component {
 
 
                 {/* This is the card for selecting the market the user would like to review. Currently it is just a drop down list of all markets */}
-                <Card style={{ height: 'auto' }}>
-                    <CardItem style={{alignItems:'flex-start'}}>
-                        <Icon name='pin' style={{marginTop:12}}/>
+                <Card style={{ height: 'auto', maxHeight: 300 }}>
+                    <CardItem style={{ alignItems: 'flex-start' }}>
+                        <Icon name='pin' style={{ marginTop: 12 }} />
                         <View style={{ margin: 5, flexDirection: 'row', justifyContent: 'center', alignItems: 'stretch' }}>
                             <Autocomplete
                                 style={{ position: 'relative' }}
@@ -167,12 +179,12 @@ export default class CreateLocationReviewScreen extends React.Component {
                 </Card>
 
 
-                <Card style={{ flex: 30, height: '50%' }}>
-                    <CardItem>
+                <Card style={{ minHeight: 75, maxHeight: 300 }}>
+                    <CardItem style={{ flexWrap: 'wrap' }}>
                         {tags}
                     </CardItem>
-                    <CardItem>
-                        <Autocomplete style={{ zIndex: 1, left: 0, right: 0, top: 0 }}
+                    <CardItem style={{ alignItems: 'flex-start' }}>
+                        <Autocomplete style={{ position: 'relative' }}
                             autoCapitalize='none'
                             data={this.state.tagResults}
                             value={this.state.tagText}
@@ -188,7 +200,7 @@ export default class CreateLocationReviewScreen extends React.Component {
                         />
                     </CardItem>
                 </Card>
-                <Text>hi</Text>
+
             </KeyboardAwareScrollView>
         );
     }
