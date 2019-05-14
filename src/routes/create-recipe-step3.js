@@ -2,6 +2,7 @@ import React from 'react';
 import { BackHandler, Button, Text, TextInput, StyleSheet, TouchableOpacity, View, Image, ImageBackground } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import IngredientInput from './ingredient-input';
 
 import MSU from '../msu';
 
@@ -22,9 +23,10 @@ export default class CreateRecipeScreen3 extends React.Component {
       stepImg: null,
       stepInstructions: '',
       steps: null,
-      allSteps: [],
-      countVal: 0,
+      allSteps: [{ key: 0 , ingredName:''}],
+      countVal: 1,
     };
+    this.onIngredientTextChange = this.onIngredientTextChange.bind(this);
   }
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', () => {
@@ -59,47 +61,49 @@ export default class CreateRecipeScreen3 extends React.Component {
     };
     */
 
-  // onPress = () => {
-  //   this.setState((state) => function(state){
-  //   let newArray = state.allSteps;
-  //   console.warn(newArray);
-  //   newArray.push({
-  //     key:state.countVal,
-  //     displaystring: 'asdfasdf'
-  //   })
+  onPress = () => {
+    // Correct
+    this.setState(function (state, props) {
+      let newValue;
+      if (state.allSteps) {
+        newValue = state.allSteps.concat({ key: state.countVal, ingredName:''});
+      } else {
+        newValue = [{ key: 0 , ingredName:''}];
+      }
+      return {
+        allSteps: newValue,
+        countVal: state.countVal + 1
+      };
+    });
+  }
 
-  //   reu
-  //   })
-  // }
-
-
+  onIngredientTextChange = (text, id) =>  {
+    this.setState(function (state) {
+      let newIngredients;
+      newIngredients = state.allSteps.slice();
+      newIngredients[id].ingredName=text;
+      return{
+        allSteps:newIngredients
+      }
+    })
+  }
   render() {
     const { navigation } = this.props;
     const count = this.state.countVal;
     const uri = navigation.getParam('uri', '');
     const title = navigation.getParam('title', '');
     let stepView = null;
-    if(this.state.allSteps){
+    if (this.state.allSteps) {
       console.warn(this.state.allSteps);
-      
-      // stepView = this.state.allSteps.map(step => (
-      //   <View style={styles.ingredient} key={step.key}>
-      //       <View style={{
-      //         width: '80%', textAlign: 'center', borderBottomWidth: 1,
-      //         borderBottomColor: '#B8B8B8',
-      //       }}>
-      //         <TextInput
-      //           style={{ fontSize: 20, flex: 1, }}
-      //           autoFocus={false}
-      //           onChangeText={(text) => this.setState({ text })}
-      //           onSubmitEditing={() => this.submit}
-      //           placeholder={'Step ' + step.key + ': '+ step.displaystring}
-      //           returnKeyType={"next"} />
-      //       </View>
-      //     </View>
-      // ));
+
+      stepView = this.state.allSteps.map(step => {
+        console.warn('number is '+step.key);
+        return (
+          <IngredientInput key={step.key} id={step.key} changeText={this.onIngredientTextChange} />
+        );
+      })
     }
-  
+
     return (
       <View style={{ flex: 1, }}>
         {/* recipe image */}
