@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/UIUtils/RCTUIUtils.m \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/UIUtils/RCTUIUtils.h
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/UIUtils/RCTUIUtils.m \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/UIUtils/RCTUIUtils.h
