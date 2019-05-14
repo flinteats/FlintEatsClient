@@ -43,12 +43,16 @@ export default class CreateLocationReviewScreen extends React.Component {
         if (this.props.navigation.state.params.market) {
             // If the page has been passed a market when being navigated to,
             // fill the info this page uses with the given market.
+
             this.setState({ market: this.props.navigation.params.market });
             this.setState({ marketText: this.props.navigation.params.market.name });
-
+            //this.state.market = this.props.navigation.params.market;
+            //this.state.marketText = this.props.navigation.params.market.name;
         } else {
             this.setState({ market: 'null' });
             this.setState({ marketText: 'No Market Selected' });
+            //this.state.market = 'null';
+            //this.state.marketText = 'No Market Selected';
         }
     }
 
@@ -116,6 +120,7 @@ export default class CreateLocationReviewScreen extends React.Component {
         }
 
 
+        // Creates an array of tags for all the tags currently on the review.
         let tags = [];
         this.state.tags.forEach(tag => {
             tags.push(
@@ -139,6 +144,8 @@ export default class CreateLocationReviewScreen extends React.Component {
 
         return (
             <KeyboardAwareScrollView keyboardShouldPersistTaps='always'>
+
+                {/* Card for market image, market names, and input for text review */}
                 <Card style={{ justifyContent: 'center', alignItems: 'center' }}>
                     {marketimageJSX}
                     {marketnameJSX}
@@ -179,6 +186,7 @@ export default class CreateLocationReviewScreen extends React.Component {
                 </Card>
 
 
+                {/* Card view for displaying and adding tags to the review */}
                 <Card style={{ minHeight: 75, maxHeight: 300 }}>
                     <CardItem style={{ flexWrap: 'wrap' }}>
                         {tags}
