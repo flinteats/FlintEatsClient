@@ -2,6 +2,7 @@ import React from 'react';
 import { BackHandler, Button, Text, TextInput, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import Permissions from 'react-native-permissions';
 import LinearGradient from 'react-native-linear-gradient';
+import ImagePicker from 'react-native-image-picker';
 
 import MSU from '../msu';
 
@@ -10,12 +11,18 @@ const icon1 = require('../../res/add1.png');
 const addPhoto = require('../../res/addAphoto.png');
 
 
-export default class CreateRecipeScreen extends React.Component {
+export default class CreateRecipeScreen2 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: '',
-      uri: null
+      title: '',
+      uri: null,
+      ingredient: '',
+      ingredientList: [],
+      stepImg: null,
+      stepInstructions: '',
+      step: null,
+      allSteps: [],
     };
   }
   componentDidMount() {
@@ -120,26 +127,26 @@ export default class CreateRecipeScreen extends React.Component {
 
 
   render() {
-    const { navigate } = this.props.navigation;
+    const { navigation } = this.props;
+    const title = navigation.getParam('title', '');
     return (
       <View style={{ flex: 1, }}>
 
         <View style={styles.view1}>
-          <Button
-            title='Cancel'
-            color='#00CE66'
-            //onPress={() => this.props.navigation.navigate('Add')}
-            onPress={() => this.props.navigation.goBack()}
-          />
-          <View style={{ flex: 1, }} />
-          <Button
-            title='Save'
-            color='#00CE66'
-            // Needs added functionality to save started recipe
-            // REMOVES NAVIGATION BAR on return to Add screen!
-            // MUST FIX!
-            onPress={() => this.props.navigation.navigate('Add')}
-          />
+        <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.goBack()}>
+              <Text style={styles.btntxt}>Cancel</Text>
+            </TouchableOpacity>
+            <View style={{ flex: 1, }} />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate('CreateRecipe3', {
+                title: title,
+                uri: this.state.uri,
+              })}>
+              <Text style={styles.btntxt}>Save</Text>
+            </TouchableOpacity>
         </View>
 
         <View style={styles.view2}>
@@ -172,6 +179,7 @@ export default class CreateRecipeScreen extends React.Component {
 
         <View style={styles.view4}>
           <Text style={{ fontSize: 16, color: 'gray' }}>Step 2/5</Text>
+          {/* <Text style={{ fontSize: 16, color: 'gray' }}>{JSON.stringify(title)}</Text> */}
         </View>
         <View style={styles.progressbar}>
           <LinearGradient
@@ -182,17 +190,17 @@ export default class CreateRecipeScreen extends React.Component {
         </View>
         <View style={{ flex: 1, maxHeight: 30, }} />
         <View style={styles.view5}>
-          <Button
-            title='Back'
-            color='#00CE66'
-            onPress={() => this.props.navigation.goBack()}
-          />
-          <View style={{ flex: 1 }} />
-          <Button
-            title='Skip'
-            color='#00CE66'
-            onPress={() => this.props.navigation.navigate('CreateRecipe2')}
-          />
+        <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.goBack()}>
+              <Text style={styles.btntxt}>Back</Text>
+            </TouchableOpacity>
+            <View style={{ flex: 1 }} />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate('CreateRecipe3')}>
+              <Text style={styles.btntxt}>Skip</Text>
+            </TouchableOpacity>
         </View>
       </View>
     );
@@ -204,10 +212,8 @@ const styles = StyleSheet.create({
   view1: {
     flex: 1,
     flexDirection: 'row',
-    maxHeight: 40,
-    marginRight: 15,
-    marginLeft: 15,
-    paddingTop: 10,
+    maxHeight: 60,
+    height: 60,
   },
   view2: {
     flex: 1,
@@ -245,7 +251,7 @@ const styles = StyleSheet.create({
     height: 14,
   },
   progress: {
-    marginRight: 185,
+    marginRight: '60%',
     borderRadius: 10,
     maxHeight: 14,
     height: 14,
@@ -254,12 +260,25 @@ const styles = StyleSheet.create({
   view5: {
     flex: 1,
     flexDirection: 'row',
-    maxHeight: 40,
+    maxHeight: 60,
+    height: 60,
     marginLeft: 30,
     marginRight: 30,
+    marginTop: 30,
   },
   pic: {
     width: 279,
     height: 158,
+  },
+  button: {
+    flex:1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  btntxt: {
+    color: '#00CE66',
+    fontSize: 20,
+    textAlign: 'center'
   }
 });

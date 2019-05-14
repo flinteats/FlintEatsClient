@@ -50,7 +50,7 @@ export default class AddScreen extends React.Component {
 {/* Review Food */}
             <Col style={{flex: 1, alignItems: 'center'}}>
               <TouchableOpacity style={styles.button}
-                  onPress={() => navigate({ type: 'Review' })}>
+                  onPress={() => navigate('ReviewFood')}>
                 <Image
                     style={{width: 60, height: 60}}
                     source={require('../../res/review1.png')}
