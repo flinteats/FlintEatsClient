@@ -13,6 +13,8 @@ import MSU from '../msu';
 
 const camera = require('../../res/camera.png');
 
+let tagsCardItem;
+
 export default class CreateDealScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -206,7 +208,7 @@ export default class CreateDealScreen extends React.Component {
       tags.push(
         <TouchableOpacity
           key={tag.id}
-          style={{ paddingBottom: 2 }}
+          style={{ paddingBottom: 2, paddingRight:4 }}
           onPress={() => this.removeTag(tag)}>
           <LinearGradient
             start={{ x: 0, y: 0.5 }}
@@ -220,6 +222,12 @@ export default class CreateDealScreen extends React.Component {
         </TouchableOpacity>
       );
     });
+
+    if(tags.length == 0){
+      tagsCardItem = <View />
+    }else{
+      tagsCardItem = <CardItem style={{flexWrap:'wrap'}}>{tags}</CardItem>
+    }
 
     let productimage;
     if(this.state.uri){
@@ -337,9 +345,10 @@ export default class CreateDealScreen extends React.Component {
 
 
       <Card>
-        <CardItem>
+        {/* <CardItem>
           {tags}
-        </CardItem>
+        </CardItem> */}
+        {tagsCardItem}
         <CardItem>
           <Autocomplete style={styles.autocompleteContainer}
             autoCapitalize='none'
