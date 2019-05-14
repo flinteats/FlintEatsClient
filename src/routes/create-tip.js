@@ -11,6 +11,9 @@ import MSU from '../msu';
 
 const camera = require('../../res/camera.png');
 
+let imageJSX;
+let tagsCardItem;
+
 export default class CreateTipScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -184,6 +187,19 @@ export default class CreateTipScreen extends React.Component {
         </LinearGradient>
       );
     });
+
+    if(tags.length == 0){
+      tagsCardItem = <View />
+    }else{
+      tagsCardItem = <CardItem style = {{flexWrap:'wrap'}}>{tags}</CardItem>
+    }
+
+    if(this.state.uri){
+      imageJSX = <Image style={{height:125, width:200}} source = {{ uri: 'data:image/png;base64,' + this.state.uri }}></Image>
+    }else{
+      imageJSX = <Image style={styles.pic} source = {camera}></Image>
+    }
+
     console.log(this.state.uri);
     return (
       <KeyboardAwareScrollView
@@ -195,26 +211,30 @@ export default class CreateTipScreen extends React.Component {
           <View style={{ flex: 20, alignItems: 'center', justifyContent: 'center' }}>
             <TouchableOpacity
               onPress={() => this.checkPermissions()}>
-              <Image
+              {/* <Image
                 style={styles.pic}
                 source={this.state.uri
                   ? { uri: 'data:image/png;base64,' + this.state.uri }
                   : camera}
-              />
+              /> */}
+              {imageJSX}
             </TouchableOpacity>
           </View>
           <TextInput
+            style={{textAlign:'center', fontSize:19, color: 'black'}}
+           
             onChangeText={(text) => this.setState({ text })}
             onSubmitEditing={() => this.submit}
             multiline={true}
             numberOfLines={5}
-            placeholder='What is the tip?'
+            placeholder="What is the tip?"
           />
         </Card>
         <Card style={{ flex: 20 }}>
-          <CardItem style={{flexWrap:'wrap'}}>
+          {/* <CardItem style={{flexWrap:'wrap'}}>
             {tags}
-          </CardItem>
+          </CardItem> */}
+          {tagsCardItem}
           
           <CardItem>
             <Autocomplete style={styles.autocompleteContainer}
