@@ -6,9 +6,7 @@ import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import ClusteredMapView from 'react-native-maps-super-cluster'
 
-
 import MapHeader from './map-header';
-
 import MSU from '../msu';
 import DismissKeyboardHOC from '../dismiss-kb';
 
@@ -82,11 +80,6 @@ class MapScreenView extends React.Component {
       });
   }
 
-  onRegionChange(region) {
-    //    this.setState({region});
-    //TODO: grab markets in radius instead of all
-  }
-
   componentDidUpdate() {
     if (this.props.query != this.state.queried) {
       this.fetchMarkets();
@@ -98,6 +91,7 @@ class MapScreenView extends React.Component {
     const pointCount = cluster.pointCount,
       coordinate = cluster.coordinate,
       clusterId = cluster.clusterId
+      debugger;
 
     // use pointCount to calculate cluster size scaling
     // and apply it to "style" prop below
@@ -115,28 +109,12 @@ class MapScreenView extends React.Component {
             {pointCount}
           </Text>
         </View>
-        {
-          /*
-            Eventually use <Callout /> to
-            show clustered point thumbs, i.e.:
-            <Callout>
-              <ScrollView>
-                {
-                  clusteredPoints.map(p => (
-                    <Image source={p.image}>
-                  ))
-                }
-              </ScrollView>
-            </Callout>
-
-            IMPORTANT: be aware that Marker's onPress event isn't really consistent when using Callout.
-           */
-        }
       </Marker>
     )
   }
 
   renderMarker = (data) => {
+    const { navigate } = this.props.navigation;
     let mkt = data;
     let coord = false;
     if (mkt) {
@@ -165,26 +143,6 @@ class MapScreenView extends React.Component {
       </MapView.Marker>)
     }
   }
-  /*
-  render() {
-    const { navigate } = this.props.navigation;
-
-    return (
-      <DismissKeyboardView style={styles.container}>
-        <MapHeader />
-        <View style={styles.mapContainer}>
-          <MapView 
-              style={styles.map}
-              initialRegion={this.state.region}
-              onRegionChange={(region) => this.onRegionChange(region)}>
-            {marketMarkers}
-          </MapView>
-
-  
-        </View>
-      </DismissKeyboardView>
-    );
-  }*/
   render() {
     let marketMarkers = [];
     for (var m in this.state.markets) {
