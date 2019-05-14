@@ -91,7 +91,7 @@ class MapScreenView extends React.Component {
     const pointCount = cluster.pointCount,
       coordinate = cluster.coordinate,
       clusterId = cluster.clusterId
-      debugger;
+    debugger;
 
     // use pointCount to calculate cluster size scaling
     // and apply it to "style" prop below
@@ -129,7 +129,8 @@ class MapScreenView extends React.Component {
         coordinate={coord}
         title={mkt.name}
         image={tomatoPos}
-        description={mkt.description}>
+        description={mkt.description}
+        >
         <MapView.Callout
           onPress={() => {
             Keyboard.dismiss();
