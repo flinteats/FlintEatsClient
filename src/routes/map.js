@@ -137,6 +137,7 @@ class MapScreenView extends React.Component {
   }
 
   renderMarker = (data) => {
+    const {navigate} = this.props.navigation;
     let mkt = data;
     let coord = false;
     if (mkt) {
