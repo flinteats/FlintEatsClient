@@ -15,6 +15,7 @@ const camera = require('../../res/camera.png');
 
 let marketimageJSX;
 let marketnameJSX;
+let tagsCardItem;
 
 export default class CreateLocationReviewScreen extends React.Component {
     constructor(props) {
@@ -125,7 +126,7 @@ export default class CreateLocationReviewScreen extends React.Component {
         this.state.tags.forEach(tag => {
             tags.push(
                 <LinearGradient
-                    style={{borderRadius:20, margin:1}}
+                    style={{ borderRadius: 20, margin: 1 }}
                     start={{ x: 0, y: 0.5 }}
                     end={{ x: 1, y: 0.5 }}
                     colors={['#ABE894', '#54E085']}>
@@ -140,8 +141,11 @@ export default class CreateLocationReviewScreen extends React.Component {
                 </LinearGradient>
             );
         });
-
-
+        if (tags.length == 0) {
+            tagsCardItem = <View />
+        } else {
+            tagsCardItem = <CardItem style={{ flexWrap: 'wrap' }}>{tags}</CardItem>;
+        }
         return (
             <KeyboardAwareScrollView keyboardShouldPersistTaps='always'>
 
@@ -164,7 +168,7 @@ export default class CreateLocationReviewScreen extends React.Component {
                 <Card style={{ height: 'auto', maxHeight: 300 }}>
                     <CardItem style={{ alignItems: 'flex-start' }}>
                         <Icon name='pin' style={{ marginTop: 12 }} />
-                        <View style={{ margin: 5, flexDirection: 'row', justifyContent: 'center', alignItems: 'stretch' }}>
+                        <View style={{ margin: 5, flexDirection: 'row', justifyContent: 'center', width: '90%' }}>
                             <Autocomplete
                                 style={{ position: 'relative' }}
                                 data={this.state.marketResults}
@@ -187,10 +191,11 @@ export default class CreateLocationReviewScreen extends React.Component {
 
 
                 {/* Card view for displaying and adding tags to the review */}
-                <Card style={{ minHeight: 75, maxHeight: 300 }}>
-                    <CardItem style={{ flexWrap: 'wrap' }}>
+                <Card style={{ minHeight: 65, maxHeight: 300 }}>
+                    {/* <CardItem style={{ flexWrap: 'wrap', paddingTop:0, paddingBottom:0, paddingRight:0, paddingLeft:0 }}>
                         {tags}
-                    </CardItem>
+                    </CardItem> */}
+                    {tagsCardItem}
                     <CardItem style={{ alignItems: 'flex-start' }}>
                         <Autocomplete style={{ position: 'relative' }}
                             autoCapitalize='none'
