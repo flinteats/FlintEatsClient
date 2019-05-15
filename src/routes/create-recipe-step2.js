@@ -267,8 +267,13 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   pic: {
-    width: 279,
-    height: 158,
+    // width: 279,
+    // height: 158,
+    // try 2
+    // width: 295,
+    // height: 170,
+    width: 350,
+    height: 198,
   },
   button: {
     flex:1,

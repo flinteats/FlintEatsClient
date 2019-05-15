@@ -2,6 +2,8 @@ import React from 'react';
 import { BackHandler, Button, Text, TextInput, StyleSheet, TouchableOpacity, View, Image, ImageBackground } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Card, CardItem, } from 'native-base';
+import Autocomplete from 'react-native-autocomplete-input';
 
 import MSU from '../msu';
 
@@ -9,6 +11,7 @@ const icon0 = require('../../res/add0.png');
 const icon1 = require('../../res/add1.png');
 const turkey = require('../../res/turkey.png');
 const addPhoto = require('../../res/addAphoto.png');
+const recipe = require('../../res/img_recipes.png');
 
 
 export default class CreateRecipeScreen5 extends React.Component {
@@ -17,14 +20,14 @@ export default class CreateRecipeScreen5 extends React.Component {
     this.state = {
       title: '',
       uri: null,
-      ingredient: '',
-      ingredientList: [],
-      stepImg: null,
-      stepInstructions: '',
-      step: null,
-      allSteps: [],
-      countVal: 0,
+      //ingredientList: [{ key: 0, ingredName: '' }],
+      //allSteps: [{ key: 0, instructions: '', stepImg: null }],
+      countVal: 1,
+      tags: [],
+      tagResults: [],
+      tagText: '',
     };
+    this.onIngredientTextChange = this.onIngredientTextChange.bind(this);
   }
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', () => {
@@ -43,6 +46,31 @@ export default class CreateRecipeScreen5 extends React.Component {
         : icon0}
     />,
   });
+
+  tagScan = (q) => {
+    this.setState({ tagText: q });
+    MSU.get('/tags/search', { q })
+      .then(res => {
+        this.setState({ tagResults: res });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  addTag = (tag) => {
+    // only add if not already added
+    if (this.state.tags.indexOf(tag) < 0
+      && tag.name.length > 0) {
+      this.setState({ tags: this.state.tags.concat([tag]), tagText: '', tagResults: [] });
+    }
+  }
+
+  removeTag = (tag) => {
+    let tags = this.state.tags;
+    tags = tags.filter(e => e !== tag);
+    this.setState({ tags });
+  }
   /**
     static navigationOptions = ({ navigation }) => ({
       title: `New deal at ${navigation.state.params.target.name}`
@@ -60,17 +88,69 @@ export default class CreateRecipeScreen5 extends React.Component {
     */
 
   onPress = () => {
-    this.setState({
-      countVal: this.state.countVal + 1
-    })
+    // Correct
+    // this.setState(function (state, props) {
+    //   let newValue;
+    //   if (state.allSteps) {
+    //     newValue = state.allSteps.concat({ key: state.countVal, instructions: '', stepImg: null });
+    //   } else {
+    //     newValue = [{ key: 0, instructions: '', stepImg: null }];
+    //   }
+    //   return {
+    //     allSteps: newValue,
+    //     countVal: state.countVal + 1
+    //   };
+    // });
   }
 
-
+  onIngredientTextChange = (text, id) => {
+    this.setState(function (state) {
+      let newSteps;
+      newSteps = state.allSteps.slice();
+      newSteps[id].instructions = text;
+      return {
+        allSteps: newSteps
+      }
+    })
+  }
   render() {
+    let tags = [];
+    this.state.tags.forEach(tag => {
+      tags.push(
+        <TouchableOpacity
+          key={tag.id}
+          style={styles.tag}
+          onPress={() => this.removeTag(tag)}>
+          <LinearGradient
+            style={styles.tag}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            colors={['#ABE894', '#54E085']}>
+            <Text style={{ textAlign: 'center' }}>
+              {'  ' + tag.name + '  '}
+            </Text>
+          </LinearGradient>
+
+        </TouchableOpacity>
+      );
+    });
     const { navigation } = this.props;
-    const count = this.state.countVal;
     const uri = navigation.getParam('uri', '');
     const title = navigation.getParam('title', '');
+    let ingredientList = navigation.getParam('ingredientList', '');
+    let stepView = null;
+    if (this.state.allSteps) {
+      //console.warn(this.state.allSteps);
+
+      stepView = this.state.allSteps.map(step => {
+        //console.warn('number is '+step.key);
+        return (
+          <StepInput key={step.key} id={step.key} changeText={this.onIngredientTextChange} img={step.stepImg} />
+          // passing image: image={step.img} 
+        );
+      })
+    }
+
     return (
       <View style={{ flex: 1, }}>
         {/* recipe image */}
@@ -89,13 +169,15 @@ export default class CreateRecipeScreen5 extends React.Component {
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => this.props.navigation.navigate('CreateRecipe4', {
-                  title: this.state.title,
-                  uri: this.state.uri,
+                  title: title,
+                  uri: uri,
+                  ingredientList: ingredientList,
+                  allSteps: this.state.allSteps,
                 })}>
                 <Text style={styles.topbtntxt}>Save</Text>
               </TouchableOpacity>
             </View>
-            <View style={{ flex: 1, height: 100, maxHeight:100,}} />
+            <View style={{ flex: 1, height: 100, maxHeight: 100, }} />
           </ImageBackground>
         </View>
 
@@ -105,94 +187,35 @@ export default class CreateRecipeScreen5 extends React.Component {
           scrollEnabled={true}
         >
           <View style={styles.view2}>
-            <Text style={styles.view2txt}>Add ingredients to {JSON.stringify(title)}</Text>
+            <Text style={styles.view2txt}>Add instruction steps</Text>
           </View>
-
-          {/* Start of the ingredients list */}
-          <View style={styles.ingredient}>
-            <View style={{
-              width: '80%', textAlign: 'center', borderBottomWidth: 1,
-              borderBottomColor: '#B8B8B8',
-            }}>
-              <TextInput
-                style={{ fontSize: 20, flex: 1, }}
-                autoFocus={false}
-                onChangeText={(text) => this.setState({ text })}
-                onSubmitEditing={() => this.submit}
-                placeholder='Ingredient 1, amount, and units'
-                returnKeyType={"next"} />
-            </View>
-          </View>
-          {count >= 1 ? <View style={styles.ingredient}>
-            <View style={{
-              width: '80%', textAlign: 'center', borderBottomWidth: 1,
-              borderBottomColor: '#B8B8B8',
-            }}>
-              <TextInput
-                style={{ fontSize: 20, flex: 1, }}
-                autoFocus={false}
-                onChangeText={(text) => this.setState({ text })}
-                onSubmitEditing={() => this.submit}
-                placeholder='Ingredient 2, amount, and units'
-                returnKeyType={"next"} />
-            </View>
-          </View> : null}
-          {count >= 2 ? <View style={styles.ingredient}>
-            <View style={{
-              width: '80%', textAlign: 'center', borderBottomWidth: 1,
-              borderBottomColor: '#B8B8B8',
-            }}>
-              <TextInput
-                style={{ fontSize: 20, flex: 1, }}
-                autoFocus={false}
-                onChangeText={(text) => this.setState({ text })}
-                onSubmitEditing={() => this.submit}
-                placeholder='Ingredient 3, amount, and units'
-                returnKeyType={"next"} />
-            </View>
-          </View> : null}
-          {count >= 3 ? <View style={styles.ingredient}>
-            <View style={{
-              width: '80%', textAlign: 'center', borderBottomWidth: 1,
-              borderBottomColor: '#B8B8B8',
-            }}>
-              <TextInput
-                style={{ fontSize: 20, flex: 1, }}
-                autoFocus={false}
-                onChangeText={(text) => this.setState({ text })}
-                onSubmitEditing={() => this.submit}
-                placeholder='Ingredient 4, amount, and units'
-                returnKeyType={"next"} />
-            </View>
-          </View> : null}
-          {count >= 4 ? <View style={styles.ingredient}>
-            <View style={{
-              width: '80%', textAlign: 'center', borderBottomWidth: 1,
-              borderBottomColor: '#B8B8B8',
-            }}>
-              <TextInput
-                style={{ fontSize: 20, flex: 1, }}
-                autoFocus={false}
-                onChangeText={(text) => this.setState({ text })}
-                onSubmitEditing={() => this.submit}
-                placeholder='Ingredient 5, amount, and units'
-                returnKeyType={"next"} />
-            </View>
-          </View> : null}
-          {/* End of ingredients list */}
-
-          {/* Add more Button */}
-          <View style={styles.view3}>
-            <TouchableOpacity
-              style={styles.Button}
-              onPress={this.onPress}>
-              <Text style={{ color: '#00CE66' }}>Add more</Text>
-            </TouchableOpacity>
+          <View style={styles.step}>
+            <Card style={{ flex: 30, height: 140, backgroundColor: '#F8F8F8' }}>
+              <CardItem>
+                {tags}
+              </CardItem>
+              <CardItem>
+                <Autocomplete style={styles.autocompleteContainer}
+                  autoCapitalize='none'
+                  data={this.state.tagResults}
+                  value={this.state.tagText}
+                  onChangeText={(text) => this.tagScan(text)}
+                  onSubmitEditing={() => this.addTag({ name: this.state.tagText.toLowerCase(), id: this.state.tags.length })}
+                  placeholder='Tags'
+                  renderItem={(data) => (
+                    <TouchableOpacity
+                      onPress={() => this.addTag(data)}>
+                      <Text>{data.name}</Text>
+                    </TouchableOpacity>
+                  )}
+                />
+              </CardItem>
+            </Card>
           </View>
 
           {/* step 3/5 */}
           <View style={styles.view4}>
-            <Text style={{ fontSize: 16, color: 'gray' }}>Step 3/5</Text>
+            <Text style={{ fontSize: 16, color: 'gray' }}>Step 5/5: The last step!</Text>
           </View>
 
           {/* progress bar */}
@@ -205,7 +228,7 @@ export default class CreateRecipeScreen5 extends React.Component {
           </View>
 
           {/* space */}
-          <View style={{ flex: 1, maxHeight: 30, }} />
+          {/* <View style={{ flex: 1, maxHeight: 30, }} /> */}
 
           {/*  */}
           <View style={styles.view5}>
@@ -214,13 +237,22 @@ export default class CreateRecipeScreen5 extends React.Component {
               onPress={() => this.props.navigation.goBack()}>
               <Text style={styles.btntxt}>Back</Text>
             </TouchableOpacity>
-            <View style={{ flex: 1 }} />
-            <TouchableOpacity
+            <View style={{ flex: 2,}} />
+            {/* <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate('CreateRecipe4')}>
               <Text style={styles.btntxt}>Skip</Text>
+            </TouchableOpacity> */}
+          </View>
+          <View style={styles.view3}>
+            <TouchableOpacity
+              style={styles.Button}
+              onPress={this.onPress}>
+              <Text style={{ color: '#00CE66', paddingBottom:10, fontSize:24, textAlign: 'center' }}>Send your recipe</Text>
             </TouchableOpacity>
           </View>
+          {/* Testing that the ingredient list was passed from recipe step 3 */}
+          {/* <View>{ingredientList.map(ingredientList =><Text>{ingredientList.ingredName}</Text>)}</View> */}
         </KeyboardAwareScrollView>
       </View>
     );
@@ -237,7 +269,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     height: 250,
-    maxHeight:250,
+    maxHeight: 250,
     width: '100%',
   },
   view1: {
@@ -265,24 +297,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
     marginTop: 10,
-    backgroundColor: 'orange',
   },
   view3: {
     flex: 1,
     flexDirection: 'row',
-    maxHeight: 40,
+    justifyContent: 'center',
+    //maxHeight: 50,
     marginTop: 30,
+    paddingBottom: 10,
   },
   Button: {
     alignItems: 'center',
     padding: 10,
     color: '#00CE66',
     backgroundColor: null,
-    borderRadius: 20,
-    marginLeft: 30,
+    borderRadius: 40,
     borderColor: '#00CE66',
     borderWidth: 3,
-    maxHeight: 40,
+    maxHeight: 80,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   view4: {
     flex: 1,
@@ -291,9 +325,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   progressbar: {
-    marginTop: 0,
-    paddingTop: 0,
-    paddingBottom: 0,
     marginLeft: 30,
     marginRight: 30,
     backgroundColor: '#D2D2D2',
@@ -302,20 +333,24 @@ const styles = StyleSheet.create({
     height: 14,
   },
   progress: {
-    marginRight: '40%',
+    marginRight: '0%',
     borderRadius: 10,
     maxHeight: 14,
     height: 14,
-
+  },
+  tag: {
+    borderRadius: 20, 
+    height:25,
+    minHeight:25,
+    marginRight:5,
   },
   view5: {
     flex: 1,
     flexDirection: 'row',
-    maxHeight: 60,
-    height: 60,
+    maxHeight: 40,
+    height: 40,
     marginLeft: 30,
     marginRight: 30,
-    marginTop: 30,
   },
   pic: {
     width: 375,
@@ -329,7 +364,6 @@ const styles = StyleSheet.create({
   btntxt: {
     color: '#00CE66',
     fontSize: 20,
-    textAlign: 'center'
   },
   topbtntxt: {
     color: 'white',

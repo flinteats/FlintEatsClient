@@ -2,6 +2,8 @@ import React from 'react';
 import { BackHandler, Button, Text, TextInput, StyleSheet, TouchableOpacity, View, Image, ImageBackground } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import StepInput from './step-input';
+//import IngredientInput from './ingredient-input';
 
 import MSU from '../msu';
 
@@ -9,6 +11,7 @@ const icon0 = require('../../res/add0.png');
 const icon1 = require('../../res/add1.png');
 const turkey = require('../../res/turkey.png');
 const addPhoto = require('../../res/addAphoto.png');
+const recipe = require('../../res/img_recipes.png');
 
 
 export default class CreateRecipeScreen4 extends React.Component {
@@ -17,15 +20,11 @@ export default class CreateRecipeScreen4 extends React.Component {
     this.state = {
       title: '',
       uri: null,
-      uriStep: null,
-      ingredient: '',
-      ingredientList: [],
-      stepImg: null,
-      stepInstructions: '',
-      step: null,
-      allSteps: [],
-      countVal: 0,
+      //ingredientList: [{ key: 0, ingredName: '' }],
+      allSteps: [{ key: 0, instructions: '', stepImg: null }],
+      countVal: 1,
     };
+    this.onIngredientTextChange = this.onIngredientTextChange.bind(this);
   }
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', () => {
@@ -61,17 +60,49 @@ export default class CreateRecipeScreen4 extends React.Component {
     */
 
   onPress = () => {
-    this.setState({
-      countVal: this.state.countVal + 1
-    })
+    // Correct
+    this.setState(function (state, props) {
+      let newValue;
+      if (state.allSteps) {
+        newValue = state.allSteps.concat({ key: state.countVal, instructions: '', stepImg: null });
+      } else {
+        newValue = [{ key: 0, instructions: '', stepImg: null }];
+      }
+      return {
+        allSteps: newValue,
+        countVal: state.countVal + 1
+      };
+    });
   }
 
-
+  onIngredientTextChange = (text, id) => {
+    this.setState(function (state) {
+      let newSteps;
+      newSteps = state.allSteps.slice();
+      newSteps[id].instructions = text;
+      return {
+        allSteps: newSteps
+      }
+    })
+  }
   render() {
     const { navigation } = this.props;
-    const count = this.state.countVal;
     const uri = navigation.getParam('uri', '');
     const title = navigation.getParam('title', '');
+    let ingredientList = navigation.getParam('ingredientList', '');
+    let stepView = null;
+    if (this.state.allSteps) {
+      //console.warn(this.state.allSteps);
+
+      stepView = this.state.allSteps.map(step => {
+        //console.warn('number is '+step.key);
+        return (
+          <StepInput key={step.key} id={step.key} changeText={this.onIngredientTextChange} img={step.stepImg} />
+          // passing image: image={step.img} 
+        );
+      })
+    }
+
     return (
       <View style={{ flex: 1, }}>
         {/* recipe image */}
@@ -89,14 +120,16 @@ export default class CreateRecipeScreen4 extends React.Component {
               <View style={{ flex: 1, }} />
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => this.props.navigation.navigate('CreateRecipe4', {
-                  title: this.state.title,
-                  uri: this.state.uri,
+                onPress={() => this.props.navigation.navigate('CreateRecipe5', {
+                  title: title,
+                  uri: uri,
+                  ingredientList: ingredientList,
+                  allSteps: this.state.allSteps,
                 })}>
                 <Text style={styles.topbtntxt}>Save</Text>
               </TouchableOpacity>
             </View>
-            <View style={{ flex: 1, height: 100, maxHeight:100,}} />
+            <View style={{ flex: 1, height: 100, maxHeight: 100, }} />
           </ImageBackground>
         </View>
 
@@ -106,81 +139,10 @@ export default class CreateRecipeScreen4 extends React.Component {
           scrollEnabled={true}
         >
           <View style={styles.view2}>
-            <Text style={styles.view2txt}>Add ingredients to {JSON.stringify(title)}</Text>
+            <Text style={styles.view2txt}>Add instruction steps</Text>
           </View>
 
-          {/* Start of the ingredients list */}
-          <View style={styles.ingredient}>
-            <View style={{
-              width: '80%', textAlign: 'center', borderBottomWidth: 1,
-              borderBottomColor: '#B8B8B8',
-            }}>
-              <TextInput
-                style={{ fontSize: 20, flex: 1, }}
-                autoFocus={false}
-                onChangeText={(text) => this.setState({ text })}
-                onSubmitEditing={() => this.submit}
-                placeholder='Ingredient 1, amount, and units'
-                returnKeyType={"next"} />
-            </View>
-          </View>
-          {count >= 1 ? <View style={styles.ingredient}>
-            <View style={{
-              width: '80%', textAlign: 'center', borderBottomWidth: 1,
-              borderBottomColor: '#B8B8B8',
-            }}>
-              <TextInput
-                style={{ fontSize: 20, flex: 1, }}
-                autoFocus={false}
-                onChangeText={(text) => this.setState({ text })}
-                onSubmitEditing={() => this.submit}
-                placeholder='Ingredient 2, amount, and units'
-                returnKeyType={"next"} />
-            </View>
-          </View> : null}
-          {count >= 2 ? <View style={styles.ingredient}>
-            <View style={{
-              width: '80%', textAlign: 'center', borderBottomWidth: 1,
-              borderBottomColor: '#B8B8B8',
-            }}>
-              <TextInput
-                style={{ fontSize: 20, flex: 1, }}
-                autoFocus={false}
-                onChangeText={(text) => this.setState({ text })}
-                onSubmitEditing={() => this.submit}
-                placeholder='Ingredient 3, amount, and units'
-                returnKeyType={"next"} />
-            </View>
-          </View> : null}
-          {count >= 3 ? <View style={styles.ingredient}>
-            <View style={{
-              width: '80%', textAlign: 'center', borderBottomWidth: 1,
-              borderBottomColor: '#B8B8B8',
-            }}>
-              <TextInput
-                style={{ fontSize: 20, flex: 1, }}
-                autoFocus={false}
-                onChangeText={(text) => this.setState({ text })}
-                onSubmitEditing={() => this.submit}
-                placeholder='Ingredient 4, amount, and units'
-                returnKeyType={"next"} />
-            </View>
-          </View> : null}
-          {count >= 4 ? <View style={styles.ingredient}>
-            <View style={{
-              width: '80%', textAlign: 'center', borderBottomWidth: 1,
-              borderBottomColor: '#B8B8B8',
-            }}>
-              <TextInput
-                style={{ fontSize: 20, flex: 1, }}
-                autoFocus={false}
-                onChangeText={(text) => this.setState({ text })}
-                onSubmitEditing={() => this.submit}
-                placeholder='Ingredient 5, amount, and units'
-                returnKeyType={"next"} />
-            </View>
-          </View> : null}
-          {/* End of ingredients list */}
+          {stepView}
 
           {/* Add more Button */}
           <View style={styles.view3}>
@@ -218,10 +180,12 @@ export default class CreateRecipeScreen4 extends React.Component {
             <View style={{ flex: 1 }} />
             <TouchableOpacity
               style={styles.button}
-              onPress={() => this.props.navigation.navigate('CreateRecipe4')}>
+              onPress={() => this.props.navigation.navigate('CreateRecipe5')}>
               <Text style={styles.btntxt}>Skip</Text>
             </TouchableOpacity>
           </View>
+          {/* Testing that the ingredient list was passed from recipe step 3 */}
+          {/* <View>{ingredientList.map(ingredientList =><Text>{ingredientList.ingredName}</Text>)}</View> */}
         </KeyboardAwareScrollView>
       </View>
     );
@@ -238,7 +202,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     height: 250,
-    maxHeight:250,
+    maxHeight: 250,
     width: '100%',
   },
   view1: {
@@ -266,7 +230,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
     marginTop: 10,
-    backgroundColor: 'orange',
   },
   view3: {
     flex: 1,

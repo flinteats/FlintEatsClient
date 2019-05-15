@@ -10,6 +10,7 @@ const icon0 = require('../../res/add0.png');
 const icon1 = require('../../res/add1.png');
 const turkey = require('../../res/turkey.png');
 const addPhoto = require('../../res/addAphoto.png');
+const recipe = require('../../res/img_recipes.png');
 
 
 export default class CreateRecipeScreen3 extends React.Component {
@@ -19,11 +20,7 @@ export default class CreateRecipeScreen3 extends React.Component {
       title: '',
       uri: null,
       ingredient: '',
-      ingredientList: [],
-      stepImg: null,
-      stepInstructions: '',
-      steps: null,
-      allSteps: [{ key: 0 , ingredName:''}],
+      ingredientList: [{ key: 0 , ingredName:''}],
       countVal: 1,
     };
     this.onIngredientTextChange = this.onIngredientTextChange.bind(this);
@@ -65,13 +62,13 @@ export default class CreateRecipeScreen3 extends React.Component {
     // Correct
     this.setState(function (state, props) {
       let newValue;
-      if (state.allSteps) {
-        newValue = state.allSteps.concat({ key: state.countVal, ingredName:''});
+      if (state.ingredientList) {
+        newValue = state.ingredientList.concat({ key: state.countVal, ingredName:''});
       } else {
         newValue = [{ key: 0 , ingredName:''}];
       }
       return {
-        allSteps: newValue,
+        ingredientList: newValue,
         countVal: state.countVal + 1
       };
     });
@@ -80,26 +77,26 @@ export default class CreateRecipeScreen3 extends React.Component {
   onIngredientTextChange = (text, id) =>  {
     this.setState(function (state) {
       let newIngredients;
-      newIngredients = state.allSteps.slice();
+      newIngredients = state.ingredientList.slice();
       newIngredients[id].ingredName=text;
       return{
-        allSteps:newIngredients
+        ingredientList:newIngredients
       }
     })
   }
   render() {
     const { navigation } = this.props;
-    const count = this.state.countVal;
     const uri = navigation.getParam('uri', '');
     const title = navigation.getParam('title', '');
-    let stepView = null;
-    if (this.state.allSteps) {
-      console.warn(this.state.allSteps);
+    let ingredientView = null;
+    if (this.state.ingredientList) {
+      //console.warn(this.state.ingredientList);
 
-      stepView = this.state.allSteps.map(step => {
-        console.warn('number is '+step.key);
+      ingredientView = this.state.ingredientList.map(step => {
+        //console.warn('number is '+step.key);
         return (
           <IngredientInput key={step.key} id={step.key} changeText={this.onIngredientTextChange} />
+          
         );
       })
     }
@@ -122,8 +119,9 @@ export default class CreateRecipeScreen3 extends React.Component {
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => this.props.navigation.navigate('CreateRecipe4', {
-                  title: this.state.title,
-                  uri: this.state.uri,
+                  title: title,
+                  uri: uri,
+                  ingredientList: this.state.ingredientList,
                 })}>
                 <Text style={styles.topbtntxt}>Save</Text>
               </TouchableOpacity>
@@ -141,7 +139,7 @@ export default class CreateRecipeScreen3 extends React.Component {
             <Text style={styles.view2txt}>Add ingredients to {JSON.stringify(title)}</Text>
           </View>
 
-          {stepView}
+          {ingredientView}
 
           {/* Add more Button */}
           <View style={styles.view3}>
@@ -227,7 +225,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
     marginTop: 10,
-    backgroundColor: 'orange',
   },
   view3: {
     flex: 1,

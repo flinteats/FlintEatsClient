@@ -164,9 +164,7 @@ export default class CreateRecipeScreen extends React.Component {
               style={{
                 fontSize: 30, flex: 1,
                 textAlign: 'center',
-                borderBottomWidth: 1,
-                borderBottomColor: '#B8B8B8',
-                width: 200
+                width: 200,
               }}
               autoFocus={false}
               onChangeText={(title) => this.setState({ title })}
