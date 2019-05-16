@@ -37,7 +37,7 @@ export default class FeedScreen extends React.Component {
     return (
       <View style={styles.container}>
         <FeedHeader navigation={this.props.navigation} />
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, marginTop:27}}>
           <FeedList feedKey={0} navigation={this.props.navigation} />
         </View>
       </View>
