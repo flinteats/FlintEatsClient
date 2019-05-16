@@ -335,6 +335,7 @@ export default class CreateDealScreen extends React.Component {
               renderItem={(data) => (
                 <TouchableOpacity
                   onPress={() => this.setState({ market: { id: data.id }, marketText: data.name, marketResults: [] })}>
+
                   <Text>{data.name}</Text>
                 </TouchableOpacity>
               )}

@@ -1,19 +1,21 @@
 dependencies: \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Views/RCTWrapperViewController.m \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Views/RCTWrapperViewController.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTEventDispatcher.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTBridge.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTBridgeDelegate.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTJavaScriptLoader.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTDefines.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTBridgeModule.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTFrameUpdate.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTInvalidating.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Views/RCTNavItem.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Views/RCTComponent.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTUtils.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTAssert.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Views/UIView+React.h \
-  /Users/acm/FlintEatsClient/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGEnums.h \
-  /Users/acm/FlintEatsClient/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGMacros.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Views/RCTAutoInsetsProtocol.h
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Views/RCTWrapperViewController.m \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Views/RCTWrapperViewController.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTEventDispatcher.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTBridge.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTBridgeDelegate.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTJavaScriptLoader.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTDefines.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/DevSupport/RCTInspectorDevServerHelper.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/DevSupport/RCTPackagerConnection.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTBridgeModule.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTFrameUpdate.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTInvalidating.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Views/RCTNavItem.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Views/RCTComponent.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTUtils.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTAssert.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Views/UIView+React.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGEnums.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGMacros.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Views/RCTAutoInsetsProtocol.h

@@ -14,6 +14,11 @@ import AddScreen from '../routes/add';
 import CreateDealScreen from '../routes/create-deal';
 import CreateTipScreen from '../routes/create-tip';
 import CreateRecipeScreen from '../routes/create-recipe';
+import CreateRecipeScreen2 from '../routes/create-recipe-step2';
+import CreateRecipeScreen3 from '../routes/create-recipe-step3';
+import CreateRecipeScreen4 from '../routes/create-recipe-step4';
+import CreateRecipeScreen5 from '../routes/create-recipe-step5';
+import CreateLocationReviewScreen from '../routes/create-location-review';
 import FeedScreen from '../routes/feed';
 import FollowScreen from '../routes/follow';
 import HelpScreen from '../routes/help';
@@ -24,6 +29,9 @@ import MarketScreen from '../routes/market';
 import MeScreen from '../routes/me';
 import PreferencesScreen from '../routes/preferences';
 import ProfileScreen from '../routes/profile';
+import ReviewFoodScreen from '../routes/review-food';
+import ReviewFoodScreen2 from '../routes/review-food-step2';
+//import ReviewLocationScreen from '../routes/review-location';
 import SecurityScreen from '../routes/security';
 import SettingsScreen from '../routes/settings';
 import ViewDealScreen from '../routes/view-deal';
@@ -74,6 +82,12 @@ export const AppNavigator = StackNavigator(
     CreateDeal: { screen: CreateDealScreen },
     CreateTip: { screen: CreateTipScreen },
     CreateRecipe: {screen: CreateRecipeScreen},
+
+    CreateRecipe2: {screen: CreateRecipeScreen2},
+    CreateRecipe3: {screen: CreateRecipeScreen3},
+    CreateRecipe4: {screen: CreateRecipeScreen4},
+    CreateRecipe5: {screen: CreateRecipeScreen5},
+    CreateLocationReview: {screen: CreateLocationReviewScreen},
     Follow: { screen: FollowScreen },
     Help: { screen: HelpScreen },
     Market: { screen: MarketScreen },
@@ -82,8 +96,13 @@ export const AppNavigator = StackNavigator(
     Profile: { screen: ProfileScreen },
     Security: { screen: SecurityScreen },
     Settings: { screen: SettingsScreen },
+    ReviewFood: {screen: ReviewFoodScreen},
+    ReviewFood2: {screen: ReviewFoodScreen2},
+    //ReviewLocation: {screen: ReviewLocationScreen},
     ViewDeal: { screen: ViewDealScreen },
     ViewTip: { screen: ViewTipScreen },
+
+    
   },
   {
     navigationOptions: {

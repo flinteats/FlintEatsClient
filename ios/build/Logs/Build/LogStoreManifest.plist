@@ -3,8 +3,41 @@
 <plist version="1.0">
 <dict>
 	<key>logFormatVersion</key>
-	<integer>9</integer>
+	<integer>10</integer>
 	<key>logs</key>
-	<dict/>
+	<dict>
+		<key>8FE6058C-E900-4985-B427-40CCDD872DBE</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>8FE6058C-E900-4985-B427-40CCDD872DBE.xcactivitylog</string>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>E</string>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>flinteats project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>flinteats</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project flinteats with scheme flinteats and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>579540983.69818604</real>
+			<key>timeStoppedRecording</key>
+			<real>579540989.18596303</real>
+			<key>title</key>
+			<string>Building project flinteats with scheme flinteats and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>8FE6058C-E900-4985-B427-40CCDD872DBE</string>
+		</dict>
+	</dict>
 </dict>
 </plist>

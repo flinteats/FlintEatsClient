@@ -1,23 +1,23 @@
 dependencies: \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Modules/RCTDevSettings.mm \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Modules/RCTDevSettings.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTBridge.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTBridgeDelegate.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTJavaScriptLoader.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTDefines.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTBridgeModule.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTFrameUpdate.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTInvalidating.h \
-  /Users/acm/FlintEatsClient/ios/build/Build/Products/Debug-iphonesimulator/include/jschelpers/JavaScriptCore.h \
-  /Users/acm/FlintEatsClient/ios/build/Build/Products/Debug-iphonesimulator/include/jschelpers/JSCWrapper.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTBridge+Private.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTEventDispatcher.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Modules/RCTJSCSamplingProfiler.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTLog.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTAssert.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Base/RCTUtils.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Profiler/RCTProfile.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/DevSupport/RCTPackagerClient.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/DevSupport/RCTPackagerConnection.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/DevSupport/RCTInspectorDevServerHelper.h \
-  /Users/acm/FlintEatsClient/node_modules/react-native/React/Inspector/RCTInspectorPackagerConnection.h
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Modules/RCTDevSettings.mm \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Modules/RCTDevSettings.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTBridge.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTBridgeDelegate.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTJavaScriptLoader.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTDefines.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/DevSupport/RCTInspectorDevServerHelper.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/DevSupport/RCTPackagerConnection.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTBridgeModule.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTFrameUpdate.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTInvalidating.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/ios/build/Build/Products/Debug-iphonesimulator/include/jschelpers/JavaScriptCore.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/ios/build/Build/Products/Debug-iphonesimulator/include/jschelpers/JSCWrapper.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTBridge+Private.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTEventDispatcher.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Modules/RCTJSCSamplingProfiler.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTLog.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTAssert.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Base/RCTUtils.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Profiler/RCTProfile.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/DevSupport/RCTPackagerClient.h \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/React/Inspector/RCTInspectorPackagerConnection.h
