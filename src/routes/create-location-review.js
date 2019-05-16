@@ -5,6 +5,7 @@ import Autocomplete from 'react-native-autocomplete-input';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 import { actions } from '../actions/index';
+import StarRating from 'react-native-star-rating';
 
 import MSU from '../msu';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -23,7 +24,11 @@ export default class CreateLocationReviewScreen extends React.Component {
         this.state = {
             draw: 0,
             uri: false,
-
+            starCountCleanliness: 0,
+            starCountFriendliness: 0,
+            starCountSelection: 0,
+            starCountAccess: 0,
+            starCountSafety: 0,
             //Reference to the current market object 
             market: null,
 
@@ -102,7 +107,30 @@ export default class CreateLocationReviewScreen extends React.Component {
         this.setState({ tags });
     }
 
+    onStarRatingPress(rating, x) {
+        if (x == 1) {
+            this.setState({
+                starCountCleanliness: rating,
+            });
+        } else if (x == 2) {
+            this.setState({
+                starCountFriendliness: rating,
+            });
+        } else if (x == 3) {
+            this.setState({
+                starCountSelection: rating,
+            });
+        } else if (x == 4) {
+            this.setState({
+                starCountAccess: rating,
+            });
+        } else if (x == 5) {
+            this.setState({
+                starCountSafety: rating,
+            });
+        }
 
+    }
 
 
 
@@ -189,30 +217,111 @@ export default class CreateLocationReviewScreen extends React.Component {
 
                 </Card>
 
+                <Card style={{ alignItems: 'center' }}>
+                    <CardItem>
+                        <Text style={{ fontSize: 22 }}>Cleanliness</Text>
+                        <View style={{ width: 10 }} />
+                        <StarRating
+                            disabled={false}
+                            emptyStar={'star-o'}
+                            fullStar={'star'}
+                            iconSet={'FontAwesome'}
+                            rating={this.state.starCountCleanliness}
+                            selectedStar={(rating) => this.onStarRatingPress(rating, 1)}
+                            fullStarColor={'orange'}
+                            emptyStarColor={'orange'}
+                            starSize={24}
+                        />
+                    </CardItem>
+
+                    <CardItem>
+                        <Text style={{ fontSize: 22 }}>Friendliness</Text>
+                        <View style={{ width: 10 }} />
+                        <StarRating
+                            disabled={false}
+                            emptyStar={'star-o'}
+                            fullStar={'star'}
+                            iconSet={'FontAwesome'}
+                            rating={this.state.starCountFriendliness}
+                            selectedStar={(rating) => this.onStarRatingPress(rating, 2)}
+                            fullStarColor={'orange'}
+                            emptyStarColor={'orange'}
+                            starSize={24}
+                        />
+                    </CardItem>
+
+                    <CardItem>
+                        <Text style={{ fontSize: 22 }}>Selecion</Text>
+                        <View style={{ width: 10 }} />
+                        <StarRating
+                            disabled={false}
+                            emptyStar={'star-o'}
+                            fullStar={'star'}
+                            iconSet={'FontAwesome'}
+                            rating={this.state.starCountSelection}
+                            selectedStar={(rating) => this.onStarRatingPress(rating, 3)}
+                            fullStarColor={'orange'}
+                            emptyStarColor={'orange'}
+                            starSize={24}
+                        />
+                    </CardItem>
+
+                    <CardItem>
+                        <Text style={{ fontSize: 22 }}>Accessibility</Text>
+                        <View style={{ width: 10 }} />
+                        <StarRating
+                            disabled={false}
+                            emptyStar={'star-o'}
+                            fullStar={'star'}
+                            iconSet={'FontAwesome'}
+                            rating={this.state.starCountAccess}
+                            selectedStar={(rating) => this.onStarRatingPress(rating, 4)}
+                            fullStarColor={'orange'}
+                            emptyStarColor={'orange'}
+                            starSize={24}
+                        />
+                    </CardItem>
+
+                    <CardItem>
+                        <Text style={{ fontSize: 22 }}>Safety</Text>
+                        <View style={{ width: 10 }} />
+                        <StarRating
+                            disabled={false}
+                            emptyStar={'star-o'}
+                            fullStar={'star'}
+                            iconSet={'FontAwesome'}
+                            rating={this.state.starCountSafety}
+                            selectedStar={(rating) => this.onStarRatingPress(rating, 5)}
+                            fullStarColor={'orange'}
+                            emptyStarColor={'orange'}
+                            starSize={24}
+                        />
+                    </CardItem>
+
+                </Card>
 
                 {/* Card view for displaying and adding tags to the review */}
                 <Card style={{ minHeight: 65, maxHeight: 300 }}>
-                    {/* <CardItem style={{ flexWrap: 'wrap', paddingTop:0, paddingBottom:0, paddingRight:0, paddingLeft:0 }}>
-                        {tags}
-                    </CardItem> */}
-                    {tagsCardItem}
-                    <CardItem style={{ alignItems: 'flex-start' }}>
-                        <Autocomplete style={{ position: 'relative' }}
-                            autoCapitalize='none'
-                            data={this.state.tagResults}
-                            value={this.state.tagText}
-                            onChangeText={(text) => this.tagScan(text)}
-                            onSubmitEditing={() => this.addTag({ name: this.state.tagText.toLowerCase(), id: this.state.tags.length })}
-                            placeholder='Tags'
-                            renderItem={(data) => (
-                                <TouchableOpacity
-                                    onPress={() => this.addTag(data)}>
-                                    <Text>{data.name}</Text>
-                                </TouchableOpacity>
-                            )}
-                        />
-                    </CardItem>
-                </Card>
+                        {tagsCardItem}
+                        <CardItem style={{ alignItems: 'flex-start' }}>
+                            <Autocomplete style={{ position: 'relative' }}
+                                autoCapitalize='none'
+                                data={this.state.tagResults}
+                                value={this.state.tagText}
+                                onChangeText={(text) => this.tagScan(text)}
+                                onSubmitEditing={() => this.addTag({ name: this.state.tagText.toLowerCase(), id: this.state.tags.length })}
+                                placeholder='Tags'
+                                renderItem={(data) => (
+                                    <TouchableOpacity
+                                        onPress={() => this.addTag(data)}>
+                                        <Text>{data.name}</Text>
+                                    </TouchableOpacity>
+                                )}
+                            />
+                        </CardItem>
+                    </Card>
+
+
 
             </KeyboardAwareScrollView>
         );
