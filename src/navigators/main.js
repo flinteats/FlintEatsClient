@@ -18,6 +18,7 @@ import CreateRecipeScreen2 from '../routes/create-recipe-step2';
 import CreateRecipeScreen3 from '../routes/create-recipe-step3';
 import CreateRecipeScreen4 from '../routes/create-recipe-step4';
 import CreateRecipeScreen5 from '../routes/create-recipe-step5';
+import CreateLocationReviewScreen from '../routes/create-location-review';
 import FeedScreen from '../routes/feed';
 import FollowScreen from '../routes/follow';
 import HelpScreen from '../routes/help';
@@ -81,10 +82,12 @@ export const AppNavigator = StackNavigator(
     CreateDeal: { screen: CreateDealScreen },
     CreateTip: { screen: CreateTipScreen },
     CreateRecipe: {screen: CreateRecipeScreen},
+
     CreateRecipe2: {screen: CreateRecipeScreen2},
     CreateRecipe3: {screen: CreateRecipeScreen3},
     CreateRecipe4: {screen: CreateRecipeScreen4},
     CreateRecipe5: {screen: CreateRecipeScreen5},
+    CreateLocationReview: {screen: CreateLocationReviewScreen},
     Follow: { screen: FollowScreen },
     Help: { screen: HelpScreen },
     Market: { screen: MarketScreen },
