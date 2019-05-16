@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/acm/FlintEatsClient/node_modules/react-native-maps/lib/ios/AirMaps/Callout/SMCalloutView.m \
-  /Users/acm/FlintEatsClient/node_modules/react-native-maps/lib/ios/AirMaps/Callout/SMCalloutView.h
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native-maps/lib/ios/AirMaps/Callout/SMCalloutView.m \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native-maps/lib/ios/AirMaps/Callout/SMCalloutView.h
