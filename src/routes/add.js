@@ -50,9 +50,9 @@ export default class AddScreen extends React.Component {
 {/* Review Food */}
             <Col style={{flex: 1, alignItems: 'center'}}>
               <TouchableOpacity style={styles.button}
-                  onPress={() => navigate({ type: 'Review' })}>
+                  onPress={() => navigate('ReviewFood')}>
                 <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 60, height: 60}}
                     source={require('../../res/review1.png')}
                 />
               </TouchableOpacity>
@@ -64,7 +64,7 @@ export default class AddScreen extends React.Component {
               <TouchableOpacity style={styles.button}
                   onPress={() => navigate('SelectMarket', { type: 'Review' })}>
                 <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 60, height: 60}}
                     source={require('../../res/review1.png')}
                 />
               </TouchableOpacity>
@@ -72,24 +72,27 @@ export default class AddScreen extends React.Component {
             </Col>
             <Col style={{flex: 2}} />
           </Row>
+          <Row style={{flex: 1, maxHeight:30, height:30}} />
           <Row style={{flex: 1}}>
             <Col style={{flex: 1}} />
+{/* Create Deal */}
             <Col style={{flex: 1, alignItems: 'center'}}>
               <TouchableOpacity style={styles.button}
                   onPress={() => navigate('CreateDeal')}>
                 <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 60, height: 60}}
                     source={require('../../res/deal1.png')}
                 />
               </TouchableOpacity>
               <Text style={styles.typeText}>Deal</Text>
             </Col>
             <Col style={{flex: 3}} />
+{/* Create Tip */}
             <Col style={{flex: 1, alignItems: 'center'}}>
               <TouchableOpacity style={styles.button}
                   onPress={() => navigate('CreateTip')}>
                 <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 60, height: 60}}
                     source={require('../../res/tip1.png')}
                 />
               </TouchableOpacity>
@@ -99,12 +102,12 @@ export default class AddScreen extends React.Component {
           </Row>
           <Row style={{flex: 1}}>
             <Col style={{flex: 2}} />
-
+{/* Create Recipe */}
             <Col style={{flex: 1, alignItems: 'center'}}>
               <TouchableOpacity style={styles.button}
                   onPress={() => navigate('CreateRecipe')}>
                 <Image
-                    style={{width: 40, height: 40}}
+                    style={{width: 60, height: 60}}
                     source={require('../../res/recipe1.png')}
                 />
               </TouchableOpacity>
@@ -127,10 +130,10 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 40,
-    height: 40,
+    width: 60,
+    height: 60,
     backgroundColor: '#FFF',
-    borderRadius: 40,
+    borderRadius: 60,
   },
   text: {
     backgroundColor: 'transparent',

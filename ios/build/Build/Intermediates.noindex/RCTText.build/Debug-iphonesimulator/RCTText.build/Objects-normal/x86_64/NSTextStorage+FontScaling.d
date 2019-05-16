@@ -1,3 +1,3 @@
 dependencies: \
-  /Users/acm/FlintEatsClient/node_modules/react-native/Libraries/Text/Text/NSTextStorage+FontScaling.m \
-  /Users/acm/FlintEatsClient/node_modules/react-native/Libraries/Text/Text/NSTextStorage+FontScaling.h
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/Libraries/Text/Text/NSTextStorage+FontScaling.m \
+  /Users/aidenhoffman/Documents/Developer/react/FlintEatsClient/node_modules/react-native/Libraries/Text/Text/NSTextStorage+FontScaling.h
