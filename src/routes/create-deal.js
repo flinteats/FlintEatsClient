@@ -3,6 +3,7 @@ import { Alert, BackHandler, Button, Image, StyleSheet, TouchableOpacity, Text, 
 import { Card, CardItem, Icon, Spinner } from 'native-base';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Permissions from 'react-native-permissions';
+import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
 import Autocomplete from 'react-native-autocomplete-input';
 import DatePicker from 'react-native-datepicker';
@@ -11,6 +12,8 @@ import moment from 'moment';
 import MSU from '../msu';
 
 const camera = require('../../res/camera.png');
+
+let tagsCardItem;
 
 export default class CreateDealScreen extends React.Component {
   constructor(props) {
@@ -205,149 +208,167 @@ export default class CreateDealScreen extends React.Component {
       tags.push(
         <TouchableOpacity
           key={tag.id}
-          style={{ borderRadius: 20, backgroundColor: '#00CE66', paddingBottom: 1, paddingRight: 10 }}
+          style={{ paddingBottom: 2, paddingRight:4 }}
           onPress={() => this.removeTag(tag)}>
-          <Text style={{ textAlign: 'center' }}>
-            {'  ' + tag.name + '  '}
-          </Text>
+          <LinearGradient
+            start={{ x: 0, y: 0.5 }}
+            end={{ x: 1, y: 0.5 }}
+            colors={['#ABE894', '#54E085']}
+            style={{borderRadius:20}}>
+            <Text style={{ textAlign: 'center' }}>
+              {'  ' + tag.name + '  '}
+            </Text>
+          </LinearGradient>
         </TouchableOpacity>
       );
     });
-    return (
-      <KeyboardAwareScrollView
-        style={styles.container}
-        keyboardShouldPersistTaps='always'
-      >
-        <View style={{ flex: 40 }}>
 
-          {/* Deal Image and Name - row 1 */}
-          <View style={{ flexDirection: 'row' }}>
-          {/* Select image button */}
-            <View style={{ flex: 20, alignItems: 'center', justifyContent: 'center' }}>
-              <TouchableOpacity
-                onPress={() => this.checkPermissions()}>
-                <Image
-                  style={styles.pic}
-                  source={this.state.uri
-                    ? { uri: 'data:image/png;base64,' + this.state.uri }
-                    : camera}
-                />
-              </TouchableOpacity>
-            </View>
-            {/* Product text box */}
-            <Card style={{ flex: 80 }}>
-              <TextInput
-                style={{ height: 40 }}
-                onChangeText={(title) => this.setState({ title })}
-                defaultValue={this.state.title}
-                placeholder='Product'
-              />
-            </Card>
-          </View>
+    if(tags.length == 0){
+      tagsCardItem = <View />
+    }else{
+      tagsCardItem = <CardItem style={{flexWrap:'wrap'}}>{tags}</CardItem>
+    }
 
-          {/* Deal Start & End Data - row 2 */}
-          <View style={{ flexDirection: 'row' }}>
-            <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center' }}>
-              <Icon name='calendar' />
-            </View>
-            <Card style={{ flex: 40, alignItems: 'center', justifyContent: 'center' }}>
-              <DatePicker
-                style={{ height: 40 }}
-                date={this.state.startDate}
-                confirmBtnText='Confirm'
-                cancelBtnText='Cancel'
-                showIcon={false}
-                onDateChange={(startDate) => this.setState({ startDate })}
-              />
-            </Card>
-            <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center' }}>
-              <Icon name='remove' />
-            </View>
-            <Card style={{ flex: 40, alignItems: 'center', justifyContent: 'center' }}>
-              <DatePicker
-                style={{ height: 40 }}
-                date={this.state.endDate}
-                confirmBtnText='Confirm'
-                cancelBtnText='Cancel'
-                showIcon={false}
-                onDateChange={(endDate) => this.setState({ endDate })}
-              />
-            </Card>
-          </View>
+    let productimage;
+    if(this.state.uri){
+      productimage = <Image style={{height:125, width:250}} source={{uri: 'data:image/png;base64,' + this.state.uri}}/>
+    }else{
+      productimage = <Image style={styles.pic} source={camera}/>
+    }
 
-          {/* Deal Price - row 3 */}
-          <View style={{ flexDirection: 'row' }}>
-            <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center' }}>
-              <Icon name='logo-usd' />
-            </View>
-            <Card style={{ flex: 90 }}>
-              <TextInput
-                style={{ height: 40 }}
-                onChangeText={(price) => this.setState({ price })}
-                defaultValue={this.state.price}
-                placeholder='Price'
-              />
-            </Card>
-          </View>
+    // Tom's version of create deal. Use the other return for the original.
+    return (<KeyboardAwareScrollView keyboardShouldPersistTaps='always'>
+      {/* Image, product name, and comments card */}
+      <Card>
+        <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+          <TouchableOpacity
+            onPress={() => this.checkPermissions()}>
+            {/* <Image
+              style={styles.pic}
+              source={this.state.uri
+                ? { uri: 'data:image/png;base64,' + this.state.uri }
+                : camera}
+            /> */}
+            {productimage}
+          </TouchableOpacity>
 
-          {/* Deal Location - row 4 */}
-          <View style={{ flexDirection: 'row', }}>
-            <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center' }}>
-              <Icon name='pin' />
-            </View>
-            <Card style={{ flex: 90 }}>
-              <Autocomplete style={styles.autocompleteContainer}
-                style={{ height: 40 }}
-                data={this.state.marketResults}
-                value={this.state.marketText}
-                listUpwards={true}
-                onChangeText={(text) => this.marketScan(text)}
-                placeholder='Location'
-                renderItem={(data) => (
-                  <TouchableOpacity
-                    onPress={() => this.setState({ market: { id: data.id }, marketText: data.name, marketResults: [] })}>
-                    <Text>{data.name}</Text>
-                  </TouchableOpacity>
-                )}
-              />
-            </Card>
-          </View>
-        </View>{/* end of rows 1 through 4 */}
 
-        {/* Other Comments - row 5 */}
-        <Card style={{ flex: 30 }}>
           <TextInput
+            style={{ flex: 1, width: '95%', textAlign: 'center', fontSize: 20 }}
+            onChangeText={(title) => this.setState({ title })}
+            defaultValue={this.state.title}
+            placeholder='Product'
+          />
+
+          <View style={{ backgroundColor: 'lightgray', height: 1, width: '90%' }} />
+
+          <TextInput
+            style={{ flex: 3, width: '95%', textAlign: 'center' }}
             onChangeText={(text) => this.setState({ text })}
             onSubmitEditing={() => this.submit}
             multiline={true}
             defaultValue={this.state.text}
             placeholder='Other comments'
           />
-        </Card>
-        {/* Deal Tags - row 6 */}
-        <Card style={{ flex: 30 }}>
-          <CardItem>
-            {tags}
-          </CardItem>
-          <CardItem>
+        </View>
+      </Card>
+
+
+      <Card style={{ padding: 5 }}>
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name='calendar' />
+          </View>
+          <Card style={{ flex: 40, alignItems: 'center', justifyContent: 'center' }}>
+            <DatePicker
+              style={{ height: 40 }}
+              date={this.state.startDate}
+              confirmBtnText='Confirm'
+              cancelBtnText='Cancel'
+              showIcon={false}
+              onDateChange={(startDate) => this.setState({ startDate })}
+            />
+          </Card>
+          <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name='remove' />
+          </View>
+          <Card style={{ flex: 40, alignItems: 'center', justifyContent: 'center' }}>
+            <DatePicker
+              style={{ height: 40 }}
+              date={this.state.endDate}
+              confirmBtnText='Confirm'
+              cancelBtnText='Cancel'
+              showIcon={false}
+              onDateChange={(endDate) => this.setState({ endDate })}
+            />
+          </Card>
+        </View>
+
+
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name='logo-usd' />
+          </View>
+          <Card style={{ flex: 90 }}>
+            <TextInput
+              style={{ height: 40 }}
+              onChangeText={(price) => this.setState({ price })}
+              defaultValue={this.state.price}
+              placeholder='Price'
+            />
+          </Card>
+        </View>
+
+
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center' }}>
+            <Icon name='pin' />
+          </View>
+          <Card style={{ flex: 90 }}>
             <Autocomplete style={styles.autocompleteContainer}
-              autoCapitalize='none'
-              data={this.state.tagResults}
-              value={this.state.tagText}
-              onChangeText={(text) => this.tagScan(text)}
-              onSubmitEditing={() => this.addTag({ name: this.state.tagText.toLowerCase(), id: this.state.tags.length })}
-              placeholder='Tags'
+              style={{ height: 40 }}
+              data={this.state.marketResults}
+              value={this.state.marketText}
+              listUpwards={true}
+              onChangeText={(text) => this.marketScan(text)}
+              placeholder='Location'
               renderItem={(data) => (
                 <TouchableOpacity
-                  onPress={() => this.addTag(data)}>
+                  onPress={() => this.setState({ market: { id: data.id }, marketText: data.name, marketResults: [] })}>
+
                   <Text>{data.name}</Text>
                 </TouchableOpacity>
               )}
             />
-          </CardItem>
-        </Card>
-      </KeyboardAwareScrollView>
-    );
+          </Card>
+        </View>
+      </Card>
+
+
+      <Card>
+        {/* <CardItem>
+          {tags}
+        </CardItem> */}
+        {tagsCardItem}
+        <CardItem>
+          <Autocomplete style={styles.autocompleteContainer}
+            autoCapitalize='none'
+            data={this.state.tagResults}
+            value={this.state.tagText}
+            onChangeText={(text) => this.tagScan(text)}
+            onSubmitEditing={() => this.addTag({ name: this.state.tagText.toLowerCase(), id: this.state.tags.length })}
+            placeholder='Tags'
+            renderItem={(data) => (
+              <TouchableOpacity
+                onPress={() => this.addTag(data)}>
+                <Text>{data.name}</Text>
+              </TouchableOpacity>
+            )}
+          />
+        </CardItem>
+      </Card>
+
+    </KeyboardAwareScrollView>);
   }
 }
 
@@ -364,7 +385,7 @@ const styles = StyleSheet.create({
     zIndex: 1
   },
   pic: {
-    width: 40,
-    height: 40,
+    width: 80,
+    height: 80,
   }
 });
