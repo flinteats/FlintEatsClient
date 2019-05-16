@@ -99,7 +99,7 @@ export const AppNavigator = StackNavigator(
     ViewDeal: { screen: ViewDealScreen },
     ViewTip: { screen: ViewTipScreen },
 
-    Add: { screen: AddScreen },
+    
   },
   {
     navigationOptions: {

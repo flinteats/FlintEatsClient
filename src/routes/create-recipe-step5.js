@@ -20,8 +20,8 @@ export default class CreateRecipeScreen5 extends React.Component {
     this.state = {
       title: '',
       uri: null,
-      //ingredientList: [{ key: 0, ingredName: '' }],
-      //allSteps: [{ key: 0, instructions: '', stepImg: null }],
+      ingredientList: [],
+      allSteps: [],
       countVal: 1,
       tags: [],
       tagResults: [],
@@ -71,6 +71,32 @@ export default class CreateRecipeScreen5 extends React.Component {
     tags = tags.filter(e => e !== tag);
     this.setState({ tags });
   }
+
+  submit = () => {
+    this.props.navigation.setParams({ submitting: true });
+    let title = navigation.getParam('title', '');
+    let recipeImg = navigation.getParam('uri', '');
+    let ingredientList = navigation.getParam('ingredientList', '');
+    let allSteps = navigation.getParam('allSteps', '');
+    let tags = [];
+    this.state.tags.forEach(tag => tags.push(tag.name));
+    MSU.post('/ugc/recipe/create',
+      {
+        title: title,
+        recipeImg: recipeImg,
+        ingredientList: ingredientList,
+        allSteps: allSteps,
+        tags: tags,
+      })
+      .then(res => {
+        this.props.navigation.navigate('Feed');
+      })
+      .catch(err => {
+        console.log(err);
+        Alert.alert('Error Submitting Recipe', err);
+        this.props.navigation.setParams({ submitting: false });
+      });
+  };
   /**
     static navigationOptions = ({ navigation }) => ({
       title: `New deal at ${navigation.state.params.target.name}`
@@ -162,20 +188,10 @@ export default class CreateRecipeScreen5 extends React.Component {
             <View style={styles.view1}>
               <TouchableOpacity
                 style={styles.button}
-                onPress={() => this.props.navigation.goBack()}>
+                onPress={() => this.props.navigation.navigate('Add')}>
                 <Text style={styles.topbtntxt}>Cancel</Text>
               </TouchableOpacity>
-              <View style={{ flex: 1, }} />
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.props.navigation.navigate('CreateRecipe4', {
-                  title: title,
-                  uri: uri,
-                  ingredientList: ingredientList,
-                  allSteps: this.state.allSteps,
-                })}>
-                <Text style={styles.topbtntxt}>Save</Text>
-              </TouchableOpacity>
+              <View style={{ flex: 2, }} />
             </View>
             <View style={{ flex: 1, height: 100, maxHeight: 100, }} />
           </ImageBackground>
@@ -187,21 +203,23 @@ export default class CreateRecipeScreen5 extends React.Component {
           scrollEnabled={true}
         >
           <View style={styles.view2}>
-            <Text style={styles.view2txt}>Add instruction steps</Text>
+            <Text style={styles.view2txt}>Choose tags for your recipe</Text>
           </View>
-          <View style={styles.step}>
-            <Card style={{ flex: 30, height: 140, backgroundColor: '#F8F8F8' }}>
-              <CardItem>
+
+          <View style={{backgroundColor: 'transparent'}}>
+
+            <Card transparent style={styles.card} >
+              <CardItem style={{backgroundColor: 'transparent'}}>
                 {tags}
               </CardItem>
-              <CardItem>
+              <CardItem style={{backgroundColor: 'transparent'}}>
                 <Autocomplete style={styles.autocompleteContainer}
                   autoCapitalize='none'
                   data={this.state.tagResults}
                   value={this.state.tagText}
                   onChangeText={(text) => this.tagScan(text)}
                   onSubmitEditing={() => this.addTag({ name: this.state.tagText.toLowerCase(), id: this.state.tags.length })}
-                  placeholder='Tags'
+                  placeholder='Add other tags'
                   renderItem={(data) => (
                     <TouchableOpacity
                       onPress={() => this.addTag(data)}>
@@ -213,7 +231,6 @@ export default class CreateRecipeScreen5 extends React.Component {
             </Card>
           </View>
 
-          {/* step 3/5 */}
           <View style={styles.view4}>
             <Text style={{ fontSize: 16, color: 'gray' }}>Step 5/5: The last step!</Text>
           </View>
@@ -237,7 +254,7 @@ export default class CreateRecipeScreen5 extends React.Component {
               onPress={() => this.props.navigation.goBack()}>
               <Text style={styles.btntxt}>Back</Text>
             </TouchableOpacity>
-            <View style={{ flex: 2,}} />
+            <View style={{ flex: 2, }} />
             {/* <TouchableOpacity
               style={styles.button}
               onPress={() => this.props.navigation.navigate('CreateRecipe4')}>
@@ -247,8 +264,8 @@ export default class CreateRecipeScreen5 extends React.Component {
           <View style={styles.view3}>
             <TouchableOpacity
               style={styles.Button}
-              onPress={this.onPress}>
-              <Text style={{ color: '#00CE66', paddingBottom:10, fontSize:24, textAlign: 'center' }}>Send your recipe</Text>
+              onPress={() => params.submit()}>
+              <Text style={{ color: '#00CE66', fontSize: 24, textAlign: 'center' }}>Send your recipe</Text>
             </TouchableOpacity>
           </View>
           {/* Testing that the ingredient list was passed from recipe step 3 */}
@@ -261,6 +278,15 @@ export default class CreateRecipeScreen5 extends React.Component {
 
 
 const styles = StyleSheet.create({
+  card: {
+    flex: 30,
+    height: 140,
+    backgroundColor: 'transparent'
+  },
+  autocompleteContainer: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+  },
   imgContainter: {
     height: 260,
     maxHeight: 260,
@@ -339,10 +365,10 @@ const styles = StyleSheet.create({
     height: 14,
   },
   tag: {
-    borderRadius: 20, 
-    height:25,
-    minHeight:25,
-    marginRight:5,
+    borderRadius: 20,
+    height: 25,
+    minHeight: 25,
+    marginRight: 5,
   },
   view5: {
     flex: 1,
