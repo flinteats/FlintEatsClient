@@ -11,10 +11,12 @@ const deals = require('../../res/deals.png');
 const phone = require('../../res/phone.png');
 const website = require('../../res/website.png');
 
+let curimage;
+
 export default class MarketScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {deals: false};
+    this.state = { deals: false };
   }
 
   static navigationOptions = ({ navigation }) => ({
@@ -27,19 +29,19 @@ export default class MarketScreen extends React.Component {
       return true;
     });
 
-/*
- * doing this in the list right now
-    let id = this.props.navigation.state.params.market.id;
-
-    MSU.get('/markets/' + id + '/deals')
-      .then(res => {
-        this.setState({deals: res});
-      })
-      .catch(err => {
-        console.log('err: /markets/' + id + '/deals');
-        console.log(err);
-      });
-*/
+    /*
+     * doing this in the list right now
+        let id = this.props.navigation.state.params.market.id;
+    
+        MSU.get('/markets/' + id + '/deals')
+          .then(res => {
+            this.setState({deals: res});
+          })
+          .catch(err => {
+            console.log('err: /markets/' + id + '/deals');
+            console.log(err);
+          });
+    */
   }
 
   deals = () => {
@@ -77,23 +79,43 @@ export default class MarketScreen extends React.Component {
     if (Platform.OS === 'ios') {
       navPrefix = 'comgooglemaps://?q=';
     }
+
+    if (market.image64) {
+      curimage = <Image
+        style={{ width: width, height: (height - 80) * (3 / 10) }}
+        source={{ uri: 'data:image/png;base64,' + market.image64 }}
+      />;
+    } else {
+      curimage = <Image
+        source={empty} style={{width:100, height:100}}
+      />;
+    }
+    //curimage = <View style={{backgroundColor:'red', width:'100%', height:'100%'}}/>
+
     return (
-      <View style={{flex: 1}}>
-        <View style={{flex: 30}}>
-          <Image
-              style={{width: width, height: (height - 80) * (3/10)}}
-              source={market.image64
-                        ? {uri: 'data:image/png;base64,'+market.image64}
-                        : empty}
-          />
+      <View style={{ flex: 1 }}>
+        
+        <View style={{ flex: 30, justifyContent:'center', alignItems:'center' }}>
+          {/* <Image
+            style={{ width: width, height: (height - 80) * (3 / 10) }}
+            source={market.image64
+              ? { uri: 'data:image/png;base64,' + market.image64 }
+              : empty}
+          /> */}
+          {curimage}
+
+
+
         </View>
-        <View style={{flex: 70}}>
+
+        {/* View for the Pin, Clock, Deals, Phone, and Website buttons */}
+        <View style={{ flex: 70, justifyContent: 'space-between', flexDirection: 'column', marginBottom: '10%', margin: '7%' }}>
           <TouchableOpacity style={styles.row}
-              onPress={() => this.openExternal(navPrefix + market.address.replace(/ /g,'+'))}>
-            <View style={{flex: 10, alignItems: 'center', justifyContent: 'center'}}>
+            onPress={() => this.openExternal(navPrefix + market.address.replace(/ /g, '+'))}>
+            <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center' }}>
               <Image
-                  style={{width: 30, height: 30}}
-                  source={pin}
+                style={{ width: 30, height: 30 }}
+                source={pin}
               />
             </View>
             <Text style={styles.text}>
@@ -103,10 +125,10 @@ export default class MarketScreen extends React.Component {
             </Text>
           </TouchableOpacity>
           <View style={styles.row}>
-            <View style={{flex: 10, alignItems: 'center', justifyContent: 'center'}}>
+            <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center' }}>
               <Image
-                  style={{width: 30, height: 30}}
-                  source={clock}
+                style={{ width: 30, height: 30 }}
+                source={clock}
               />
             </View>
             <Text style={styles.text}>
@@ -116,11 +138,11 @@ export default class MarketScreen extends React.Component {
             </Text>
           </View>
           <TouchableOpacity style={styles.row}
-              onPress={() => this.deals()}>
-            <View style={{flex: 10, alignItems: 'center', justifyContent: 'center'}}>
+            onPress={() => this.deals()}>
+            <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center' }}>
               <Image
-                  style={{width: 30, height: 30}}
-                  source={deals}
+                style={{ width: 30, height: 30 }}
+                source={deals}
               />
             </View>
             <Text style={styles.text}>
@@ -128,11 +150,11 @@ export default class MarketScreen extends React.Component {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.row}
-              onPress={() => this.openExternal('tel:' + market.phone)}>
-            <View style={{flex: 10, alignItems: 'center', justifyContent: 'center'}}>
+            onPress={() => this.openExternal('tel:' + market.phone)}>
+            <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center' }}>
               <Image
-                  style={{width: 30, height: 30}}
-                  source={phone}
+                style={{ width: 30, height: 30 }}
+                source={phone}
               />
             </View>
             <Text style={styles.text}>
@@ -142,11 +164,11 @@ export default class MarketScreen extends React.Component {
             </Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.row}
-              onPress={() => this.openExternal('https://' + market.url)}>
-            <View style={{flex: 10, alignItems: 'center', justifyContent: 'center'}}>
+            onPress={() => this.openExternal('https://' + market.url)}>
+            <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center' }}>
               <Image
-                  style={{width: 30, height: 30}}
-                  source={website}
+                style={{ width: 30, height: 30 }}
+                source={website}
               />
             </View>
             <Text style={styles.text}>
@@ -155,18 +177,18 @@ export default class MarketScreen extends React.Component {
                 : ''}
             </Text>
           </TouchableOpacity>
-{false ?
-          <View style={styles.row}>
-            <View style={{flex: 10, alignItems: 'center', justifyContent: 'center'}}>
-              <Icon name='mail' />
+          {false ?
+            <View style={styles.row}>
+              <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center' }}>
+                <Icon name='mail' />
+              </View>
+              <Text style={styles.text}>
+                {market.email
+                  ? market.email
+                  : ''}
+              </Text>
             </View>
-            <Text style={styles.text}>
-              {market.email
-                ? market.email
-                : ''}
-            </Text>
-          </View>
-: null}
+            : null}
         </View>
       </View>
     );
@@ -178,10 +200,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     margin: 5,
     padding: 3,
+    justifyContent: 'center',
+
   },
   text: {
     alignSelf: 'center',
     flex: 90,
-    marginLeft: 5
+    marginLeft: 20
   }
 });
