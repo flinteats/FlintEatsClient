@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Image, Button, StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { Alert, Image, Button, StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView, KeyboardAvoidingView, Dimensions } from 'react-native';
 import { Card, CardItem, Icon, Spinner } from 'native-base';
 import Autocomplete from 'react-native-autocomplete-input';
 import LinearGradient from 'react-native-linear-gradient';
@@ -19,6 +19,7 @@ let marketnameJSX;
 
 let MarketNameSource;
 let MarketImageSource;
+
 
 let tagsCardItem;
 
@@ -42,6 +43,7 @@ class CreateLocationReviewHeader extends React.Component {
                 <View style={{ zIndex: 1, height: '37%', width: '100%', flexDirection: 'row', justifyContent: 'space-between', margin: 5 }}>
                     <TouchableOpacity
                         style={{ marginLeft: 10 }}
+                        onPress={() => this.props.navigation.goBack()}
                     >
                         <Text style={{
                             color: '#00CE66',
@@ -233,50 +235,103 @@ export default class CreateLocationReviewScreen extends React.Component {
             tagsCardItem = <CardItem style={{ flexWrap: 'wrap' }}>{tags}</CardItem>;
         }
         return (
-            <View style={{ height: '100%', flex: 1 }}>
-                <View style={{ height: '30%' }}>
-                    <CreateLocationReviewHeader ImageSource={MarketImageSource} MarketName={MarketNameSource} />
-                </View>
+            <View style={{ flex: 1, backgroundColor: 'white' }}>
+                <KeyboardAwareScrollView
+                    resetScrollToCoords={{ x: 0, y: 0 }}
+                    scrollEnabled={false}>
+
+                    <View style={{ backgroundColor: 'white', height: Dimensions.get('window').height }}>
+                        <View style={{ flex: 1, }}>
+                            <CreateLocationReviewHeader ImageSource={MarketImageSource} MarketName={MarketNameSource} navigation={this.props.navigation} />
+                        </View>
+
+                        {/* Select location View */}
+                        <View style={{ flexDirection: 'row', backgroundColor: 'white', flex: 3, alignItems: 'center' }}>
+                            <Icon name='pin' style={{ marginTop: 12, marginLeft: 6 }} color='#00CE66' />
+                            <View style={{ margin: 5, flexDirection: 'row', justifyContent: 'center', width: '90%' }}>
+                                <Autocomplete
+                                    style={{ position: 'relative', }}
+                                    inputContainerStyle={{ borderColor: null, borderWidth: 0 }}
+                                    data={this.state.marketResults}
+                                    value={this.state.marketText}
+                                    listUpwards={true}
+                                    onChangeText={(text) => this.marketScan(text)}
+                                    placeholder='Location'
+                                    renderItem={(data) => (
+                                        <TouchableOpacity
+                                            style={{}}
+                                            onPress={() => this.setState({ market: { id: data.id, name: data.name }, marketText: data.name, marketResults: [] })}>
+                                            <Text style={{ textAlign: 'center' }}>{data.name}</Text>
+                                        </TouchableOpacity>
+                                    )}
+                                />
+                            </View>
+                        </View>
 
 
-                <View style={{ flexDirection: 'row', flex: 2, backgroundColor:'lightblue' }}>
-                    <Icon name='pin' style={{ marginTop: 12, marginLeft: 6 }} color='#00CE66' />
-                    <View style={{ margin: 5, flexDirection: 'row', justifyContent: 'center', width: '90%' }}>
-                        <Autocomplete
-                            style={{ position: 'relative', }}
-                            inputContainerStyle={{ borderColor: null, borderWidth: 0 }}
-                            data={this.state.marketResults}
-                            value={this.state.marketText}
-                            listUpwards={true}
-                            onChangeText={(text) => this.marketScan(text)}
-                            placeholder='Location'
-                            renderItem={(data) => (
-                                <TouchableOpacity
-                                    style={{}}
-                                    onPress={() => this.setState({ market: { id: data.id, name: data.name }, marketText: data.name, marketResults: [] })}>
-                                    <Text>{data.name}</Text>
-                                </TouchableOpacity>
-                            )}
-                        />
+
+
+
+                        {/* Footer area */}
+                        <View style={{ width: '100%', justifyContent: 'space-around', alignItems: 'center', flex: 1 }}>
+                            <View style={styles.view4}>
+                                <Text style={{ fontSize: 16, color: 'gray' }}>Step 1/5</Text>
+                            </View>
+                            <View style={styles.progressbar}>
+                                <LinearGradient
+                                    style={styles.progress}
+                                    start={{ x: 0, y: 0 }}
+                                    end={{ x: 1, y: 1 }}
+                                    colors={['#ABE894', '#54E085']}></LinearGradient>
+                            </View>
+
+                            <TouchableOpacity style={{}}
+                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep2')}
+                            >
+                                <Text style={{
+                                    color: '#00CE66',
+                                    fontSize: 20,
+                                    textAlign: 'center'
+                                }}>Next</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
-
-
-
-                {/* Footer area */}
-                <View style={{ width: '100%', height: 60, justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity style={{}}
-                        onPress={() => this.props.navigation.navigate('CreateLocationReviewStep2')}
-                    >
-                        <Text style={{
-                            color: '#00CE66',
-                            fontSize: 20,
-                            textAlign: 'center'
-                        }}>Next</Text>
-                    </TouchableOpacity>
-                </View>
+                </KeyboardAwareScrollView>
             </View>
+
+
+
+
 
         );
     }
 }
+
+const styles = StyleSheet.create({
+    view4: {
+        flex: 1,
+        maxHeight: 30,
+        flexDirection: 'row',
+        justifyContent: 'center',
+      },
+      progressbar: {
+        marginTop: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+        marginLeft: 30,
+        marginRight: 30,
+        backgroundColor: '#D2D2D2',
+        borderRadius: 10,
+        maxHeight: 14,
+        height: 14,
+        width: '95%'
+      },
+      progress: {
+        marginRight: '80%',
+        borderRadius: 10,
+        maxHeight: 14,
+        height: 14,
+        
+    
+      },
+})
