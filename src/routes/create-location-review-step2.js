@@ -47,7 +47,88 @@ export default class CreateLocationReviewScreenStep2 extends React.Component {
     render() {
         return (
             <KeyboardAwareScrollView>
-                
+                <Card style={{ alignItems: 'center' }}>
+                    <CardItem>
+                        <Text style={{ fontSize: 22 }}>Cleanliness</Text>
+                        <View style={{ width: 10 }} />
+                        <StarRating
+                            disabled={false}
+                            emptyStar={'star-o'}
+                            fullStar={'star'}
+                            iconSet={'FontAwesome'}
+                            rating={this.state.starCountCleanliness}
+                            selectedStar={(rating) => this.onStarRatingPress(rating, 1)}
+                            fullStarColor={'orange'}
+                            emptyStarColor={'orange'}
+                            starSize={24}
+                        />
+                    </CardItem>
+
+                    <CardItem>
+                        <Text style={{ fontSize: 22 }}>Friendliness</Text>
+                        <View style={{ width: 10 }} />
+                        <StarRating
+                            disabled={false}
+                            emptyStar={'star-o'}
+                            fullStar={'star'}
+                            iconSet={'FontAwesome'}
+                            rating={this.state.starCountFriendliness}
+                            selectedStar={(rating) => this.onStarRatingPress(rating, 2)}
+                            fullStarColor={'orange'}
+                            emptyStarColor={'orange'}
+                            starSize={24}
+                        />
+                    </CardItem>
+
+                    <CardItem>
+                        <Text style={{ fontSize: 22 }}>Selection</Text>
+                        <View style={{ width: 10 }} />
+                        <StarRating
+                            disabled={false}
+                            emptyStar={'star-o'}
+                            fullStar={'star'}
+                            iconSet={'FontAwesome'}
+                            rating={this.state.starCountSelection}
+                            selectedStar={(rating) => this.onStarRatingPress(rating, 3)}
+                            fullStarColor={'orange'}
+                            emptyStarColor={'orange'}
+                            starSize={24}
+                        />
+                    </CardItem>
+
+                    <CardItem>
+                        <Text style={{ fontSize: 22 }}>Accessibility</Text>
+                        <View style={{ width: 10 }} />
+                        <StarRating
+                            disabled={false}
+                            emptyStar={'star-o'}
+                            fullStar={'star'}
+                            iconSet={'FontAwesome'}
+                            rating={this.state.starCountAccess}
+                            selectedStar={(rating) => this.onStarRatingPress(rating, 4)}
+                            fullStarColor={'orange'}
+                            emptyStarColor={'orange'}
+                            starSize={24}
+                        />
+                    </CardItem>
+
+                    <CardItem>
+                        <Text style={{ fontSize: 22 }}>Safety</Text>
+                        <View style={{ width: 10 }} />
+                        <StarRating
+                            disabled={false}
+                            emptyStar={'star-o'}
+                            fullStar={'star'}
+                            iconSet={'FontAwesome'}
+                            rating={this.state.starCountSafety}
+                            selectedStar={(rating) => this.onStarRatingPress(rating, 5)}
+                            fullStarColor={'orange'}
+                            emptyStarColor={'orange'}
+                            starSize={24}
+                        />
+                    </CardItem>
+
+                </Card>
 
             </KeyboardAwareScrollView>
         );

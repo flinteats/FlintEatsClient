@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Image, Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, Button, StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Card, CardItem, Icon, Spinner } from 'native-base';
 import Autocomplete from 'react-native-autocomplete-input';
 import LinearGradient from 'react-native-linear-gradient';
@@ -30,11 +30,18 @@ class CreateLocationReviewHeader extends React.Component {
 
     render() {
         return (
-            <View style={{ height: '20%', width: '100%', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
+            <View style={{
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                backgroundColor: 'white',
+                height: '100%'
+            }}
+            >
                 {/* Back and Save buttons */}
-                <View style={{ zIndex: 1, height: '33%', width: '100%', flexDirection: 'row', justifyContent: 'space-between', margin: 5 }}>
+                <View style={{ zIndex: 1, height: '37%', width: '100%', flexDirection: 'row', justifyContent: 'space-between', margin: 5 }}>
                     <TouchableOpacity
-                        style={{ marginLeft:10}}
+                        style={{ marginLeft: 10 }}
                     >
                         <Text style={{
                             color: '#00CE66',
@@ -44,7 +51,7 @@ class CreateLocationReviewHeader extends React.Component {
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        style={{marginRight:10}}
+                        style={{ marginRight: 10 }}
                     >
                         <Text style={{
                             color: '#00CE66',
@@ -55,11 +62,11 @@ class CreateLocationReviewHeader extends React.Component {
                 </View>
 
                 {/* Market Title */}
-                <Text style={{fontSize:25, color:'black', marginBottom:5}} >{this.props.MarketName}</Text>
+                <Text style={{ fontSize: 25, color: 'black', marginBottom: 5 }} >{this.props.MarketName}</Text>
 
                 {/* Image */}
-                <View style={{ zIndex: 0, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', justifyContent:'center' }}>
-                    <Image source={this.props.ImageSource} style={{alignSelf:'center'}} />
+                <View style={{ zIndex: 0, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', justifyContent: 'center' }}>
+                    <Image source={this.props.ImageSource} style={{ alignSelf: 'center' }} />
                 </View>
             </View>
 
@@ -182,18 +189,18 @@ export default class CreateLocationReviewScreen extends React.Component {
     render() {
         if (this.state.market) {
             if (this.state.market.image64) {
-                marketimageJSX = <Image source={{ uri: 'data:image/png;base64,' + this.state.market.image64 }} />
+                // marketimageJSX = <Image source={{ uri: 'data:image/png;base64,' + this.state.market.image64 }} />
                 MarketImageSource = { uri: 'data:image/png;base64,' + this.state.market.image64 };
             } else {
-                marketimageJSX = <Image source={camera} />
+                // marketimageJSX = <Image source={camera} />
                 MarketImageSource = camera;
             }
 
-            marketnameJSX = <Text>{this.state.market.name}</Text>
+            // marketnameJSX = <Text>{this.state.market.name}</Text>
             MarketNameSource = this.state.market.name;
         } else {
-            marketimageJSX = <Image source={camera} />
-            marketnameJSX = <Text>Market Name Here</Text>
+            // marketimageJSX = <Image source={camera} />
+            // marketnameJSX = <Text>Market Name Here</Text>
 
             MarketImageSource = camera;
             MarketNameSource = "Market Name Here"
@@ -226,167 +233,61 @@ export default class CreateLocationReviewScreen extends React.Component {
             tagsCardItem = <CardItem style={{ flexWrap: 'wrap' }}>{tags}</CardItem>;
         }
         return (
-            <KeyboardAwareScrollView keyboardShouldPersistTaps='always'>
-                <CreateLocationReviewHeader ImageSource={camera} MarketName={MarketNameSource}/>
-                {/* Card for market image, market names, and input for text review */}
-                <Card style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    {marketimageJSX}
-                    {marketnameJSX}
-                    <TextInput
-                        style={{ width: '95%' }}
-                        onChangeText={(text) => this.setState({ text })}
-                        onSubmitEditing={() => this.submit}
-                        multiline={true}
-                        defaultValue={this.state.text}
-                        placeholder='Other comments'
-                    />
-                </Card>
-
-
-                {/* This is the card for selecting the market the user would like to review. Currently it is just a drop down list of all markets */}
-                <Card style={{ height: 'auto', maxHeight: 300 }}>
-                    <CardItem style={{ alignItems: 'flex-start' }}>
-                        <Icon name='pin' style={{ marginTop: 12 }} />
-                        <View style={{ margin: 5, flexDirection: 'row', justifyContent: 'center', width: '90%' }}>
-                            <Autocomplete
-                                style={{ position: 'relative' }}
-                                data={this.state.marketResults}
-                                value={this.state.marketText}
-                                listUpwards={true}
-                                onChangeText={(text) => this.marketScan(text)}
-                                placeholder='Location'
-                                renderItem={(data) => (
-                                    <TouchableOpacity
-                                        onPress={() => this.setState({ market: { id: data.id, name: data.name }, marketText: data.name, marketResults: [] })}>
-                                        <Text>{data.name}</Text>
-                                    </TouchableOpacity>
-                                )}
-                            />
-
-                        </View>
-                    </CardItem>
-
-                </Card>
-
-                <Card style={{ alignItems: 'center' }}>
-                    <CardItem>
-                        <Text style={{ fontSize: 22 }}>Cleanliness</Text>
-                        <View style={{ width: 10 }} />
-                        <StarRating
-                            disabled={false}
-                            emptyStar={'star-o'}
-                            fullStar={'star'}
-                            iconSet={'FontAwesome'}
-                            rating={this.state.starCountCleanliness}
-                            selectedStar={(rating) => this.onStarRatingPress(rating, 1)}
-                            fullStarColor={'orange'}
-                            emptyStarColor={'orange'}
-                            starSize={24}
-                        />
-                    </CardItem>
-
-                    <CardItem>
-                        <Text style={{ fontSize: 22 }}>Friendliness</Text>
-                        <View style={{ width: 10 }} />
-                        <StarRating
-                            disabled={false}
-                            emptyStar={'star-o'}
-                            fullStar={'star'}
-                            iconSet={'FontAwesome'}
-                            rating={this.state.starCountFriendliness}
-                            selectedStar={(rating) => this.onStarRatingPress(rating, 2)}
-                            fullStarColor={'orange'}
-                            emptyStarColor={'orange'}
-                            starSize={24}
-                        />
-                    </CardItem>
-
-                    <CardItem>
-                        <Text style={{ fontSize: 22 }}>Selection</Text>
-                        <View style={{ width: 10 }} />
-                        <StarRating
-                            disabled={false}
-                            emptyStar={'star-o'}
-                            fullStar={'star'}
-                            iconSet={'FontAwesome'}
-                            rating={this.state.starCountSelection}
-                            selectedStar={(rating) => this.onStarRatingPress(rating, 3)}
-                            fullStarColor={'orange'}
-                            emptyStarColor={'orange'}
-                            starSize={24}
-                        />
-                    </CardItem>
-
-                    <CardItem>
-                        <Text style={{ fontSize: 22 }}>Accessibility</Text>
-                        <View style={{ width: 10 }} />
-                        <StarRating
-                            disabled={false}
-                            emptyStar={'star-o'}
-                            fullStar={'star'}
-                            iconSet={'FontAwesome'}
-                            rating={this.state.starCountAccess}
-                            selectedStar={(rating) => this.onStarRatingPress(rating, 4)}
-                            fullStarColor={'orange'}
-                            emptyStarColor={'orange'}
-                            starSize={24}
-                        />
-                    </CardItem>
-
-                    <CardItem>
-                        <Text style={{ fontSize: 22 }}>Safety</Text>
-                        <View style={{ width: 10 }} />
-                        <StarRating
-                            disabled={false}
-                            emptyStar={'star-o'}
-                            fullStar={'star'}
-                            iconSet={'FontAwesome'}
-                            rating={this.state.starCountSafety}
-                            selectedStar={(rating) => this.onStarRatingPress(rating, 5)}
-                            fullStarColor={'orange'}
-                            emptyStarColor={'orange'}
-                            starSize={24}
-                        />
-                    </CardItem>
-
-                </Card>
-
-                {/* Card view for displaying and adding tags to the review */}
-                <Card style={{ minHeight: 65, maxHeight: 300 }}>
-                    {tagsCardItem}
-                    <CardItem style={{ alignItems: 'flex-start' }}>
-                        <Autocomplete style={{ position: 'relative' }}
-                            autoCapitalize='none'
-                            data={this.state.tagResults}
-                            value={this.state.tagText}
-                            onChangeText={(text) => this.tagScan(text)}
-                            onSubmitEditing={() => this.addTag({ name: this.state.tagText.toLowerCase(), id: this.state.tags.length })}
-                            placeholder='Tags'
-                            renderItem={(data) => (
-                                <TouchableOpacity
-                                    onPress={() => this.addTag(data)}>
-                                    <Text>{data.name}</Text>
-                                </TouchableOpacity>
-                            )}
-                        />
-                    </CardItem>
-                </Card>
-
-                {/* Footer area */}
-                <View style={{ width: '100%', height: 60, justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity style={{}}
-                        onPress={() => this.props.navigation.navigate('CreateLocationReviewStep2')}
-                    >
-                        <Text style={{
-                            color: '#00CE66',
-                            fontSize: 20,
-                            textAlign: 'center'
-                        }}>Next</Text>
-                    </TouchableOpacity>
+            <View style={{ height: '100%' }}>
+                <View style={{ height: '30%' }}>
+                    <CreateLocationReviewHeader ImageSource={MarketImageSource} MarketName={MarketNameSource} />
                 </View>
 
+                <View style={{ height: '70%' }}>
+                    <KeyboardAwareScrollView
+                        style={{ backgroundColor: 'white' }}
+                    >
 
-            </KeyboardAwareScrollView>
+                        <View style={{justifyContent: 'flex-end', height:'100%' }}>
+                            <View style={{ flexDirection: 'row', flex: 2 }}>
+                                <Icon name='pin' style={{ marginTop: 12, marginLeft: 6 }} color='#00CE66' />
+                                <View style={{ margin: 5, flexDirection: 'row', justifyContent: 'center', width: '90%' }}>
+                                    <Autocomplete
+                                        style={{ position: 'relative', }}
+                                        inputContainerStyle={{ borderColor: null, borderWidth: 0 }}
+                                        data={this.state.marketResults}
+                                        value={this.state.marketText}
+                                        listUpwards={true}
+                                        onChangeText={(text) => this.marketScan(text)}
+                                        placeholder='Location'
+                                        renderItem={(data) => (
+                                            <TouchableOpacity
+                                                style={{}}
+                                                onPress={() => this.setState({ market: { id: data.id, name: data.name }, marketText: data.name, marketResults: [] })}>
+                                                <Text>{data.name}</Text>
+                                            </TouchableOpacity>
+                                        )}
+                                    />
+                                </View>
+                            </View>
+
+
+
+                            {/* Footer area */}
+                            <View style={{ width: '100%', height: 60, justifyContent: 'center', alignItems: 'center' }}>
+                                <TouchableOpacity style={{}}
+                                    onPress={() => this.props.navigation.navigate('CreateLocationReviewStep2')}
+                                >
+                                    <Text style={{
+                                        color: '#00CE66',
+                                        fontSize: 20,
+                                        textAlign: 'center'
+                                    }}>Next</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+
+
+
+                    </KeyboardAwareScrollView>
+                </View>
+            </View>
+
         );
     }
 }
