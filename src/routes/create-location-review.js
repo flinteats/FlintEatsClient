@@ -16,7 +16,56 @@ const camera = require('../../res/camera.png');
 
 let marketimageJSX;
 let marketnameJSX;
+
+let MarketNameSource;
+let MarketImageSource;
+
 let tagsCardItem;
+
+class CreateLocationReviewHeader extends React.Component {
+    constructor(props) {
+        super(props);
+
+    }
+
+    render() {
+        return (
+            <View style={{ height: '20%', width: '100%', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
+                {/* Back and Save buttons */}
+                <View style={{ zIndex: 1, height: '33%', width: '100%', flexDirection: 'row', justifyContent: 'space-between', margin: 5 }}>
+                    <TouchableOpacity
+                        style={{ marginLeft:10}}
+                    >
+                        <Text style={{
+                            color: '#00CE66',
+                            fontSize: 20,
+                            textAlign: 'center'
+                        }}>Back</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={{marginRight:10}}
+                    >
+                        <Text style={{
+                            color: '#00CE66',
+                            fontSize: 20,
+                            textAlign: 'center'
+                        }}>Save</Text>
+                    </TouchableOpacity>
+                </View>
+
+                {/* Market Title */}
+                <Text style={{fontSize:25, color:'black', marginBottom:5}} >{this.props.MarketName}</Text>
+
+                {/* Image */}
+                <View style={{ zIndex: 0, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', justifyContent:'center' }}>
+                    <Image source={this.props.ImageSource} style={{alignSelf:'center'}} />
+                </View>
+            </View>
+
+        );
+    }
+}
 
 export default class CreateLocationReviewScreen extends React.Component {
     constructor(props) {
@@ -62,13 +111,9 @@ export default class CreateLocationReviewScreen extends React.Component {
         }
     }
 
-    static navigationOptions = ({ navigation }) => {
-        header = null;
-        const { params = {} } = navigation.state;
-        return {
-            title: 'Review Location'
-        };
-    }
+    static navigationOptions = ({ navigation }) => ({
+        header: null,
+    });
 
     marketScan = (q) => {
         let draw = this.state.draw + 1;
@@ -138,14 +183,20 @@ export default class CreateLocationReviewScreen extends React.Component {
         if (this.state.market) {
             if (this.state.market.image64) {
                 marketimageJSX = <Image source={{ uri: 'data:image/png;base64,' + this.state.market.image64 }} />
+                MarketImageSource = { uri: 'data:image/png;base64,' + this.state.market.image64 };
             } else {
                 marketimageJSX = <Image source={camera} />
+                MarketImageSource = camera;
             }
 
             marketnameJSX = <Text>{this.state.market.name}</Text>
+            MarketNameSource = this.state.market.name;
         } else {
             marketimageJSX = <Image source={camera} />
             marketnameJSX = <Text>Market Name Here</Text>
+
+            MarketImageSource = camera;
+            MarketNameSource = "Market Name Here"
         }
 
 
@@ -176,7 +227,7 @@ export default class CreateLocationReviewScreen extends React.Component {
         }
         return (
             <KeyboardAwareScrollView keyboardShouldPersistTaps='always'>
-
+                <CreateLocationReviewHeader ImageSource={camera} MarketName={MarketNameSource}/>
                 {/* Card for market image, market names, and input for text review */}
                 <Card style={{ justifyContent: 'center', alignItems: 'center' }}>
                     {marketimageJSX}
@@ -251,7 +302,7 @@ export default class CreateLocationReviewScreen extends React.Component {
                     </CardItem>
 
                     <CardItem>
-                        <Text style={{ fontSize: 22 }}>Selecion</Text>
+                        <Text style={{ fontSize: 22 }}>Selection</Text>
                         <View style={{ width: 10 }} />
                         <StarRating
                             disabled={false}
@@ -302,25 +353,37 @@ export default class CreateLocationReviewScreen extends React.Component {
 
                 {/* Card view for displaying and adding tags to the review */}
                 <Card style={{ minHeight: 65, maxHeight: 300 }}>
-                        {tagsCardItem}
-                        <CardItem style={{ alignItems: 'flex-start' }}>
-                            <Autocomplete style={{ position: 'relative' }}
-                                autoCapitalize='none'
-                                data={this.state.tagResults}
-                                value={this.state.tagText}
-                                onChangeText={(text) => this.tagScan(text)}
-                                onSubmitEditing={() => this.addTag({ name: this.state.tagText.toLowerCase(), id: this.state.tags.length })}
-                                placeholder='Tags'
-                                renderItem={(data) => (
-                                    <TouchableOpacity
-                                        onPress={() => this.addTag(data)}>
-                                        <Text>{data.name}</Text>
-                                    </TouchableOpacity>
-                                )}
-                            />
-                        </CardItem>
-                    </Card>
+                    {tagsCardItem}
+                    <CardItem style={{ alignItems: 'flex-start' }}>
+                        <Autocomplete style={{ position: 'relative' }}
+                            autoCapitalize='none'
+                            data={this.state.tagResults}
+                            value={this.state.tagText}
+                            onChangeText={(text) => this.tagScan(text)}
+                            onSubmitEditing={() => this.addTag({ name: this.state.tagText.toLowerCase(), id: this.state.tags.length })}
+                            placeholder='Tags'
+                            renderItem={(data) => (
+                                <TouchableOpacity
+                                    onPress={() => this.addTag(data)}>
+                                    <Text>{data.name}</Text>
+                                </TouchableOpacity>
+                            )}
+                        />
+                    </CardItem>
+                </Card>
 
+                {/* Footer area */}
+                <View style={{ width: '100%', height: 60, justifyContent: 'center', alignItems: 'center' }}>
+                    <TouchableOpacity style={{}}
+                        onPress={() => this.props.navigation.navigate('CreateLocationReviewStep2')}
+                    >
+                        <Text style={{
+                            color: '#00CE66',
+                            fontSize: 20,
+                            textAlign: 'center'
+                        }}>Next</Text>
+                    </TouchableOpacity>
+                </View>
 
 
             </KeyboardAwareScrollView>
