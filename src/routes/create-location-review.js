@@ -6,6 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 import { actions } from '../actions/index';
 import StarRating from 'react-native-star-rating';
+import CreateLocationReviewHeader from './location-review-header'
 
 import MSU from '../msu';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -23,58 +24,7 @@ let MarketImageSource;
 
 let tagsCardItem;
 
-class CreateLocationReviewHeader extends React.Component {
-    constructor(props) {
-        super(props);
 
-    }
-
-    render() {
-        return (
-            <View style={{
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                backgroundColor: 'white',
-                height: '100%'
-            }}
-            >
-                {/* Back and Save buttons */}
-                <View style={{ zIndex: 1, height: '37%', width: '100%', flexDirection: 'row', justifyContent: 'space-between', margin: 5 }}>
-                    <TouchableOpacity
-                        style={{ marginLeft: 10 }}
-                        onPress={() => this.props.navigation.goBack()}
-                    >
-                        <Text style={{
-                            color: '#00CE66',
-                            fontSize: 20,
-                            textAlign: 'center'
-                        }}>Back</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={{ marginRight: 10 }}
-                    >
-                        <Text style={{
-                            color: '#00CE66',
-                            fontSize: 20,
-                            textAlign: 'center'
-                        }}>Save</Text>
-                    </TouchableOpacity>
-                </View>
-
-                {/* Market Title */}
-                <Text style={{ fontSize: 25, color: 'black', marginBottom: 5 }} >{this.props.MarketName}</Text>
-
-                {/* Image */}
-                <View style={{ zIndex: 0, position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', justifyContent: 'center' }}>
-                    <Image source={this.props.ImageSource} style={{ alignSelf: 'center' }} />
-                </View>
-            </View>
-
-        );
-    }
-}
 
 export default class CreateLocationReviewScreen extends React.Component {
     constructor(props) {
@@ -240,17 +190,17 @@ export default class CreateLocationReviewScreen extends React.Component {
                     resetScrollToCoords={{ x: 0, y: 0 }}
                     scrollEnabled={false}>
 
-                    <View style={{ backgroundColor: 'white', height: Dimensions.get('window').height }}>
-                        <View style={{ flex: 1, }}>
+                    <View style={{ backgroundColor: 'white', height: Dimensions.get('window').height, justifyContent:'center' }}>
+                        <View style={{ height:'30%' }}>
                             <CreateLocationReviewHeader ImageSource={MarketImageSource} MarketName={MarketNameSource} navigation={this.props.navigation} />
                         </View>
 
                         {/* Select location View */}
-                        <View style={{ flexDirection: 'row', backgroundColor: 'white', flex: 3, alignItems: 'center' }}>
+                        <View style={{ flexDirection: 'row', backgroundColor: 'white', height:'30%', alignItems: 'center' }}>
                             <Icon name='pin' style={{ marginTop: 12, marginLeft: 6 }} color='#00CE66' />
-                            <View style={{ margin: 5, flexDirection: 'row', justifyContent: 'center', width: '90%' }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'center', width: '90%' }}>
                                 <Autocomplete
-                                    style={{ position: 'relative', }}
+                                    style={{ position: 'relative', height:75, zIndex:1 }}
                                     inputContainerStyle={{ borderColor: null, borderWidth: 0 }}
                                     data={this.state.marketResults}
                                     value={this.state.marketText}
@@ -273,7 +223,7 @@ export default class CreateLocationReviewScreen extends React.Component {
 
 
                         {/* Footer area */}
-                        <View style={{ width: '100%', justifyContent: 'space-around', alignItems: 'center', flex: 1 }}>
+                        <View style={{ width: '100%', justifyContent: 'space-around', alignItems: 'center', height:'30%' }}>
                             <View style={styles.view4}>
                                 <Text style={{ fontSize: 16, color: 'gray' }}>Step 1/5</Text>
                             </View>
