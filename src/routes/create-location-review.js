@@ -32,11 +32,7 @@ export default class CreateLocationReviewScreen extends React.Component {
         this.state = {
             draw: 0,
             uri: false,
-            starCountCleanliness: 0,
-            starCountFriendliness: 0,
-            starCountSelection: 0,
-            starCountAccess: 0,
-            starCountSafety: 0,
+            
             //Reference to the current market object 
             market: null,
 
@@ -45,14 +41,6 @@ export default class CreateLocationReviewScreen extends React.Component {
 
             //The current text of the market search
             marketText: '',
-
-            //The list of all tags the user has given to the market
-            tags: [],
-
-            //The list of all results from tag search
-            tagResults: [],
-            tagText: '',
-            text: '',
         };
         if (this.props.navigation.state.params.market) {
             // If the page has been passed a market when being navigated to,
@@ -86,55 +74,8 @@ export default class CreateLocationReviewScreen extends React.Component {
             });
     }
 
-    tagScan = (q) => {
-        this.setState({ tagText: q });
-        MSU.get('/tags/search', { q })
-            .then(res => {
-                this.setState({ tagResults: res });
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }
-
-    addTag = (tag) => {
-        // only add if not already added
-        if (this.state.tags.indexOf(tag) < 0
-            && tag.name.length > 0) {
-            this.setState({ tags: this.state.tags.concat([tag]), tagText: '', tagResults: [] });
-        }
-    }
-
-    removeTag = (tag) => {
-        let tags = this.state.tags;
-        tags = tags.filter(e => e !== tag);
-        this.setState({ tags });
-    }
-
-    onStarRatingPress(rating, x) {
-        if (x == 1) {
-            this.setState({
-                starCountCleanliness: rating,
-            });
-        } else if (x == 2) {
-            this.setState({
-                starCountFriendliness: rating,
-            });
-        } else if (x == 3) {
-            this.setState({
-                starCountSelection: rating,
-            });
-        } else if (x == 4) {
-            this.setState({
-                starCountAccess: rating,
-            });
-        } else if (x == 5) {
-            this.setState({
-                starCountSafety: rating,
-            });
-        }
-
-    }
+    
+    
 
 
 
@@ -159,48 +100,24 @@ export default class CreateLocationReviewScreen extends React.Component {
         }
 
 
-        // Creates an array of tags for all the tags currently on the review.
-        let tags = [];
-        this.state.tags.forEach(tag => {
-            tags.push(
-                <LinearGradient
-                    style={{ borderRadius: 20, margin: 1 }}
-                    start={{ x: 0, y: 0.5 }}
-                    end={{ x: 1, y: 0.5 }}
-                    colors={['#ABE894', '#54E085']}>
-                    <TouchableOpacity
-                        key={tag.id}
-                        style={{ borderRadius: 20, paddingBottom: 2 }}
-                        onPress={() => this.removeTag(tag)}>
-                        <Text style={{ textAlign: 'center' }}>
-                            {'  ' + tag.name + '  '}
-                        </Text>
-                    </TouchableOpacity>
-                </LinearGradient>
-            );
-        });
-        if (tags.length == 0) {
-            tagsCardItem = <View />
-        } else {
-            tagsCardItem = <CardItem style={{ flexWrap: 'wrap' }}>{tags}</CardItem>;
-        }
+        
         return (
-            <View style={{ flex: 1, backgroundColor: 'white' }}>
+            <View style={styles.master}>
                 <KeyboardAwareScrollView
                     resetScrollToCoords={{ x: 0, y: 0 }}
-                    scrollEnabled={false}>
+                    scrollEnabled={true}>
 
-                    <View style={{ backgroundColor: 'white', height: Dimensions.get('window').height, justifyContent:'center' }}>
-                        <View style={{ height:'30%' }}>
+                    <View style={styles.innermaster}>
+                        <View style={{ height:'33%' }}>
                             <CreateLocationReviewHeader ImageSource={MarketImageSource} MarketName={MarketNameSource} navigation={this.props.navigation} />
                         </View>
 
                         {/* Select location View */}
-                        <View style={{ flexDirection: 'row', backgroundColor: 'white', height:'30%', alignItems: 'center' }}>
-                            <Icon name='pin' style={{ marginTop: 12, marginLeft: 6 }} color='#00CE66' />
-                            <View style={{ flexDirection: 'row', justifyContent: 'center', width: '90%' }}>
+                        <View style={{ flexDirection: 'row', backgroundColor: 'white', height:'33%', maxHeight:'33%',alignItems:'center', justifyContent:'space-around'}}>
+                            <Icon name='pin' style={{  color:'#00CE66', fontSize:44}} />
+                            <View style={{ flexDirection: 'column', justifyContent: 'center', width: '85%', height:'35%', maxHeight:'100%'}}>
                                 <Autocomplete
-                                    style={{ position: 'relative', height:75, zIndex:1 }}
+                                    style={{ position: 'relative', height:75, zIndex:1, paddingLeft:35 }}
                                     inputContainerStyle={{ borderColor: null, borderWidth: 0 }}
                                     data={this.state.marketResults}
                                     value={this.state.marketText}
@@ -223,7 +140,7 @@ export default class CreateLocationReviewScreen extends React.Component {
 
 
                         {/* Footer area */}
-                        <View style={{ width: '100%', justifyContent: 'space-around', alignItems: 'center', height:'30%' }}>
+                        <View style={{ width: '100%', justifyContent: 'space-around', alignItems: 'center', height:'33%', maxHeight:'33%' }}>
                             <View style={styles.view4}>
                                 <Text style={{ fontSize: 16, color: 'gray' }}>Step 1/5</Text>
                             </View>
@@ -258,6 +175,21 @@ export default class CreateLocationReviewScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    master:{
+        flex: 1, 
+        backgroundColor: 'white', 
+        maxHeight: Dimensions.get('window').height,
+        backgroundColor:'white',
+
+    },
+    masterscroll:{
+
+    },
+    innermaster:{
+        backgroundColor: 'white', 
+        height:Dimensions.get('window').height - 30, 
+        justifyContent:'flex-end',
+    },
     view4: {
         flex: 1,
         maxHeight: 30,
@@ -268,8 +200,8 @@ const styles = StyleSheet.create({
         marginTop: 0,
         paddingTop: 0,
         paddingBottom: 0,
-        marginLeft: 30,
-        marginRight: 30,
+        //marginLeft: 30,
+        //marginRight: 30,
         backgroundColor: '#D2D2D2',
         borderRadius: 10,
         maxHeight: 14,

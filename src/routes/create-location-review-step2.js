@@ -43,6 +43,31 @@ export default class CreateLocationReviewScreenStep2 extends React.Component {
         };
     }
 
+    onStarRatingPress(rating, x) {
+        if (x == 1) {
+            this.setState({
+                starCountCleanliness: rating,
+            });
+        } else if (x == 2) {
+            this.setState({
+                starCountFriendliness: rating,
+            });
+        } else if (x == 3) {
+            this.setState({
+                starCountSelection: rating,
+            });
+        } else if (x == 4) {
+            this.setState({
+                starCountAccess: rating,
+            });
+        } else if (x == 5) {
+            this.setState({
+                starCountSafety: rating,
+            });
+        }
+
+    }
+
 
     render() {
         return (
