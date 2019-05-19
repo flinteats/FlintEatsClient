@@ -1,11 +1,8 @@
 import React from 'react';
-import { Alert, Image, Button, StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView, KeyboardAvoidingView, Dimensions } from 'react-native';
-import { Card, CardItem, Icon, Spinner } from 'native-base';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Dimensions } from 'react-native';
+import { Icon, } from 'native-base';
 import Autocomplete from 'react-native-autocomplete-input';
 import LinearGradient from 'react-native-linear-gradient';
-import { connect } from 'react-redux';
-import { actions } from '../actions/index';
-import StarRating from 'react-native-star-rating';
 import CreateLocationReviewHeader from './location-review-header'
 
 import MSU from '../msu';
@@ -32,7 +29,7 @@ export default class CreateLocationReviewScreen extends React.Component {
         this.state = {
             draw: 0,
             uri: false,
-            
+
             //Reference to the current market object 
             market: null,
 
@@ -74,8 +71,8 @@ export default class CreateLocationReviewScreen extends React.Component {
             });
     }
 
-    
-    
+
+
 
 
 
@@ -100,7 +97,7 @@ export default class CreateLocationReviewScreen extends React.Component {
         }
 
 
-        
+
         return (
             <View style={styles.master}>
                 <KeyboardAwareScrollView
@@ -108,31 +105,31 @@ export default class CreateLocationReviewScreen extends React.Component {
                     scrollEnabled={true}>
 
                     <View style={styles.innermaster}>
-                        <View style={{ height:'33%' }}>
+                        <View style={{ height: '33%' }}>
                             <CreateLocationReviewHeader ImageSource={MarketImageSource} MarketName={MarketNameSource} navigation={this.props.navigation} />
                         </View>
 
                         {/* Select location View */}
-                        <View style={{ flexDirection: 'row', backgroundColor: 'white', height:'33%', maxHeight:'33%',alignItems:'center', justifyContent:'space-around'}}>
-                            <Icon name='pin' style={{  color:'#00CE66', fontSize:44}} />
-                            <View style={{ flexDirection: 'column', justifyContent: 'center', width: '85%', height:'35%', maxHeight:'100%'}}>
-                                <Autocomplete
-                                    style={{ position: 'relative', height:75, zIndex:1, paddingLeft:35 }}
-                                    inputContainerStyle={{ borderColor: null, borderWidth: 0 }}
-                                    data={this.state.marketResults}
-                                    value={this.state.marketText}
-                                    listUpwards={true}
-                                    onChangeText={(text) => this.marketScan(text)}
-                                    placeholder='Location'
-                                    renderItem={(data) => (
-                                        <TouchableOpacity
-                                            style={{}}
-                                            onPress={() => this.setState({ market: { id: data.id, name: data.name }, marketText: data.name, marketResults: [] })}>
-                                            <Text style={{ textAlign: 'center' }}>{data.name}</Text>
-                                        </TouchableOpacity>
-                                    )}
-                                />
-                            </View>
+                        <View style={{ flexDirection: 'row', backgroundColor: 'white', height: '33%', maxHeight: '33%', alignItems: 'center', justifyContent: 'space-around', }}>
+                            <Icon name='pin' style={{ color: '#00CE66', fontSize: 44, paddingLeft:13 }} />
+
+                            <Autocomplete
+                                style={{ position: 'relative', height: 40, zIndex: 6, paddingLeft: 35, backgroundColor: 'white' }}
+                                inputContainerStyle={{ borderColor: null, borderWidth: 0 }}
+                                data={this.state.marketResults}
+                                value={this.state.marketText}
+                                listUpwards={true}
+                                onChangeText={(text) => this.marketScan(text)}
+                                placeholder='Location'
+                                renderItem={(data) => (
+                                    <TouchableOpacity
+                                        style={{}}
+                                        onPress={() => this.setState({ market: { id: data.id, name: data.name }, marketText: data.name, marketResults: [] })}>
+                                        <Text style={{ textAlign: 'center' }}>{data.name}</Text>
+                                    </TouchableOpacity>
+                                )}
+                            />
+
                         </View>
 
 
@@ -140,7 +137,7 @@ export default class CreateLocationReviewScreen extends React.Component {
 
 
                         {/* Footer area */}
-                        <View style={{ width: '100%', justifyContent: 'space-around', alignItems: 'center', height:'33%', maxHeight:'33%' }}>
+                        <View style={{ width: '100%', justifyContent: 'space-around', alignItems: 'center', height: '33%', maxHeight: '33%' }}>
                             <View style={styles.view4}>
                                 <Text style={{ fontSize: 16, color: 'gray' }}>Step 1/5</Text>
                             </View>
@@ -175,28 +172,28 @@ export default class CreateLocationReviewScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    master:{
-        flex: 1, 
-        backgroundColor: 'white', 
+    master: {
+        flex: 1,
+        backgroundColor: 'white',
         maxHeight: Dimensions.get('window').height,
-        backgroundColor:'white',
+        backgroundColor: 'white',
 
     },
-    masterscroll:{
+    masterscroll: {
 
     },
-    innermaster:{
-        backgroundColor: 'white', 
-        height:Dimensions.get('window').height - 30, 
-        justifyContent:'flex-end',
+    innermaster: {
+        backgroundColor: 'white',
+        height: Dimensions.get('window').height - 30,
+        justifyContent: 'space-between',
     },
     view4: {
         flex: 1,
         maxHeight: 30,
         flexDirection: 'row',
         justifyContent: 'center',
-      },
-      progressbar: {
+    },
+    progressbar: {
         marginTop: 0,
         paddingTop: 0,
         paddingBottom: 0,
@@ -207,13 +204,13 @@ const styles = StyleSheet.create({
         maxHeight: 14,
         height: 14,
         width: '95%'
-      },
-      progress: {
+    },
+    progress: {
         marginRight: '80%',
         borderRadius: 10,
         maxHeight: 14,
         height: 14,
-        
-    
-      },
+
+
+    },
 })
