@@ -31,19 +31,10 @@ export default class CreateLocationReviewScreenStep2 extends React.Component {
             //Reference to the current market object 
             market: null,
 
-            //The list of results from the market search drop-down
-            marketResults: [],
-
             //The current text of the market search
             marketText: '',
 
-            //The list of all tags the user has given to the market
-            tags: [],
-
-            //The list of all results from tag search
-            tagResults: [],
-            tagText: '',
-            text: '',
+            
         };
     }
 
@@ -87,7 +78,7 @@ export default class CreateLocationReviewScreenStep2 extends React.Component {
             MarketNameSource = this.state.market.name;
         } else {
             MarketImageSource = camera;
-            MarketNameSource = "Market Name Here"
+            MarketNameSource = "No Market Selected"
         }
         return (
             <View style={styles.master}>
@@ -202,7 +193,7 @@ export default class CreateLocationReviewScreenStep2 extends React.Component {
                             </View>
 
                             <TouchableOpacity style={{}}
-                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep2')}
+                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep3')}
                             >
                                 <Text style={{
                                     color: '#00CE66',

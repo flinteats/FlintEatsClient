@@ -45,13 +45,9 @@ export default class CreateLocationReviewScreen extends React.Component {
 
             this.setState({ market: this.props.navigation.params.market });
             this.setState({ marketText: this.props.navigation.params.market.name });
-            //this.state.market = this.props.navigation.params.market;
-            //this.state.marketText = this.props.navigation.params.market.name;
         } else {
             this.setState({ market: 'null' });
             this.setState({ marketText: 'No Market Selected' });
-            //this.state.market = 'null';
-            //this.state.marketText = 'No Market Selected';
         }
     }
 
