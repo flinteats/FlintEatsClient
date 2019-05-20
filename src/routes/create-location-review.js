@@ -26,28 +26,34 @@ let tagsCardItem;
 export default class CreateLocationReviewScreen extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            draw: 0,
-            uri: false,
+        if (this.props.navigation.getParam('PassMarket', null)) {
+            this.state = {
+                draw: 0,
+                uri: false,
 
-            //Reference to the current market object 
-            market: null,
+                //Reference to the current market object 
+                market: this.props.navigation.getParam('PassMarket', null),
 
-            //The list of results from the market search drop-down
-            marketResults: [],
+                //The list of results from the market search drop-down
+                marketResults: [],
 
-            //The current text of the market search
-            marketText: '',
-        };
-        if (this.props.navigation.state.params.market) {
-            // If the page has been passed a market when being navigated to,
-            // fill the info this page uses with the given market.
-
-            this.setState({ market: this.props.navigation.params.market });
-            this.setState({ marketText: this.props.navigation.params.market.name });
+                //The current text of the market search
+                marketText: '',
+            }
         } else {
-            this.setState({ market: 'null' });
-            this.setState({ marketText: 'No Market Selected' });
+            this.state = {
+                draw: 0,
+                uri: false,
+
+                //Reference to the current market object 
+                market: null,
+
+                //The list of results from the market search drop-down
+                marketResults: [],
+
+                //The current text of the market search
+                marketText: '',
+            }
         }
     }
 
@@ -100,7 +106,7 @@ export default class CreateLocationReviewScreen extends React.Component {
 
                         {/* Select location View */}
                         <View style={{ flexDirection: 'row', backgroundColor: 'white', height: '33%', maxHeight: '33%', alignItems: 'center', justifyContent: 'space-around', }}>
-                            <Icon name='pin' style={{ color: '#00CE66', fontSize: 44, paddingLeft:13 }} />
+                            <Icon name='pin' style={{ color: '#00CE66', fontSize: 44, paddingLeft: 13 }} />
 
                             <Autocomplete
                                 style={{ position: 'relative', height: 40, zIndex: 6, paddingLeft: 35, backgroundColor: 'white' }}
@@ -126,9 +132,9 @@ export default class CreateLocationReviewScreen extends React.Component {
 
 
                         {/* Footer area */}
-                        <View style={{ width: '100%', justifyContent: 'space-around', alignItems: 'center', height: '33%', maxHeight: '33%' }}>
+                        <View style={{ width: '100%', justifyContent: 'space-around', alignItems: 'center', height: '27%', maxHeight: '33%' }}>
                             <View style={styles.view4}>
-                                <Text style={{ fontSize: 16, color: 'gray' }}>Step 1/5</Text>
+                                <Text style={{ fontSize: 16, color: 'gray' }}>Step 1/4</Text>
                             </View>
                             <View style={styles.progressbar}>
                                 <LinearGradient
@@ -139,7 +145,7 @@ export default class CreateLocationReviewScreen extends React.Component {
                             </View>
 
                             <TouchableOpacity style={{}}
-                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep2')}
+                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep2', { PassMarket: this.state.market })}
                             >
                                 <Text style={{
                                     color: '#00CE66',
@@ -195,7 +201,7 @@ const styles = StyleSheet.create({
         width: '95%'
     },
     progress: {
-        marginRight: '80%',
+        marginRight: '75%',
         borderRadius: 10,
         maxHeight: 14,
         height: 14,

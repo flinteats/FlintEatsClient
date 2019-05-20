@@ -1,7 +1,6 @@
 import React from 'react';
-import { Alert, Image, Button, StyleSheet, Text,  TouchableOpacity, View, Dimensions } from 'react-native';
+import { Alert, Image, Button, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
 import { Card, CardItem, Icon, Spinner } from 'native-base';
-import Autocomplete from 'react-native-autocomplete-input';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 import { actions } from '../actions/index';
@@ -20,22 +19,41 @@ export default class CreateLocationReviewScreenStep2 extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            draw: 0,
-            uri: false,
-            starCountCleanliness: 0,
-            starCountFriendliness: 0,
-            starCountSelection: 0,
-            starCountAccess: 0,
-            starCountSafety: 0,
-            //Reference to the current market object 
-            market: null,
+        if (this.props.navigation.getParam('PassMarket', null)) {
+            this.state = {
+                draw: 0,
+                uri: false,
+                starCountCleanliness: 0,
+                starCountFriendliness: 0,
+                starCountSelection: 0,
+                starCountAccess: 0,
+                starCountSafety: 0,
+                //Reference to the current market object 
+                market: this.props.navigation.getParam('PassMarket', null),
 
-            //The current text of the market search
-            marketText: '',
+                //The current text of the market search
+                marketText: '',
 
-            
-        };
+
+            };
+        } else {
+            this.state = {
+                draw: 0,
+                uri: false,
+                starCountCleanliness: 0,
+                starCountFriendliness: 0,
+                starCountSelection: 0,
+                starCountAccess: 0,
+                starCountSafety: 0,
+                //Reference to the current market object 
+                market: null,
+
+                //The current text of the market search
+                marketText: '',
+
+
+            };
+        }
     }
 
     onStarRatingPress(rating, x) {
@@ -182,7 +200,7 @@ export default class CreateLocationReviewScreenStep2 extends React.Component {
                         {/* Footer area */}
                         <View style={{ width: '100%', justifyContent: 'space-around', alignItems: 'center', height: '27%', maxHeight: '27%' }}>
                             <View style={styles.view4}>
-                                <Text style={{ fontSize: 16, color: 'gray' }}>Step 2/5</Text>
+                                <Text style={{ fontSize: 16, color: 'gray' }}>Step 2/4</Text>
                             </View>
                             <View style={styles.progressbar}>
                                 <LinearGradient
@@ -193,7 +211,7 @@ export default class CreateLocationReviewScreenStep2 extends React.Component {
                             </View>
 
                             <TouchableOpacity style={{}}
-                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep3')}
+                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep3', {PassMarket: this.state.market})}
                             >
                                 <Text style={{
                                     color: '#00CE66',
@@ -245,7 +263,7 @@ const styles = StyleSheet.create({
         width: '95%'
     },
     progress: {
-        marginRight: '60%',
+        marginRight: '50%',
         borderRadius: 10,
         maxHeight: 14,
         height: 14,

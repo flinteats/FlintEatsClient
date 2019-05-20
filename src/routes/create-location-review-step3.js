@@ -17,17 +17,30 @@ export default class CreateLocationReviewScreenStep3 extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state={
-            draw: 0,
-            uri: false,
-            //Reference to the current market object 
-            market: null,
-            //The current text of the market search
-            marketText: '',
+        if (this.props.navigation.getParam('PassMarket', null)) {
+            this.state = {
+                draw:0,
+                uri: false,
+                market: this.props.navigation.getParam('PassMarket', null),
+                marketText: ' '
+            }
+        } else {
+            this.state = {
+                draw: 0,
+                uri: false,
+                //Reference to the current market object 
+                market: null,
+                //The current text of the market search
+                marketText: '',
+            }
+            // [this state member] : [default value],
+            //etc....
         }
-        // [this state member] : [default value],
-        //etc....
     }
+
+    static navigationOptions = ({ navigation }) => ({
+        header: null,
+    });
 
     render() {
         if (this.state.market) {
@@ -46,15 +59,22 @@ export default class CreateLocationReviewScreenStep3 extends React.Component {
             <View style={styles.master}>
                 <KeyboardAwareScrollView>
                     <View style={styles.innermaster}>
+                        <View style={{ height: '33%', maxHeight: '33%' }}>
+                            <CreateLocationReviewHeader ImageSource={MarketImageSource} MarketName={MarketNameSource} navigation={this.props.navigation} />
+                        </View>
 
 
-
+                        <View style={{ height: '33%', maxHeight: '33%' }}>
+                            <TextInput autoFocus={false}
+                                onChangeText={(title) => this.setState({ title })}
+                                placeholder='What are your thoughts on this market?'></TextInput>
+                        </View>
 
 
                         {/* Footer area */}
                         <View style={{ width: '100%', justifyContent: 'space-around', alignItems: 'center', height: '27%', maxHeight: '27%' }}>
                             <View style={styles.view4}>
-                                <Text style={{ fontSize: 16, color: 'gray' }}>Step 3/5</Text>
+                                <Text style={{ fontSize: 16, color: 'gray' }}>Step 3/4</Text>
                             </View>
                             <View style={styles.progressbar}>
                                 <LinearGradient
@@ -65,7 +85,7 @@ export default class CreateLocationReviewScreenStep3 extends React.Component {
                             </View>
 
                             <TouchableOpacity style={{}}
-                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep4')}
+                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep4', {PassMarket: this.state.market})}
                             >
                                 <Text style={{
                                     color: '#00CE66',
@@ -117,7 +137,7 @@ const styles = StyleSheet.create({
         width: '95%'
     },
     progress: {
-        marginRight: '40%',
+        marginRight: '25%',
         borderRadius: 10,
         maxHeight: 14,
         height: 14,
