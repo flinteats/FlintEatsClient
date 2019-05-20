@@ -1,16 +1,20 @@
 import React from 'react';
-import { Alert, Image, Button, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, Button, StyleSheet, Text,  TouchableOpacity, View, Dimensions } from 'react-native';
 import { Card, CardItem, Icon, Spinner } from 'native-base';
 import Autocomplete from 'react-native-autocomplete-input';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 import { actions } from '../actions/index';
 import StarRating from 'react-native-star-rating';
+import CreateLocationReviewHeader from './location-review-header'
 
 import MSU from '../msu';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const camera = require('../../res/camera.png');
+
+let MarketNameSource;
+let MarketImageSource;
 
 export default class CreateLocationReviewScreenStep2 extends React.Component {
 
@@ -68,95 +72,194 @@ export default class CreateLocationReviewScreenStep2 extends React.Component {
 
     }
 
+    static navigationOptions = ({ navigation }) => ({
+        header: null,
+    });
+
 
     render() {
+        if (this.state.market) {
+            if (this.state.market.image64) {
+                MarketImageSource = { uri: 'data:image/png;base64,' + this.state.market.image64 };
+            } else {
+                MarketImageSource = camera;
+            }
+            MarketNameSource = this.state.market.name;
+        } else {
+            MarketImageSource = camera;
+            MarketNameSource = "Market Name Here"
+        }
         return (
-            <KeyboardAwareScrollView>
-                <Card style={{ alignItems: 'center' }}>
-                    <CardItem>
-                        <Text style={{ fontSize: 22 }}>Cleanliness</Text>
-                        <View style={{ width: 10 }} />
-                        <StarRating
-                            disabled={false}
-                            emptyStar={'star-o'}
-                            fullStar={'star'}
-                            iconSet={'FontAwesome'}
-                            rating={this.state.starCountCleanliness}
-                            selectedStar={(rating) => this.onStarRatingPress(rating, 1)}
-                            fullStarColor={'orange'}
-                            emptyStarColor={'orange'}
-                            starSize={24}
-                        />
-                    </CardItem>
+            <View style={styles.master}>
 
-                    <CardItem>
-                        <Text style={{ fontSize: 22 }}>Friendliness</Text>
-                        <View style={{ width: 10 }} />
-                        <StarRating
-                            disabled={false}
-                            emptyStar={'star-o'}
-                            fullStar={'star'}
-                            iconSet={'FontAwesome'}
-                            rating={this.state.starCountFriendliness}
-                            selectedStar={(rating) => this.onStarRatingPress(rating, 2)}
-                            fullStarColor={'orange'}
-                            emptyStarColor={'orange'}
-                            starSize={24}
-                        />
-                    </CardItem>
+                <KeyboardAwareScrollView
+                    resetScrollToCoords={{ x: 0, y: 0 }}
+                    scrollEnabled={false}>
 
-                    <CardItem>
-                        <Text style={{ fontSize: 22 }}>Selection</Text>
-                        <View style={{ width: 10 }} />
-                        <StarRating
-                            disabled={false}
-                            emptyStar={'star-o'}
-                            fullStar={'star'}
-                            iconSet={'FontAwesome'}
-                            rating={this.state.starCountSelection}
-                            selectedStar={(rating) => this.onStarRatingPress(rating, 3)}
-                            fullStarColor={'orange'}
-                            emptyStarColor={'orange'}
-                            starSize={24}
-                        />
-                    </CardItem>
+                    <View style={styles.innermaster}>
 
-                    <CardItem>
-                        <Text style={{ fontSize: 22 }}>Accessibility</Text>
-                        <View style={{ width: 10 }} />
-                        <StarRating
-                            disabled={false}
-                            emptyStar={'star-o'}
-                            fullStar={'star'}
-                            iconSet={'FontAwesome'}
-                            rating={this.state.starCountAccess}
-                            selectedStar={(rating) => this.onStarRatingPress(rating, 4)}
-                            fullStarColor={'orange'}
-                            emptyStarColor={'orange'}
-                            starSize={24}
-                        />
-                    </CardItem>
+                        <View style={{ height: '33%', maxHeight: '33%' }}>
+                            <CreateLocationReviewHeader ImageSource={MarketImageSource} MarketName={MarketNameSource} navigation={this.props.navigation} />
+                        </View>
 
-                    <CardItem>
-                        <Text style={{ fontSize: 22 }}>Safety</Text>
-                        <View style={{ width: 10 }} />
-                        <StarRating
-                            disabled={false}
-                            emptyStar={'star-o'}
-                            fullStar={'star'}
-                            iconSet={'FontAwesome'}
-                            rating={this.state.starCountSafety}
-                            selectedStar={(rating) => this.onStarRatingPress(rating, 5)}
-                            fullStarColor={'orange'}
-                            emptyStarColor={'orange'}
-                            starSize={24}
-                        />
-                    </CardItem>
 
-                </Card>
+                        <View style={{ alignItems: 'center', height: '30%', justifyContent: 'flex-start' }}>
+                            <View style={styles.starselectview}>
+                                <Text style={{ fontSize: 20 }}>Cleanliness</Text>
+                                <View style={{ width: 10 }} />
+                                <StarRating
+                                    disabled={false}
+                                    emptyStar={'star-o'}
+                                    fullStar={'star'}
+                                    iconSet={'FontAwesome'}
+                                    rating={this.state.starCountCleanliness}
+                                    selectedStar={(rating) => this.onStarRatingPress(rating, 1)}
+                                    fullStarColor={'orange'}
+                                    emptyStarColor={'orange'}
+                                    starSize={22}
+                                />
+                            </View>
 
-            </KeyboardAwareScrollView>
+                            <View style={styles.starselectview}>
+                                <Text style={{ fontSize: 20 }}>Friendliness</Text>
+                                <View style={{ width: 10 }} />
+                                <StarRating
+                                    disabled={false}
+                                    emptyStar={'star-o'}
+                                    fullStar={'star'}
+                                    iconSet={'FontAwesome'}
+                                    rating={this.state.starCountFriendliness}
+                                    selectedStar={(rating) => this.onStarRatingPress(rating, 2)}
+                                    fullStarColor={'orange'}
+                                    emptyStarColor={'orange'}
+                                    starSize={22}
+                                />
+                            </View>
+
+                            <View style={styles.starselectview}>
+                                <Text style={{ fontSize: 20 }}>Selection</Text>
+                                <View style={{ width: 10 }} />
+                                <StarRating
+                                    disabled={false}
+                                    emptyStar={'star-o'}
+                                    fullStar={'star'}
+                                    iconSet={'FontAwesome'}
+                                    rating={this.state.starCountSelection}
+                                    selectedStar={(rating) => this.onStarRatingPress(rating, 3)}
+                                    fullStarColor={'orange'}
+                                    emptyStarColor={'orange'}
+                                    starSize={22}
+                                />
+                            </View>
+
+                            <View style={styles.starselectview}>
+                                <Text style={{ fontSize: 20 }}>Accessibility</Text>
+                                <View style={{ width: 10 }} />
+                                <StarRating
+                                    disabled={false}
+                                    emptyStar={'star-o'}
+                                    fullStar={'star'}
+                                    iconSet={'FontAwesome'}
+                                    rating={this.state.starCountAccess}
+                                    selectedStar={(rating) => this.onStarRatingPress(rating, 4)}
+                                    fullStarColor={'orange'}
+                                    emptyStarColor={'orange'}
+                                    starSize={22}
+                                />
+                            </View>
+
+                            <View style={styles.starselectview}>
+                                <Text style={{ fontSize: 20 }}>Safety</Text>
+                                <View style={{ width: 10 }} />
+                                <StarRating
+                                    disabled={false}
+                                    emptyStar={'star-o'}
+                                    fullStar={'star'}
+                                    iconSet={'FontAwesome'}
+                                    rating={this.state.starCountSafety}
+                                    selectedStar={(rating) => this.onStarRatingPress(rating, 5)}
+                                    fullStarColor={'orange'}
+                                    emptyStarColor={'orange'}
+                                    starSize={22}
+                                />
+                            </View>
+
+                        </View>
+
+
+
+                        {/* Footer area */}
+                        <View style={{ width: '100%', justifyContent: 'space-around', alignItems: 'center', height: '27%', maxHeight: '27%' }}>
+                            <View style={styles.view4}>
+                                <Text style={{ fontSize: 16, color: 'gray' }}>Step 2/5</Text>
+                            </View>
+                            <View style={styles.progressbar}>
+                                <LinearGradient
+                                    style={styles.progress}
+                                    start={{ x: 0, y: 0 }}
+                                    end={{ x: 1, y: 1 }}
+                                    colors={['#ABE894', '#54E085']}></LinearGradient>
+                            </View>
+
+                            <TouchableOpacity style={{}}
+                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep2')}
+                            >
+                                <Text style={{
+                                    color: '#00CE66',
+                                    fontSize: 20,
+                                    textAlign: 'center'
+                                }}>Next</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                    </View>
+
+                </KeyboardAwareScrollView>
+
+            </View>
         );
     };
 
 }
+
+
+const styles = StyleSheet.create({
+    master: {
+        flex: 1,
+        backgroundColor: 'white',
+        maxHeight: Dimensions.get('window').height,
+        backgroundColor: 'white',
+    },
+    innermaster: {
+        backgroundColor: 'white',
+        height: Dimensions.get('window').height - 30,
+        justifyContent: 'space-between',
+    },
+    starselectview: {
+        padding: 0,
+        paddingTop: 3,
+        paddingBottom: 3,
+        flexDirection: 'row'
+    },
+    progressbar: {
+        marginTop: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+        //marginLeft: 30,
+        //marginRight: 30,
+        backgroundColor: '#D2D2D2',
+        borderRadius: 10,
+        maxHeight: 14,
+        height: 14,
+        width: '95%'
+    },
+    progress: {
+        marginRight: '60%',
+        borderRadius: 10,
+        maxHeight: 14,
+        height: 14,
+
+
+    },
+
+})

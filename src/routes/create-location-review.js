@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native';
 import { Icon, } from 'native-base';
 import Autocomplete from 'react-native-autocomplete-input';
 import LinearGradient from 'react-native-linear-gradient';
@@ -79,19 +79,12 @@ export default class CreateLocationReviewScreen extends React.Component {
     render() {
         if (this.state.market) {
             if (this.state.market.image64) {
-                // marketimageJSX = <Image source={{ uri: 'data:image/png;base64,' + this.state.market.image64 }} />
                 MarketImageSource = { uri: 'data:image/png;base64,' + this.state.market.image64 };
             } else {
-                // marketimageJSX = <Image source={camera} />
                 MarketImageSource = camera;
             }
-
-            // marketnameJSX = <Text>{this.state.market.name}</Text>
             MarketNameSource = this.state.market.name;
         } else {
-            // marketimageJSX = <Image source={camera} />
-            // marketnameJSX = <Text>Market Name Here</Text>
-
             MarketImageSource = camera;
             MarketNameSource = "Market Name Here"
         }
@@ -102,7 +95,7 @@ export default class CreateLocationReviewScreen extends React.Component {
             <View style={styles.master}>
                 <KeyboardAwareScrollView
                     resetScrollToCoords={{ x: 0, y: 0 }}
-                    scrollEnabled={true}>
+                    scrollEnabled={false}>
 
                     <View style={styles.innermaster}>
                         <View style={{ height: '33%' }}>

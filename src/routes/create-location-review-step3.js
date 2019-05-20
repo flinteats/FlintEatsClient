@@ -1,6 +1,11 @@
 import React from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
+import { StyleSheet, Text, TouchableOpacity, View, TextInput, Dimensions } from 'react-native';
+import { Icon, } from 'native-base';
+import Autocomplete from 'react-native-autocomplete-input';
+import LinearGradient from 'react-native-linear-gradient';
+import CreateLocationReviewHeader from './location-review-header'
+import MSU from '../msu';
 export default class CreateLocationReviewScreenStep3 extends React.Component {
 
     constructor(props) {
@@ -12,29 +17,50 @@ export default class CreateLocationReviewScreenStep3 extends React.Component {
     render() {
         return (
             <KeyboardAwareScrollView>
-                {/* Card view for displaying and adding tags to the review */}
-                <Card style={{ minHeight: 65, maxHeight: 300 }}>
-                    {tagsCardItem}
-                    <CardItem style={{ alignItems: 'flex-start' }}>
-                        <Autocomplete style={{ position: 'relative' }}
-                            autoCapitalize='none'
-                            data={this.state.tagResults}
-                            value={this.state.tagText}
-                            onChangeText={(text) => this.tagScan(text)}
-                            onSubmitEditing={() => this.addTag({ name: this.state.tagText.toLowerCase(), id: this.state.tags.length })}
-                            placeholder='Tags'
-                            renderItem={(data) => (
-                                <TouchableOpacity
-                                    onPress={() => this.addTag(data)}>
-                                    <Text>{data.name}</Text>
-                                </TouchableOpacity>
-                            )}
-                        />
-                    </CardItem>
-                </Card>
+                
 
             </KeyboardAwareScrollView>
         );
     }
 
 }
+
+
+const styles = StyleSheet.create({
+    master: {
+        flex: 1,
+        backgroundColor: 'white',
+        maxHeight: Dimensions.get('window').height,
+        backgroundColor: 'white',
+    },
+    innermaster: {
+        backgroundColor: 'white',
+        height: Dimensions.get('window').height - 30,
+        justifyContent: 'space-between',
+    },
+    starselectview: {
+        padding: 0,
+        paddingTop: 3,
+        paddingBottom: 3,
+        flexDirection: 'row'
+    },
+    progressbar: {
+        marginTop: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+        //marginLeft: 30,
+        //marginRight: 30,
+        backgroundColor: '#D2D2D2',
+        borderRadius: 10,
+        maxHeight: 14,
+        height: 14,
+        width: '95%'
+    },
+    progress: {
+        marginRight: '60%',
+        borderRadius: 10,
+        maxHeight: 14,
+        height: 14,
+    },
+
+})
