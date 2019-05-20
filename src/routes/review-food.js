@@ -13,7 +13,7 @@ const review = require('../../res/img_review.png');
 const icon0 = require('../../res/add0.png');
 const icon1 = require('../../res/add1.png');
 const addPhoto = require('../../res/addAphoto.png');
-const pin = require('../../res/icon_location.png');
+//const pin = require('../../res/icon_location.png');
 
 
 export default class ReviewFoodScreen extends React.Component {
@@ -194,7 +194,8 @@ export default class ReviewFoodScreen extends React.Component {
           <View style={styles.location}>
 
             <View style={{ height: 42, width: '20%', justifyContent: 'center', alignItems: "center", marginLeft: 5,}}>
-              <Image style={{ height: 36, width: 24, }} source={pin} />
+              <Icon name='ios-pin' type='Ionicons' style={{ color: '#00CE66', fontSize: 24 }}/>
+              {/* <Image style={{ height: 36, width: 24, }} source={pin} /> */}
             </View>
 
             <Autocomplete style={styles.autocompleteContainer}
