@@ -19,6 +19,9 @@ import CreateRecipeScreen3 from '../routes/create-recipe-step3';
 import CreateRecipeScreen4 from '../routes/create-recipe-step4';
 import CreateRecipeScreen5 from '../routes/create-recipe-step5';
 import CreateLocationReviewScreen from '../routes/create-location-review';
+import CreateLocationReviewScreenStep2 from '../routes/create-location-review-step2';
+import CreateLocationReviewScreenStep3 from '../routes/create-location-review-step3';
+import CreateLocationReviewScreenStep4 from '../routes/create-location-review-step4';
 import FeedScreen from '../routes/feed';
 import FollowScreen from '../routes/follow';
 import HelpScreen from '../routes/help';
@@ -89,6 +92,9 @@ export const AppNavigator = StackNavigator(
     CreateRecipe4: {screen: CreateRecipeScreen4},
     CreateRecipe5: {screen: CreateRecipeScreen5},
     CreateLocationReview: {screen: CreateLocationReviewScreen},
+    CreateLocationReviewStep2 : {screen: CreateLocationReviewScreenStep2},
+    CreateLocationReviewStep3 : {screen: CreateLocationReviewScreenStep3},
+    CreateLocationReviewStep4 : {screen: CreateLocationReviewScreenStep4},
     Follow: { screen: FollowScreen },
     Help: { screen: HelpScreen },
     Market: { screen: MarketScreen },
