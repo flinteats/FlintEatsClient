@@ -1,7 +1,11 @@
 import React from 'react';
-import { BackHandler, Button, Text, TextInput, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
+import { BackHandler, Button, Text, TextInput, StyleSheet, TouchableOpacity, View, Image, ScrollView } from 'react-native';
 import Permissions from 'react-native-permissions';
 import LinearGradient from 'react-native-linear-gradient';
+import ImagePicker from 'react-native-image-picker';
+import { Card, CardItem, Icon } from 'native-base';
+import Autocomplete from 'react-native-autocomplete-input';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import MSU from '../msu';
 
@@ -9,14 +13,20 @@ const review = require('../../res/img_review.png');
 const icon0 = require('../../res/add0.png');
 const icon1 = require('../../res/add1.png');
 const addPhoto = require('../../res/addAphoto.png');
+const pin = require('../../res/icon_location.png');
 
 
 export default class ReviewFoodScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      foodItem: '',
+      uri: null,
       text: '',
-      uri: null
+      market: null,
+      marketResults: [],
+      marketText: '',
+      draw: 0,
     };
   }
   componentDidMount() {
@@ -36,6 +46,18 @@ export default class ReviewFoodScreen extends React.Component {
         : icon0}
     />,
   });
+
+  marketScan = (q) => {
+    let draw = this.state.draw + 1;
+    this.setState({ marketText: q, draw });
+    MSU.get('/markets/search', { draw, q })
+      .then(res => {
+        this.setState({ marketResults: res });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
   /**
     static navigationOptions = ({ navigation }) => ({
       title: `New deal at ${navigation.state.params.target.name}`
@@ -123,78 +145,128 @@ export default class ReviewFoodScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <View style={{ flex: 1, }}>
+      <KeyboardAwareScrollView
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        scrollEnabled={false}
+      >
+        <View style={{ flex: 1, height: '100%' }}>
 
-        <View style={styles.view1}>
-          <Button
-            title='Cancel'
-            color='#00CE66'
-            //onPress={() => this.props.navigation.navigate('Add')}
-            onPress={() => this.props.navigation.goBack()}
-          />
-          <View style={{ flex: 1, }} />
-          <Button
-            title='Save'
-            color='#00CE66'
-            // Needs added functionality to save started recipe
-            // REMOVES NAVIGATION BAR on return to Add screen!
-            // MUST FIX!
-            onPress={() => this.props.navigation.navigate('Add')}
-          />
-        </View>
-
-        <View style={styles.view2}>
-          <Image
-            style={styles.pic}
-            source={review}
-          />
-        </View>
-
-        <View style={styles.view3}>
-          <View style={{
-            width: '80%', textAlign: 'center', borderBottomWidth: 1,
-            borderBottomColor: '#B8B8B8',
-          }}>
-            <TextInput
-              style={{ fontSize: 30, flex: 1, textAlign: 'center', }}
-              autoFocus={true}
-              onChangeText={(text) => this.setState({ text })}
-              onSubmitEditing={() => this.submit}
-              placeholder='Add an item'
-              returnKeyType={"next"} />
+          <View style={styles.view1}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate('Add')}>
+              <Text style={styles.btntxt}>Cancel</Text>
+            </TouchableOpacity>
+            <View style={{ flex: 1, }} />
+            <TouchableOpacity
+              style={styles.button}
+        
+              onPress={() => this.props.navigation.navigate('ReviewFood2', {
+                foodItem: this.state.foodItem,
+                uri: this.state.uri,
+                market: this.state.marketText,
+              })}>
+              <Text style={styles.btntxt}>Save</Text>
+            </TouchableOpacity>
           </View>
-        </View>
 
-        <View style={{
-          flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'center',
-        }}>
-          <Image
-            style={{ height: 140, width: 250, }}
-            source={addPhoto}
-          />
-        </View>
+          <View style={styles.view2}>
+            <Image
+              style={{ height: 80, width: 80 }}
+              source={review}
+            />
+          </View>
 
-        <View style={styles.view4}>
-          <Text style={{ fontSize: 16, color: 'gray' }}>Step 1/3</Text>
+          <View style={styles.view3}>
+            <View style={{
+              width: '80%', textAlign: 'center', borderBottomWidth: 1,
+              borderBottomColor: '#B8B8B8',
+            }}>
+              <TextInput
+                style={{ fontSize: 30, flex: 1, textAlign: 'center', }}
+                autoFocus={true}
+                onChangeText={(foodItem) => this.setState({ foodItem })}
+                placeholder='Add an item'
+                returnKeyType={"next"} />
+            </View>
+          </View>
+
+          <View style={styles.location}>
+
+            <View style={{ height: 42, width: '20%', justifyContent: 'center', alignItems: "center", marginLeft: 5,}}>
+              <Image style={{ height: 36, width: 24, }} source={pin} />
+            </View>
+
+            <Autocomplete style={styles.autocompleteContainer}
+              containerStyle={{ width: '80%', height: 40, }}
+              style={{ height: 40, fontSize: 18 }}
+              inputContainerStyle={{ borderWidth: 0, borderColor: null, }}
+              listContainerStyle={{ minHeight: 60, borderWidth: 0, borderColor: null, }}
+              listStyle={{ borderWidth: 0, borderColor: null, backgroundColor: null, }}
+
+              data={this.state.marketResults}
+              value={this.state.marketText}
+              listUpwards={true}
+              onChangeText={(text) => this.marketScan(text)}
+              placeholder='Location'
+              renderItem={(data) => (
+                <TouchableOpacity
+                  onPress={() => this.setState({ market: { id: data.id }, marketText: data.name, marketResults: [] })}>
+
+                  <Text style={{ fontSize: 18 }}>{data.name}</Text>
+                </TouchableOpacity>
+
+              )}
+            />
+          </View>
+
+          <View style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            height: 200,
+          }}>
+            <TouchableOpacity
+              onPress={() => this.checkPermissions()}
+              style={{ justifyContent: "center", alignItems: "center", }}>
+              <Image
+                style={styles.pic}
+                source={this.state.uri
+                  ? { uri: 'data:image/png;base64,' + this.state.uri }
+                  : addPhoto}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View style={styles.view4}>
+            <Text style={{ fontSize: 16, color: 'gray' }}>Step 1/3</Text>
+          </View>
+          <View style={styles.progressbar}>
+            <LinearGradient
+              style={styles.progress}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              colors={['#ABE894', '#54E085']}></LinearGradient>
+          </View>
+          <View style={{ flex: 1, maxHeight: 10, }} />
+          <View style={styles.view5}>
+            {this.state.foodItem && this.state.market ? <TouchableOpacity
+              style={styles.button}
+
+              onPress={() => this.props.navigation.navigate('ReviewFood2', {
+                foodItem: this.state.foodItem,
+                uri: this.state.uri,
+                market: this.state.marketText,
+              })}>
+              <Text style={styles.btntxt}>Next</Text>
+            </TouchableOpacity> : null}
+            
+
+          </View>
+
+
         </View>
-        <View style={styles.progressbar}>
-          <LinearGradient
-            style={styles.progress}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            colors={['#ABE894', '#54E085']}></LinearGradient>
-        </View>
-        <View style={{ flex: 1, maxHeight: 10, }} />
-        <View style={styles.view5}>
-          <Button
-            title='Next'
-            color='#00CE66'
-            onPress={() => this.props.navigation.navigate('ReviewFood2')}
-          />
-        </View>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
@@ -204,25 +276,34 @@ const styles = StyleSheet.create({
   view1: {
     flex: 1,
     flexDirection: 'row',
-    maxHeight: 40,
-    marginRight: 15,
-    marginLeft: 15,
-    paddingTop: 10,
+    maxHeight: 60,
+    height: 60,
+
   },
   view2: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     paddingTop: 10,
-    maxHeight: 200,
-    height: 200,
+    maxHeight: 80,
+    height: 80,
+
   },
   view3: {
     flex: 1,
-    maxHeight: 50,
+    height: 50,
+    minHeight: 50,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'stretch',
+    marginBottom: 24,
+  },
+  location: {
+    flex: 1,
+    flexDirection: 'row',
+    left: 0,
+    right: 0,
+    minHeight: 60,
     marginBottom: 24,
   },
   view4: {
@@ -243,7 +324,7 @@ const styles = StyleSheet.create({
     height: 14,
   },
   progress: {
-    marginRight: 200,
+    marginRight: '66%',
     borderRadius: 10,
     maxHeight: 14,
     height: 14,
@@ -258,8 +339,28 @@ const styles = StyleSheet.create({
     marginRight: 30,
   },
   pic: {
-    width: 140,
-    height: 140,
+    width: 350,
+    height: 199,
+    marginBottom: 18,
     marginTop: 18,
-  }
+  },
+  button: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  btntxt: {
+    color: '#00CE66',
+    fontSize: 20,
+    textAlign: 'center'
+  },
+  autocompleteContainer: {
+    flex: 1,
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 1,
+  },
 });

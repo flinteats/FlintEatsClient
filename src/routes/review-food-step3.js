@@ -1,5 +1,5 @@
 import React from 'react';
-import { BackHandler, Button, Text, TextInput, StyleSheet, TouchableOpacity, View, Image, ImageBackground } from 'react-native';
+import { BackHandler, Button, Text, TextInput, StyleSheet, TouchableOpacity, View, Image, ImageBackground, Dimensions, } from 'react-native';
 import Permissions from 'react-native-permissions';
 import LinearGradient from 'react-native-linear-gradient';
 import { Card, CardItem, Icon } from 'native-base';
@@ -7,6 +7,7 @@ import StarRating from 'react-native-star-rating';
 import Autocomplete from 'react-native-autocomplete-input';
 
 import MSU from '../msu';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const potatos = require('../../res/potatos.png');
 const icon0 = require('../../res/add0.png');
@@ -14,13 +15,18 @@ const icon1 = require('../../res/add1.png');
 const addPhoto = require('../../res/addAphoto.png');
 const pin = require('../../res/pin0.png');
 
+let deviceWidth = Dimensions.get('window').width;
+let deviceHeight = Dimensions.get('window').height;
 
-export default class ReviewFoodScreen2 extends React.Component {
+
+export default class ReviewFoodScreen3 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       foodItem: '',
       uri: null,
+      market: null,
+      text: '',
       starCountFreshness: 0,
       starCountPrice: 0,
       starCountQuality: 0,
@@ -145,6 +151,36 @@ export default class ReviewFoodScreen2 extends React.Component {
 
   }
 
+  submit = () => {
+    this.props.navigation.setParams({ submitting: true });
+    let food = navigation.getParam('foodItem', '');
+    let foodImg = navigation.getParam('uri', '');
+    let market = navigation.getParam('market', '');
+    let Freshness = navigation.getParam('FreshnessRating', '');
+    let Price = navigation.getParam('PriceRating', '');
+    let Quality = navigation.getParam('QualityRating', '');
+    let comments = this.state.text;
+
+    MSU.post('/ugc/foodReview/create', // is this the right location for food review?
+      {
+        item: food,
+        Image: foodImg,
+        market: market,
+        FreshnessRating: Freshness,
+        PriceRating: Price,
+        QaulityRating: Quality,
+        comments: comments,
+      })
+      .then(res => {
+        this.props.navigation.navigate('Feed');
+      })
+      .catch(err => {
+        console.log(err);
+        Alert.alert('Error Submitting Food Reivew', err);
+        this.props.navigation.setParams({ submitting: false });
+      });
+  };
+
 
   render() {
     const { navigation } = this.props;
@@ -152,58 +188,61 @@ export default class ReviewFoodScreen2 extends React.Component {
     const uri = navigation.getParam('uri', '');
     const name = navigation.getParam('market', '');
 
-    const Freshness = this.state.starCountFreshness;
-    const Price = this.state.starCountPrice;
-    const Quality = this.state.starCountQuality;
+    const Freshness = navigation.getParam('FreshnessRating', '');
+    const Price = navigation.getParam('PriceRating', '');
+    const Quality = navigation.getParam('QualityRating', '');
+
+    text = this.state.text;
 
 
     return (
-      <View style={{ flex: 1, }}>
-        <ImageBackground source={uri
-          ? { uri: 'data:image/png;base64,' + uri }
-          : potatos} style={styles.itemImg}>
-          <View style={styles.view1}>
+      <KeyboardAwareScrollView>
+        <View style={{ flex: 1, }}>
+          <ImageBackground source={uri
+            ? { uri: 'data:image/png;base64,' + uri }
+            : potatos} style={styles.itemImg}>
             <View style={styles.view1}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.props.navigation.navigate('Add')}>
-                <Text style={styles.topbtntxt}>Cancel</Text>
-              </TouchableOpacity>
-              <View style={{ flex: 1, }} />
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.props.navigation.navigate('ReviewFood3', {
-                  foodItem: food,
-                  uri: uri,
-                  market: name,
-                  FreshnessRating: Freshness,
-                  PriceRating: Price,
-                  QualityRating: Quality,
-                })}>
-                <Text style={styles.topbtntxt}>Save</Text>
-              </TouchableOpacity>
+              <View style={styles.view1}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => this.props.navigation.navigate('Add')}>
+                  <Text style={styles.topbtntxt}>Cancel</Text>
+                </TouchableOpacity>
+                <View style={{ flex: 1, }} />
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => this.props.navigation.navigate('CreateRecipe4')}>
+                  <Text style={styles.topbtntxt}>Save</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-          <View style={styles.view2} />
-          <View style={styles.view2}>
-            <Text style={{ fontSize: 32, fontWeight: 'bold', color: 'white' }}>{food}</Text>
+            <View style={styles.view2} />
+            <View style={styles.view2}>
+              <Text style={{ fontSize: 32, fontWeight: 'bold', color: 'white' }}>{food}</Text>
+            </View>
+
+            <View style={styles.view2}>
+              <Icon name='ios-pin' type='Ionicons' style={{ color: '#ffffff', fontSize: 24 }} />
+              <Text style={{ fontSize: 24, color: 'white' }}> {name}</Text>
+            </View>
+            <View style={styles.view2} />
+          </ImageBackground>
+
+          <View style={styles.card}>
+            <TextInput style={{ padding: 10 }}
+              onChangeText={(text) => this.setState({ text })}
+              placeholder={'Any other thoughts...?'}
+              multiline={true} />
           </View>
 
-          <View style={styles.view2}>
-            <Icon name='ios-pin' type='Ionicons' style={{ color: '#ffffff', fontSize: 24 }} />
-            <Text style={{ fontSize: 24, color: 'white' }}> {name}</Text>
-          </View>
-          <View style={styles.view2} />
-        </ImageBackground>
-
-        <View style={styles.view3}>
-          {food && name ? <Text style={styles.title}>How did you like the {food} from {name}?</Text> : null}
-          {food && !name ? <Text style={styles.title}>How did you like the {food} from _______ ?</Text> : null}
-          {name && !food ? <Text style={styles.title}>How did you like the _______ from {name}?</Text> : null}
+          {/* <View style={styles.view3}>
+        {food && name ? <Text style={styles.title}>How did you like the {food} from {name}?</Text> : null}
+        {food && !name ? <Text style={styles.title}>How did you like the {food} from _______ ?</Text> : null}
+        {name && !food ? <Text style={styles.title}>How did you like the _______ from {name}?</Text> : null}
         </View>
 
         <View style={styles.rating}>
-          <Text style={{ fontSize: 22, }}>Freshness</Text>
+          <Text style={{ fontSize: 22,}}>Freshness</Text>
           <View style={{ width: 10 }} />
           <StarRating
             disabled={false}
@@ -216,10 +255,10 @@ export default class ReviewFoodScreen2 extends React.Component {
             emptyStarColor={'orange'}
             starSize={24}
           />
-          <Text style={{ fontSize: 22, }}>{Freshness}</Text>
+          <Text style={{ fontSize: 22,}}>{Freshness}</Text>
         </View>
         <View style={styles.rating}>
-          <Text style={{ fontSize: 22, }}>Price</Text>
+          <Text style={{ fontSize: 22,}}>Price</Text>
           <View style={{ width: 10 }} />
           <StarRating
             disabled={false}
@@ -232,10 +271,10 @@ export default class ReviewFoodScreen2 extends React.Component {
             emptyStarColor={'orange'}
             starSize={24}
           />
-          <Text style={{ fontSize: 22, }}>{Price}</Text>
+          <Text style={{ fontSize: 22,}}>{Price}</Text>
         </View>
         <View style={styles.rating}>
-          <Text style={{ fontSize: 22, }}>Quality</Text>
+          <Text style={{ fontSize: 22,}}>Quality</Text>
           <View style={{ width: 10 }} />
           <StarRating
             disabled={false}
@@ -248,30 +287,40 @@ export default class ReviewFoodScreen2 extends React.Component {
             emptyStarColor={'orange'}
             starSize={24}
           />
-          <Text style={{ fontSize: 22, }}>{Quality}</Text>
-        </View>
+          <Text style={{ fontSize: 22,}}>{Quality}</Text>
+        </View> */}
 
 
 
-        <View style={styles.view4}>
-          <Text style={{ fontSize: 16, color: 'gray' }}>Step 2/3</Text>
+          <View style={styles.view4}>
+            <Text style={{ fontSize: 16, color: 'gray' }}>Step 3/3</Text>
+          </View>
+          <View style={styles.progressbar}>
+            <LinearGradient
+              style={styles.progress}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              colors={['#ABE894', '#54E085']}></LinearGradient>
+          </View>
+          <View style={{ flex: 1, maxHeight: 10, }} />
+          <View style={styles.view5}>
+          </View>
+          <View style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            marginLeft: 30,
+            marginRight: 30,
+            maxHeight: 50,
+          }}>
+            <TouchableOpacity
+              style={styles.submitBtn}
+              onPress={() => params.submit()}>
+              <Text style={{ color: '#00CE66', fontSize: 24, textAlign: 'center' }}>Send your review</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.progressbar}>
-          <LinearGradient
-            style={styles.progress}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            colors={['#ABE894', '#54E085']}></LinearGradient>
-        </View>
-        <View style={{ flex: 1, maxHeight: 10, }} />
-        <View style={styles.view5}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate('ReviewFood3')}>
-            <Text style={styles.btntxt}>Next</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
@@ -327,7 +376,7 @@ const styles = StyleSheet.create({
     height: 14,
   },
   progress: {
-    marginRight: '33%',
+    marginRight: '0%',
     borderRadius: 10,
     maxHeight: 14,
     height: 14,
@@ -336,7 +385,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    maxHeight: 40,
+    minHeight: 30,
     marginLeft: 30,
     marginRight: 30,
   },
@@ -376,4 +425,26 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center'
   },
+  card: {
+    height: deviceHeight * .25,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 10,
+    borderColor: null,
+    borderWidth: 0,
+    backgroundColor: '#fcfcfc',
+  },
+  submitBtn: {
+    alignItems: 'center',
+    padding: 10,
+    color: '#00CE66',
+    backgroundColor: null,
+    borderRadius: 40,
+    borderColor: '#00CE66',
+    borderWidth: 3,
+    maxHeight: 80,
+    paddingLeft: 20,
+    paddingRight: 20,
+    width: deviceWidth * .75,
+  }
 });

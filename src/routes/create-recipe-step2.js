@@ -133,20 +133,20 @@ export default class CreateRecipeScreen2 extends React.Component {
       <View style={{ flex: 1, }}>
 
         <View style={styles.view1}>
-        <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.props.navigation.navigate('Add')}>
-              <Text style={styles.btntxt}>Cancel</Text>
-            </TouchableOpacity>
-            <View style={{ flex: 1, }} />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.props.navigation.navigate('CreateRecipe3', {
-                title: title,
-                uri: this.state.uri,
-              })}>
-              <Text style={styles.btntxt}>Save</Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('Add')}>
+            <Text style={styles.btntxt}>Cancel</Text>
+          </TouchableOpacity>
+          <View style={{ flex: 1, }} />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('CreateRecipe3', {
+              title: title,
+              uri: this.state.uri,
+            })}>
+            <Text style={styles.btntxt}>Save</Text>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.view2}>
@@ -190,18 +190,19 @@ export default class CreateRecipeScreen2 extends React.Component {
         </View>
         <View style={{ flex: 1, maxHeight: 30, }} />
         <View style={styles.view5}>
-        <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.props.navigation.goBack()}>
-              <Text style={styles.btntxt}>Back</Text>
-            </TouchableOpacity>
-            <View style={{ flex: 1 }} />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.props.navigation.navigate('CreateRecipe3', {
-                title: title,})}>
-              <Text style={styles.btntxt}>Skip</Text>
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.navigation.goBack()}>
+            <Text style={styles.btntxt}>Back</Text>
+          </TouchableOpacity>
+          <View style={{ flex: 1 }} />
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('CreateRecipe3', {
+              title: title,
+            })}>
+            <Text style={styles.btntxt}>Skip</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -277,7 +278,7 @@ const styles = StyleSheet.create({
     height: 198,
   },
   button: {
-    flex:1,
+    flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     marginTop: 20,
