@@ -31,6 +31,7 @@ import PreferencesScreen from '../routes/preferences';
 import ProfileScreen from '../routes/profile';
 import ReviewFoodScreen from '../routes/review-food';
 import ReviewFoodScreen2 from '../routes/review-food-step2';
+import ReviewFoodScreen3 from '../routes/review-food-step3';
 //import ReviewLocationScreen from '../routes/review-location';
 import SecurityScreen from '../routes/security';
 import SettingsScreen from '../routes/settings';
@@ -98,6 +99,7 @@ export const AppNavigator = StackNavigator(
     Settings: { screen: SettingsScreen },
     ReviewFood: {screen: ReviewFoodScreen},
     ReviewFood2: {screen: ReviewFoodScreen2},
+    ReviewFood3: {screen: ReviewFoodScreen3},
     //ReviewLocation: {screen: ReviewLocationScreen},
     ViewDeal: { screen: ViewDealScreen },
     ViewTip: { screen: ViewTipScreen },
