@@ -264,7 +264,9 @@ export default class CreateRecipeScreen5 extends React.Component {
           <View style={styles.view3}>
             <TouchableOpacity
               style={styles.Button}
-              onPress={() => params.submit()}>
+              // onPress={() => params.submit()}
+              onPress={() => this.props.navigation.navigate('Feed')}
+              >
               <Text style={{ color: '#00CE66', fontSize: 24, textAlign: 'center' }}>Send your recipe</Text>
             </TouchableOpacity>
           </View>

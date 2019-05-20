@@ -235,61 +235,6 @@ export default class ReviewFoodScreen3 extends React.Component {
               multiline={true} />
           </View>
 
-          {/* <View style={styles.view3}>
-        {food && name ? <Text style={styles.title}>How did you like the {food} from {name}?</Text> : null}
-        {food && !name ? <Text style={styles.title}>How did you like the {food} from _______ ?</Text> : null}
-        {name && !food ? <Text style={styles.title}>How did you like the _______ from {name}?</Text> : null}
-        </View>
-
-        <View style={styles.rating}>
-          <Text style={{ fontSize: 22,}}>Freshness</Text>
-          <View style={{ width: 10 }} />
-          <StarRating
-            disabled={false}
-            emptyStar={'star-o'}
-            fullStar={'star'}
-            iconSet={'FontAwesome'}
-            rating={this.state.starCountFreshness}
-            selectedStar={(rating) => this.onStarRatingPress(rating, 1)}
-            fullStarColor={'orange'}
-            emptyStarColor={'orange'}
-            starSize={24}
-          />
-          <Text style={{ fontSize: 22,}}>{Freshness}</Text>
-        </View>
-        <View style={styles.rating}>
-          <Text style={{ fontSize: 22,}}>Price</Text>
-          <View style={{ width: 10 }} />
-          <StarRating
-            disabled={false}
-            emptyStar={'star-o'}
-            fullStar={'star'}
-            iconSet={'FontAwesome'}
-            rating={this.state.starCountPrice}
-            selectedStar={(rating) => this.onStarRatingPress(rating, 2)}
-            fullStarColor={'orange'}
-            emptyStarColor={'orange'}
-            starSize={24}
-          />
-          <Text style={{ fontSize: 22,}}>{Price}</Text>
-        </View>
-        <View style={styles.rating}>
-          <Text style={{ fontSize: 22,}}>Quality</Text>
-          <View style={{ width: 10 }} />
-          <StarRating
-            disabled={false}
-            emptyStar={'star-o'}
-            fullStar={'star'}
-            iconSet={'FontAwesome'}
-            rating={this.state.starCountQuality}
-            selectedStar={(rating) => this.onStarRatingPress(rating, 3)}
-            fullStarColor={'orange'}
-            emptyStarColor={'orange'}
-            starSize={24}
-          />
-          <Text style={{ fontSize: 22,}}>{Quality}</Text>
-        </View> */}
-
 
 
           <View style={styles.view4}>
@@ -315,7 +260,9 @@ export default class ReviewFoodScreen3 extends React.Component {
           }}>
             <TouchableOpacity
               style={styles.submitBtn}
-              onPress={() => params.submit()}>
+              // onPress={() => params.submit()}
+              onPress={() => this.props.navigation.navigate('Feed')}
+              >
               <Text style={{ color: '#00CE66', fontSize: 24, textAlign: 'center' }}>Send your review</Text>
             </TouchableOpacity>
           </View>

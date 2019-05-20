@@ -216,7 +216,6 @@ export default class ReviewFoodScreen2 extends React.Component {
             emptyStarColor={'orange'}
             starSize={24}
           />
-          <Text style={{ fontSize: 22, }}>{Freshness}</Text>
         </View>
         <View style={styles.rating}>
           <Text style={{ fontSize: 22, }}>Price</Text>
@@ -232,7 +231,6 @@ export default class ReviewFoodScreen2 extends React.Component {
             emptyStarColor={'orange'}
             starSize={24}
           />
-          <Text style={{ fontSize: 22, }}>{Price}</Text>
         </View>
         <View style={styles.rating}>
           <Text style={{ fontSize: 22, }}>Quality</Text>
@@ -248,7 +246,6 @@ export default class ReviewFoodScreen2 extends React.Component {
             emptyStarColor={'orange'}
             starSize={24}
           />
-          <Text style={{ fontSize: 22, }}>{Quality}</Text>
         </View>
 
 
@@ -267,7 +264,14 @@ export default class ReviewFoodScreen2 extends React.Component {
         <View style={styles.view5}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.props.navigation.navigate('ReviewFood3')}>
+            onPress={() => this.props.navigation.navigate('ReviewFood3', {
+              foodItem: food,
+              uri: uri,
+              market: name,
+              FreshnessRating: Freshness,
+              PriceRating: Price,
+              QualityRating: Quality,
+            })}>
             <Text style={styles.btntxt}>Next</Text>
           </TouchableOpacity>
         </View>
@@ -359,7 +363,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     color: 'gray',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    paddingLeft: 5,
+    paddingRight: 5,
   },
   button: {
     flex: 1,

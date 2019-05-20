@@ -172,18 +172,18 @@ export default class ReviewFoodScreen extends React.Component {
 
           <View style={styles.view2}>
             <Image
-              style={{ height: 80, width: 80 }}
+              style={{ height: 70, width: 70 }}
               source={review}
             />
           </View>
 
           <View style={styles.view3}>
             <View style={{
-              width: '80%', textAlign: 'center', borderBottomWidth: 1,
+              width: '80%', borderBottomWidth: 1,
               borderBottomColor: '#B8B8B8',
             }}>
               <TextInput
-                style={{ fontSize: 30, flex: 1, textAlign: 'center', }}
+                style={{ textAlign: 'center', fontSize: 28, minHeight:40}}
                 autoFocus={true}
                 onChangeText={(foodItem) => this.setState({ foodItem })}
                 placeholder='Add an item'
@@ -202,8 +202,8 @@ export default class ReviewFoodScreen extends React.Component {
               containerStyle={{ width: '80%', height: 40, }}
               style={{ height: 40, fontSize: 18 }}
               inputContainerStyle={{ borderWidth: 0, borderColor: null, }}
-              listContainerStyle={{ minHeight: 60, borderWidth: 0, borderColor: null, }}
-              listStyle={{ borderWidth: 0, borderColor: null, backgroundColor: null, }}
+              listContainerStyle={{ maxHeight: 100, borderWidth: 0, borderColor: null, }}
+              listStyle={{ maxHeight: 100, borderWidth: 0, borderColor: null, }}
 
               data={this.state.marketResults}
               value={this.state.marketText}
@@ -285,9 +285,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    paddingTop: 10,
     maxHeight: 80,
     height: 80,
+
 
   },
   view3: {
@@ -296,15 +296,14 @@ const styles = StyleSheet.create({
     minHeight: 50,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'stretch',
-    marginBottom: 24,
+    alignItems: 'center',
   },
   location: {
     flex: 1,
     flexDirection: 'row',
     left: 0,
     right: 0,
-    minHeight: 60,
+    minHeight: 120,
     marginBottom: 24,
   },
   view4: {
