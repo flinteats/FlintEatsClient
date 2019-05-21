@@ -15,6 +15,8 @@ const DismissKeyboardView = DismissKeyboardHOC(View)
 const icon0 = require('../../res/nearby0.png');
 const icon1 = require('../../res/nearby1.png');
 const tomatoPos = require('../../res/tomato_pos_small.png');
+const tomatoNeu = require('../../res/tomato_neu.png');
+const tomatoNeg= require('../../res/tomato_neg.png');
 const tomatobasket = require('../../res/basket1.png');
 
 
@@ -106,7 +108,7 @@ class MapScreenView extends React.Component {
       <Marker coordinate={coordinate} onPress={onPress} image={tomatobasket}>
         <View style={styles.myClusterStyle}>
           <Text style={styles.myClusterTextStyle}>
-            {pointCount}
+            {/*pointCount*/}
           </Text>
         </View>
       </Marker>
@@ -119,6 +121,8 @@ class MapScreenView extends React.Component {
 
     let mkt = data;
     let coord = false;
+    let review;
+    review = mkt.id%6;
     if (mkt) {
       coord = {
         latitude: mkt.lat,
@@ -126,6 +130,46 @@ class MapScreenView extends React.Component {
       };
     }
     if (coord && coord.latitude && coord.longitude) {
+      if(review<2){
+        return (<MapView.Marker
+          key={mkt.id}
+          coordinate={coord}
+          title={mkt.name}
+          image={tomatoNeg}
+          description={mkt.description}
+          >
+          <MapView.Callout
+            onPress={() => {
+              Keyboard.dismiss();
+              navigate('Market', { market: mkt });
+            }}
+          >
+            <Text>
+              {mkt.name}
+            </Text>
+          </MapView.Callout>
+        </MapView.Marker>)
+      }
+      if(review<4){
+        return (<MapView.Marker
+          key={mkt.id}
+          coordinate={coord}
+          title={mkt.name}
+          image={tomatoNeu}
+          description={mkt.description}
+          >
+          <MapView.Callout
+            onPress={() => {
+              Keyboard.dismiss();
+              navigate('Market', { market: mkt });
+            }}
+          >
+            <Text>
+              {mkt.name}
+            </Text>
+          </MapView.Callout>
+        </MapView.Marker>)
+      }
       return (<MapView.Marker
         key={mkt.id}
         coordinate={coord}
