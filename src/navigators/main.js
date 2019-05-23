@@ -39,6 +39,7 @@ import ReviewFoodScreen3 from '../routes/review-food-step3';
 import SecurityScreen from '../routes/security';
 import SettingsScreen from '../routes/settings';
 import ViewDealScreen from '../routes/view-deal';
+import ViewLocationReviewScreen from '../routes/view-location-review'
 import ViewTipScreen from '../routes/view-tip';
 
 const middleware = createReactNavigationReduxMiddleware(
@@ -108,6 +109,7 @@ export const AppNavigator = StackNavigator(
     ReviewFood3: {screen: ReviewFoodScreen3},
     //ReviewLocation: {screen: ReviewLocationScreen},
     ViewDeal: { screen: ViewDealScreen },
+    ViewLocationReview: { screen : ViewLocationReviewScreen},
     ViewTip: { screen: ViewTipScreen },
 
     
