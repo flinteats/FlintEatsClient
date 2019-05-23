@@ -7,15 +7,21 @@ import CreateLocationReviewHeader from './location-review-header'
 
 const camera = require('../../res/camera.png');
 
+let MarketName;
+let MarketImage;
+let ReviewText;
+let Cleanliness;
+let Friendliness;
+let Selection;
+let Access;
+let Safety;
+let ReviewTags;
+
 export default class ViewLocationReviewScreenView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            starCountCleanliness: 0,
-            starCountFriendliness: 0,
-            starCountSelection: 0,
-            starCountAccess: 0,
-            starCountSafety: 0,
+            
         }
     }
 
@@ -25,7 +31,26 @@ export default class ViewLocationReviewScreenView extends React.Component {
 
     render() {
         // In the future, this object would be the object that contains all the review data
-        let review = {};
+        let review = this.props.navigation.getParam('Review', null);
+
+        //Guard the review in case any of it's members are somehow null:
+        if(review.market.name){
+            MarketName = review.market.name;
+        }else{
+            MarketName = 'No market';
+        }
+
+        if(review.market.uri){
+            MarketImage = {uri: 'data:image/png;base64,' + review.market.image64 };
+        }else{
+            MarketImage = {camera};
+        }
+
+        if(review.Text){
+            ReviewText = review.Text;
+        }else{
+            ReviewText = 'User left no reviews';
+        }
 
         let tags = [];
 
@@ -56,7 +81,7 @@ export default class ViewLocationReviewScreenView extends React.Component {
                 {/* Header Area */}
                 <View style={{ height: Dimensions.get('window').height * 0.33 }}>
                     <CreateLocationReviewHeader style={{ height: '100%', width: '100%', backgroundColor: 'white' }}
-                        MarketName='Text' ImageSource={camera} navigation={this.props.navigation} />
+                        MarketName=' ' ImageSource={camera} navigation={this.props.navigation} />
                 </View>
 
                 {/* The text for the review area */}
