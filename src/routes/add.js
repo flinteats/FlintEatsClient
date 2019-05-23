@@ -38,7 +38,7 @@ export default class AddScreen extends React.Component {
           end={{x: 1, y: 0.5}}
           colors={['#ABE894', '#54E085']}>
 
-            <TouchableOpacity style={{backgroundColor:'blue', width:30, height:50}} onPress={() => navigate('ViewLocationReview')}></TouchableOpacity>
+            {/* <TouchableOpacity style={{backgroundColor:'blue', width:30, height:50}} onPress={() => navigate('ViewLocationReview')}></TouchableOpacity> */}
         <Grid style={{flex: 1}}>
           <Row style={{flex: 1}} />
           <Row style={{flex: 1, alignContent: 'center', justifyContent: 'center' }}>
