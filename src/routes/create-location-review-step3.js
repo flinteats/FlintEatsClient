@@ -17,24 +17,17 @@ export default class CreateLocationReviewScreenStep3 extends React.Component {
 
     constructor(props) {
         super(props);
-        if (this.props.navigation.getParam('PassMarket', null)) {
-            this.state = {
-                draw:0,
-                uri: false,
-                market: this.props.navigation.getParam('PassMarket', null),
-                marketText: ' '
-            }
-        } else {
-            this.state = {
-                draw: 0,
-                uri: false,
-                //Reference to the current market object 
-                market: null,
-                //The current text of the market search
-                marketText: '',
-            }
-            // [this state member] : [default value],
-            //etc....
+        this.state = {
+            draw:0,
+            uri: false,
+            market: this.props.navigation.getParam('PassMarket', null),
+            marketText: ' ',
+            starCountCleanliness: this.props.navigation.getParam('StarClean', 0),
+            starCountFriendliness: this.props.navigation.getParam('StarFriend', 0),
+            starCountSelection: this.props.navigation.getParam('StarSelection', 0),
+            starCountAccess: this.props.navigation.getParam('StarAccess', 0),
+            starCountSafety: this.props.navigation.getParam('StarSafety', 0),
+            title: '',
         }
     }
 
@@ -85,7 +78,8 @@ export default class CreateLocationReviewScreenStep3 extends React.Component {
                             </View>
 
                             <TouchableOpacity style={{}}
-                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep4', {PassMarket: this.state.market})}
+                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep4', {PassMarket: this.state.market, StarClean: this.state.starCountCleanliness, StarFriend: this.state.starCountFriendliness, StarSelection: this.state.starCountSelection, 
+                                    StarAccess: this.state.starCountAccess, StarSafety: this.state.starCountSafety, ReviewText: this.state.title})}
                             >
                                 <Text style={{
                                     color: '#00CE66',

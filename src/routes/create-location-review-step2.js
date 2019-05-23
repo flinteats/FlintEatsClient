@@ -19,7 +19,7 @@ export default class CreateLocationReviewScreenStep2 extends React.Component {
 
     constructor(props) {
         super(props);
-        if (this.props.navigation.getParam('PassMarket', null)) {
+        if (this.props.navigation.getParam('ReviewObject.market', null)) {
             this.state = {
                 draw: 0,
                 uri: false,
@@ -29,7 +29,7 @@ export default class CreateLocationReviewScreenStep2 extends React.Component {
                 starCountAccess: 0,
                 starCountSafety: 0,
                 //Reference to the current market object 
-                market: this.props.navigation.getParam('PassMarket', null),
+                market: this.props.navigation.getParam('PassMarket.market', null),
 
                 //The current text of the market search
                 marketText: '',
@@ -211,7 +211,9 @@ export default class CreateLocationReviewScreenStep2 extends React.Component {
                             </View>
 
                             <TouchableOpacity style={{}}
-                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep3', {PassMarket: this.state.market})}
+                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep3', {PassMarket: this.state.market, 
+                                    StarClean: this.state.starCountCleanliness, StarFriend: this.state.starCountFriendliness, StarSelection: this.state.starCountSelection, 
+                                    StarAccess: this.state.starCountAccess, StarSafety: this.state.starCountSafety})}
                             >
                                 <Text style={{
                                     color: '#00CE66',

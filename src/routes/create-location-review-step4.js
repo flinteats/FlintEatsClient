@@ -17,39 +17,59 @@ export default class CreateLocationReviewScreenStep4 extends React.Component {
 
     constructor(props) {
         super(props);
-        if (this.props.navigation.getParam('PassMarket', null)) {
-            this.state = {
-                draw: 0,
-                uri: false,
-                //Reference to the current market object 
-                market: this.props.navigation.getParam('PassMarket', null),
-                //The current text of the market search
-                marketText: '',
-                //The list of all tags the user has given to the market
-                tags: [],
+        // if (this.props.navigation.getParam('PassMarket', null)) {
+        //     this.state = {
+        //         draw: 0,
+        //         uri: false,
+        //         //Reference to the current market object 
+        //         market: this.props.navigation.getParam('PassMarket', null),
+        //         //The current text of the market search
+        //         marketText: '',
+        //         //The list of all tags the user has given to the market
+        //         tags: [],
 
-                //The list of all results from tag search
-                tagResults: [],
-                tagText: '',
-                text: '',
-            }
-        } else {
-            this.state = {
-                draw: 0,
-                uri: false,
-                //Reference to the current market object 
-                market: null,
-                //The current text of the market search
-                marketText: '',
-                //The list of all tags the user has given to the market
-                tags: [],
+        //         //The list of all results from tag search
+        //         tagResults: [],
+        //         tagText: '',
+        //         text: '',
+        //     }
+        // } else {
+        //     this.state = {
+        //         draw: 0,
+        //         uri: false,
+        //         //Reference to the current market object 
+        //         market: null,
+        //         //The current text of the market search
+        //         marketText: '',
+        //         //The list of all tags the user has given to the market
+        //         tags: [],
 
-                //The list of all results from tag search
-                tagResults: [],
-                tagText: '',
-                text: '',
-            }
+        //         //The list of all results from tag search
+        //         tagResults: [],
+        //         tagText: '',
+        //         text: '',
+        //     }
+        // }
+        this.state = {
+            draw: 0,
+            uri: false,
+            market: this.props.navigation.getParam('PassMarket', null),
+            marketText: '',
+            starCountCleanliness: this.props.navigation.getParam('StarClean', 0),
+            starCountFriendliness: this.props.navigation.getParam('StarFriend', 0),
+            starCountSelection: this.props.navigation.getParam('StarSelection', 0),
+            starCountAccess: this.props.navigation.getParam('StarAccess', 0),
+            starCountSafety: this.props.navigation.getParam('StarSafety', 0),
+            title: this.props.navigation.getParam('ReviewText', ''),
+            tags: [],
+            tagResults: [],
+            tagText: '',
+            text: '',
+
         }
+
+
+
         // [this state member] : [default value],
         //etc....
     }
