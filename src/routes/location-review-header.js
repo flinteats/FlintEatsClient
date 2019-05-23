@@ -31,7 +31,7 @@ export default class CreateLocationReviewHeader extends React.Component {
                         }}>Back</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         style={{ marginRight: 10 }}
                     >
                         <Text style={{
@@ -39,7 +39,7 @@ export default class CreateLocationReviewHeader extends React.Component {
                             fontSize: 20,
                             textAlign: 'center'
                         }}>Save</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
 
                 {/* Market Title */}
