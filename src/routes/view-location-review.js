@@ -31,6 +31,14 @@ export default class ViewLocationReviewScreenView extends React.Component {
 
     render() {
         // In the future, this object would be the object that contains all the review data
+        //Expected data in the Review object:
+        // market - a reference to the actual market object
+        // Text - the text of the user's thoughts on the market
+        // CleanCount - These are all the respective star ratings count
+        // FriendlyCount
+        // SelectCount
+        // AccessCount
+        // SafetyCount
         let review = this.props.navigation.getParam('Review', null);
 
         //Guard the review in case any of it's members are somehow null:
@@ -49,7 +57,7 @@ export default class ViewLocationReviewScreenView extends React.Component {
         if(review.Text){
             ReviewText = review.Text;
         }else{
-            ReviewText = 'User left no reviews';
+            ReviewText = '   User did not leave any thoughts on this market';
         }
 
         let tags = [];
@@ -81,12 +89,12 @@ export default class ViewLocationReviewScreenView extends React.Component {
                 {/* Header Area */}
                 <View style={{ height: Dimensions.get('window').height * 0.33 }}>
                     <CreateLocationReviewHeader style={{ height: '100%', width: '100%', backgroundColor: 'white' }}
-                        MarketName=' ' ImageSource={camera} navigation={this.props.navigation} />
+                        MarketName={MarketName} ImageSource={MarketImage} navigation={this.props.navigation} />
                 </View>
 
                 {/* The text for the review area */}
                 <View style={{ height: Dimensions.get('window').height * 0.33, backgroundColor:'white' }}>
-                    <Text>Review text here</Text>
+                    <Text>{ReviewText}</Text>
                 </View>
 
                 {/* Star boxes for the review */}
@@ -99,7 +107,7 @@ export default class ViewLocationReviewScreenView extends React.Component {
                             emptyStar={'star-o'}
                             fullStar={'star'}
                             iconSet={'FontAwesome'}
-                            rating={3}
+                            rating={review.CleanCount}
                             fullStarColor={'orange'}
                             emptyStarColor={'orange'}
                             starSize={22}
@@ -114,8 +122,7 @@ export default class ViewLocationReviewScreenView extends React.Component {
                             emptyStar={'star-o'}
                             fullStar={'star'}
                             iconSet={'FontAwesome'}
-                            rating={this.state.starCountFriendliness}
-                            selectedStar={(rating) => this.onStarRatingPress(rating, 2)}
+                            rating={review.FriendlyCount}
                             fullStarColor={'orange'}
                             emptyStarColor={'orange'}
                             starSize={22}
@@ -130,8 +137,7 @@ export default class ViewLocationReviewScreenView extends React.Component {
                             emptyStar={'star-o'}
                             fullStar={'star'}
                             iconSet={'FontAwesome'}
-                            rating={this.state.starCountSelection}
-                            selectedStar={(rating) => this.onStarRatingPress(rating, 3)}
+                            rating={review.SelectCount}
                             fullStarColor={'orange'}
                             emptyStarColor={'orange'}
                             starSize={22}
@@ -146,8 +152,7 @@ export default class ViewLocationReviewScreenView extends React.Component {
                             emptyStar={'star-o'}
                             fullStar={'star'}
                             iconSet={'FontAwesome'}
-                            rating={this.state.starCountAccess}
-                            selectedStar={(rating) => this.onStarRatingPress(rating, 4)}
+                            rating={review.AccessCount}
                             fullStarColor={'orange'}
                             emptyStarColor={'orange'}
                             starSize={22}
@@ -162,8 +167,7 @@ export default class ViewLocationReviewScreenView extends React.Component {
                             emptyStar={'star-o'}
                             fullStar={'star'}
                             iconSet={'FontAwesome'}
-                            rating={this.state.starCountSafety}
-                            selectedStar={(rating) => this.onStarRatingPress(rating, 5)}
+                            rating={review.SafetyCount}
                             fullStarColor={'orange'}
                             emptyStarColor={'orange'}
                             starSize={22}
