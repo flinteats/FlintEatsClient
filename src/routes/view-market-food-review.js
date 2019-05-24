@@ -6,7 +6,7 @@ import CreateLocationReviewHeader from './location-review-header'
 
 const camera = require('../../res/camera.png');
 
-export default class ViewLocationReviewScreenView extends React.Component {
+export default class ViewMarketFoodReviewScreenView extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -19,7 +19,8 @@ export default class ViewLocationReviewScreenView extends React.Component {
     });
 
     render() {
-        //Food Review Content:
+        // This is a food review tied to a specific market: I.E. Potatoes at Kroger
+        // Food Review Content:
         // Food Name
         // Food Image
         // market
