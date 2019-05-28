@@ -1,10 +1,12 @@
 import React from 'react';
-import { BackHandler, Button, Text, TextInput, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
+import { Alert, BackHandler, Button, Text, TextInput, StyleSheet, TouchableOpacity, View, Image } from 'react-native';
 import Permissions from 'react-native-permissions';
 import LinearGradient from 'react-native-linear-gradient';
 import ImagePicker from 'react-native-image-picker';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import MSU from '../msu';
+import styles from './style';
 
 const icon0 = require('../../res/add0.png');
 const icon1 = require('../../res/add1.png');
@@ -72,7 +74,7 @@ export default class CreateRecipeScreen2 extends React.Component {
                 this.setPic();
               } else {
                 Alert.alert('Insufficient Permissions',
-                  'Flint Eats was not granted Camera permissions.');
+                  'Flint Eats was not granted Camera permissions - A.');
               }
             });
         } else if (res.photo != 'authorized'
@@ -83,7 +85,7 @@ export default class CreateRecipeScreen2 extends React.Component {
                 this.setPic();
               } else {
                 Alert.alert('Insufficient Permissions',
-                  'Flint Eats was not granted Photo permissions.');
+                  'Flint Eats was not granted Photo permissions - B.');
               }
             });
         } else {
@@ -96,12 +98,12 @@ export default class CreateRecipeScreen2 extends React.Component {
                       this.setPic();
                     } else {
                       Alert.alert('Insufficient Permissions',
-                        'Flint Eats was not granted Camera permissions.');
+                        'Flint Eats was not granted Camera permissions - C.');
                     }
                   });
               } else {
                 Alert.alert('Insufficient Permissions',
-                  'Flint Eats was not granted Photo permissions.');
+                  'Flint Eats was not granted Photo permissions - D.');
               }
             });
         }
@@ -130,162 +132,154 @@ export default class CreateRecipeScreen2 extends React.Component {
     const { navigation } = this.props;
     const title = navigation.getParam('title', '');
     return (
-      <View style={{ flex: 1, }}>
+      <View style={styles.domainContain}>
+        <KeyboardAwareScrollView
+          resetScrollToCoords={{ x: 0, y: 0 }}
+          scrollEnabled={false}
+        >
 
-        <View style={styles.view1}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate('Add')}>
-            <Text style={styles.btntxt}>Cancel</Text>
-          </TouchableOpacity>
-          <View style={{ flex: 1, }} />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate('CreateRecipe3', {
-              title: title,
-              uri: this.state.uri,
-            })}>
-            <Text style={styles.btntxt}>Save</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.view2}>
-          <TouchableOpacity
-            onPress={() => this.checkPermissions()}
-            style={{ justifyContent: "center", alignItems: "center", }}>
-            <Image
-              style={styles.pic}
-              source={this.state.uri
-                ? { uri: 'data:image/png;base64,' + this.state.uri }
-                : addPhoto}
-            />
-          </TouchableOpacity>
-        </View>
-
-        {/* <View style={styles.view3}>
-          <View style={{
-            width: '80%', textAlign: 'center', borderBottomWidth: 1,
-            borderBottomColor: '#B8B8B8',
-          }}>
-            <TextInput
-              style={{ fontSize: 30, flex: 1, textAlign: 'center', }}
-              autoFocus={true}
-              onChangeText={(text) => this.setState({ text })}
-              onSubmitEditing={() => this.submit}
-              placeholder='Name a recipe'
-              returnKeyType={"next"} />
+          <View style={styles.topNav}>
+            <TouchableOpacity
+              style={styles.buttonLeft}
+              onPress={() => this.props.navigation.navigate('Add')}>
+              <Text style={styles.btntxt}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonRight}
+              onPress={() => this.props.navigation.navigate('CreateRecipe3', {
+                title: title,
+                uri: this.state.uri,
+              })}>
+              <Text style={styles.btntxt}>Save</Text>
+            </TouchableOpacity>
           </View>
-        </View> */}
 
-        <View style={styles.view4}>
-          <Text style={{ fontSize: 16, color: 'gray' }}>Step 2/5</Text>
-          {/* <Text style={{ fontSize: 16, color: 'gray' }}>{JSON.stringify(title)}</Text> */}
-        </View>
-        <View style={styles.progressbar}>
-          <LinearGradient
-            style={styles.progress}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            colors={['#ABE894', '#54E085']}></LinearGradient>
-        </View>
-        <View style={{ flex: 1, maxHeight: 30, }} />
-        <View style={styles.view5}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.goBack()}>
-            <Text style={styles.btntxt}>Back</Text>
-          </TouchableOpacity>
-          <View style={{ flex: 1 }} />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate('CreateRecipe3', {
-              title: title,
-            })}>
-            <Text style={styles.btntxt}>Skip</Text>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.fullBody}>
+            <View style={styles.logoContain}>
+              <TouchableOpacity
+                onPress={() => this.checkPermissions()}
+                style={{ justifyContent: "center", alignItems: "center", }}>
+                <Image
+                  style={styles.addPhoto}
+                  source={this.state.uri
+                    ? { uri: 'data:image/png;base64,' + this.state.uri }
+                    : addPhoto}
+                  resizeMode='contain'
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={styles.view4}>
+            <Text style={{ fontSize: 16, color: 'gray' }}>Step 2/5</Text>
+          </View>
+
+          <View style={styles.progressbar}>
+            <LinearGradient
+              style={{
+                marginRight: '60%',
+                borderRadius: 10,
+                maxHeight: 14,
+                height: 14,
+              }}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              colors={['#ABE894', '#54E085']}></LinearGradient>
+          </View>
+
+
+          <View style={styles.view5}>
+            <TouchableOpacity
+              style={styles.buttonLeft}
+              onPress={() => this.props.navigation.goBack()}>
+              <Text style={styles.btntxt}>Back</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonRight}
+              onPress={() => this.props.navigation.navigate('CreateRecipe3', {
+                title: title,
+              })}>
+              <Text style={styles.btntxt}>Skip</Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAwareScrollView>
       </View>
     );
   }
 }
 
 
-const styles = StyleSheet.create({
-  view1: {
-    flex: 1,
-    flexDirection: 'row',
-    maxHeight: 60,
-    height: 60,
-  },
-  view2: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingTop: 10,
-    maxHeight: 200,
-    height: 200,
-    marginBottom: 100,
-    marginTop: 25,
-  },
-  // view3: {
-  //   flex: 1,
-  //   maxHeight: 50,
-  //   flexDirection: 'row',
-  //   justifyContent: 'center',
-  //   alignItems: 'stretch',
-  //   marginBottom: 75,
-  // },
-  view4: {
-    flex: 1,
-    maxHeight: 30,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  progressbar: {
-    marginTop: 0,
-    paddingTop: 0,
-    paddingBottom: 0,
-    marginLeft: 30,
-    marginRight: 30,
-    backgroundColor: '#D2D2D2',
-    borderRadius: 10,
-    maxHeight: 14,
-    height: 14,
-  },
-  progress: {
-    marginRight: '60%',
-    borderRadius: 10,
-    maxHeight: 14,
-    height: 14,
+// const styles = StyleSheet.create({
+//   view1: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     maxHeight: 60,
+//     height: 60,
+//   },
+//   view2: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     paddingTop: 10,
+//     maxHeight: 200,
+//     height: 200,
+//     marginBottom: 100,
+//     marginTop: 25,
+//   },
+//   // view3: {
+//   //   flex: 1,
+//   //   maxHeight: 50,
+//   //   flexDirection: 'row',
+//   //   justifyContent: 'center',
+//   //   alignItems: 'stretch',
+//   //   marginBottom: 75,
+//   // },
+//   view4: {
+//     flex: 1,
+//     maxHeight: 30,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//   },
+//   progressbar: {
+//     marginTop: 0,
+//     paddingTop: 0,
+//     paddingBottom: 0,
+//     marginLeft: 30,
+//     marginRight: 30,
+//     backgroundColor: '#D2D2D2',
+//     borderRadius: 10,
+//     maxHeight: 14,
+//     height: 14,
+//   },
+//   progress: {
+//     marginRight: '60%',
+//     borderRadius: 10,
+//     maxHeight: 14,
+//     height: 14,
 
-  },
-  view5: {
-    flex: 1,
-    flexDirection: 'row',
-    maxHeight: 60,
-    height: 60,
-    marginLeft: 30,
-    marginRight: 30,
-    marginTop: 30,
-  },
-  pic: {
-    // width: 279,
-    // height: 158,
-    // try 2
-    // width: 295,
-    // height: 170,
-    width: 350,
-    height: 198,
-  },
-  button: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    marginTop: 20,
-  },
-  btntxt: {
-    color: '#00CE66',
-    fontSize: 20,
-    textAlign: 'center'
-  }
-});
+//   },
+//   view5: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     maxHeight: 60,
+//     height: 60,
+//     marginLeft: 30,
+//     marginRight: 30,
+//     marginTop: 30,
+//   },
+//   pic: {
+//     width: 350,
+//     height: 198,
+//   },
+//   button: {
+//     flex: 1,
+//     flexDirection: 'column',
+//     justifyContent: 'center',
+//     marginTop: 20,
+//   },
+//   btntxt: {
+//     color: '#00CE66',
+//     fontSize: 20,
+//     textAlign: 'center'
+//   }
+// });

@@ -8,6 +8,7 @@ import Autocomplete from 'react-native-autocomplete-input';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import MSU from '../msu';
+import styles from './style';
 
 const review = require('../../res/img_review.png');
 const icon0 = require('../../res/add0.png');
@@ -149,123 +150,127 @@ export default class ReviewFoodScreen extends React.Component {
         resetScrollToCoords={{ x: 0, y: 0 }}
         scrollEnabled={false}
       >
-        <View style={{ flex: 1, height: '100%' }}>
+        <View style={styles.topNav}>
+          <TouchableOpacity
+            style={styles.buttonLeft}
+            onPress={() => this.props.navigation.navigate('Add')}>
+            <Text style={styles.btntxt}>Cancel</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonRight}
+          // onPress={() => this.props.navigation.navigate('ReviewFood2', {
+          //   foodItem: this.state.foodItem,
+          //   uri: this.state.uri,
+          //   market: this.state.marketText,
+          // })}
+          >
+            <Text style={styles.btntxt}>Save</Text>
+          </TouchableOpacity>
+        </View>
 
-          <View style={styles.view1}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.props.navigation.navigate('Add')}>
-              <Text style={styles.btntxt}>Cancel</Text>
-            </TouchableOpacity>
-            <View style={{ flex: 1, }} />
-            <TouchableOpacity
-              style={styles.button}
-        
-              onPress={() => this.props.navigation.navigate('ReviewFood2', {
-                foodItem: this.state.foodItem,
-                uri: this.state.uri,
-                market: this.state.marketText,
-              })}>
-              <Text style={styles.btntxt}>Save</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.fullBody}>
 
-          <View style={styles.view2}>
-            <Image
-              style={{ height: 70, width: 70 }}
-              source={review}
-            />
-          </View>
-
-          <View style={styles.view3}>
-            <View style={{
-              width: '80%', borderBottomWidth: 1,
-              borderBottomColor: '#B8B8B8',
-            }}>
-              <TextInput
-                style={{ textAlign: 'center', fontSize: 28, minHeight:40}}
-                autoFocus={true}
-                onChangeText={(foodItem) => this.setState({ foodItem })}
-                placeholder='Add an item'
-                returnKeyType={"next"} />
-            </View>
-          </View>
-
-          <View style={styles.location}>
-
-            <View style={{ height: 42, width: '20%', justifyContent: 'center', alignItems: "center", marginLeft: 5,}}>
-              <Icon name='ios-pin' type='Ionicons' style={{ color: '#00CE66', fontSize: 24 }}/>
-              {/* <Image style={{ height: 36, width: 24, }} source={pin} /> */}
-            </View>
-
-            <Autocomplete style={styles.autocompleteContainer}
-              containerStyle={{ width: '80%', height: 40, }}
-              style={{ height: 40, fontSize: 18 }}
-              inputContainerStyle={{ borderWidth: 0, borderColor: null, }}
-              listContainerStyle={{ maxHeight: 100, borderWidth: 0, borderColor: null, }}
-              listStyle={{ maxHeight: 100, borderWidth: 0, borderColor: null, }}
-
-              data={this.state.marketResults}
-              value={this.state.marketText}
-              listUpwards={true}
-              onChangeText={(text) => this.marketScan(text)}
-              placeholder='Location'
-              renderItem={(data) => (
-                <TouchableOpacity
-                  onPress={() => this.setState({ market: { id: data.id }, marketText: data.name, marketResults: [] })}>
-
-                  <Text style={{ fontSize: 18 }}>{data.name}</Text>
-                </TouchableOpacity>
-
-              )}
-            />
-          </View>
-
-          <View style={{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            height: 200,
-          }}>
-            <TouchableOpacity
-              onPress={() => this.checkPermissions()}
-              style={{ justifyContent: "center", alignItems: "center", }}>
+          <KeyboardAwareScrollView
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            scrollEnabled={true}
+          >
+            <View style={styles.logoContain}>
               <Image
                 style={styles.pic}
-                source={this.state.uri
-                  ? { uri: 'data:image/png;base64,' + this.state.uri }
-                  : addPhoto}
+                source={review}
+                resizeMode='contain'
               />
-            </TouchableOpacity>
-          </View>
+            </View>
 
-          <View style={styles.view4}>
-            <Text style={{ fontSize: 16, color: 'gray' }}>Step 1/3</Text>
-          </View>
-          <View style={styles.progressbar}>
-            <LinearGradient
-              style={styles.progress}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              colors={['#ABE894', '#54E085']}></LinearGradient>
-          </View>
-          <View style={{ flex: 1, maxHeight: 10, }} />
-          <View style={styles.view5}>
-            {this.state.foodItem && this.state.market ? <TouchableOpacity
-              style={styles.button}
+            <View style={styles.title}>
+              <View style={{
+                width: '80%', borderBottomWidth: 1,
+                borderBottomColor: '#B8B8B8',
+              }}>
+                <TextInput
+                  style={{ textAlign: 'center', fontSize: 28, minHeight: 40 }}
+                  autoFocus={true}
+                  onChangeText={(foodItem) => this.setState({ foodItem })}
+                  placeholder='Add an item'
+                  returnKeyType={"next"} />
+              </View>
+            </View>
 
-              onPress={() => this.props.navigation.navigate('ReviewFood2', {
-                foodItem: this.state.foodItem,
-                uri: this.state.uri,
-                market: this.state.marketText,
-              })}>
-              <Text style={styles.btntxt}>Next</Text>
-            </TouchableOpacity> : null}
-            
+            <View style={styles.location}>
 
-          </View>
+              <View style={{ height: 42, width: '20%', justifyContent: 'center', alignItems: "center", marginLeft: 5, }}>
+                <Icon name='ios-pin' type='Ionicons' style={{ color: '#00CE66', fontSize: 24 }} />
+                {/* <Image style={{ height: 36, width: 24, }} source={pin} /> */}
+              </View>
 
+              <Autocomplete style={styles.autocompleteContainer}
+                containerStyle={{ width: '80%', height: 40, }}
+                style={{ height: 40, fontSize: 18 }}
+                inputContainerStyle={{ borderWidth: 0, borderColor: null, }}
+                listContainerStyle={{ maxHeight: 100, borderWidth: 0, borderColor: null, }}
+                listStyle={{ maxHeight: 100, borderWidth: 0, borderColor: null, }}
 
+                data={this.state.marketResults}
+                value={this.state.marketText}
+                listUpwards={true}
+                onChangeText={(text) => this.marketScan(text)}
+                placeholder='Location'
+                renderItem={(data) => (
+                  <TouchableOpacity
+                    onPress={() => this.setState({ market: { id: data.id }, marketText: data.name, marketResults: [] })}>
+
+                    <Text style={{ fontSize: 18 }}>{data.name}</Text>
+                  </TouchableOpacity>
+
+                )}
+              />
+            </View>
+
+            <View style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              height: 200,
+            }}>
+              <TouchableOpacity
+                onPress={() => this.checkPermissions()}
+                style={{ justifyContent: "center", alignItems: "center", }}>
+                <Image
+                  style={styles.smallAddPhoto}
+                  source={this.state.uri
+                    ? { uri: 'data:image/png;base64,' + this.state.uri }
+                    : addPhoto}
+                />
+              </TouchableOpacity>
+            </View>
+          </KeyboardAwareScrollView>
+        </View>
+
+        {/* view 4 */}
+        <View style={styles.view4}>
+          <Text style={{ fontSize: 16, color: 'gray' }}>Step 1/3</Text>
+        </View>
+        <View style={styles.progressbar}>
+          <LinearGradient
+            style={styles.progress}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            colors={['#ABE894', '#54E085']}></LinearGradient>
+        </View>
+        <View style={{ flex: 1, maxHeight: 10, }} />
+
+        {/* view 5 */}
+        <View style={styles.view5}>
+          <TouchableOpacity
+            style={styles.button}
+
+            onPress={() => this.props.navigation.navigate('ReviewFood2', {
+              foodItem: this.state.foodItem,
+              uri: this.state.uri,
+              market: this.state.marketText,
+            })}>
+            <Text style={styles.btntxt}>Next</Text>
+          </TouchableOpacity>
         </View>
       </KeyboardAwareScrollView>
     );
@@ -273,94 +278,94 @@ export default class ReviewFoodScreen extends React.Component {
 }
 
 
-const styles = StyleSheet.create({
-  view1: {
-    flex: 1,
-    flexDirection: 'row',
-    maxHeight: 60,
-    height: 60,
+// const styles = StyleSheet.create({
+//   view1: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     maxHeight: 60,
+//     height: 60,
 
-  },
-  view2: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    maxHeight: 80,
-    height: 80,
+//   },
+//   view2: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     maxHeight: 80,
+//     height: 80,
 
 
-  },
-  view3: {
-    flex: 1,
-    height: 50,
-    minHeight: 50,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  location: {
-    flex: 1,
-    flexDirection: 'row',
-    left: 0,
-    right: 0,
-    minHeight: 120,
-    marginBottom: 24,
-  },
-  view4: {
-    flex: 1,
-    maxHeight: 30,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  progressbar: {
-    marginTop: 0,
-    paddingTop: 0,
-    paddingBottom: 0,
-    marginLeft: 30,
-    marginRight: 30,
-    backgroundColor: '#D2D2D2',
-    borderRadius: 10,
-    maxHeight: 14,
-    height: 14,
-  },
-  progress: {
-    marginRight: '66%',
-    borderRadius: 10,
-    maxHeight: 14,
-    height: 14,
+//   },
+//   view3: {
+//     flex: 1,
+//     height: 50,
+//     minHeight: 50,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   location: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     left: 0,
+//     right: 0,
+//     minHeight: 120,
+//     marginBottom: 24,
+//   },
+//   view4: {
+//     flex: 1,
+//     maxHeight: 30,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//   },
+//   progressbar: {
+//     marginTop: 0,
+//     paddingTop: 0,
+//     paddingBottom: 0,
+//     marginLeft: 30,
+//     marginRight: 30,
+//     backgroundColor: '#D2D2D2',
+//     borderRadius: 10,
+//     maxHeight: 14,
+//     height: 14,
+//   },
+//   progress: {
+//     marginRight: '66%',
+//     borderRadius: 10,
+//     maxHeight: 14,
+//     height: 14,
 
-  },
-  view5: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    maxHeight: 40,
-    marginLeft: 30,
-    marginRight: 30,
-  },
-  pic: {
-    width: 350,
-    height: 199,
-    marginBottom: 18,
-    marginTop: 18,
-  },
-  button: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    marginTop: 20,
-  },
-  btntxt: {
-    color: '#00CE66',
-    fontSize: 20,
-    textAlign: 'center'
-  },
-  autocompleteContainer: {
-    flex: 1,
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    zIndex: 1,
-  },
-});
+//   },
+//   view5: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     maxHeight: 40,
+//     marginLeft: 30,
+//     marginRight: 30,
+//   },
+//   pic: {
+//     width: 350,
+//     height: 199,
+//     marginBottom: 18,
+//     marginTop: 18,
+//   },
+//   button: {
+//     flex: 1,
+//     flexDirection: 'column',
+//     justifyContent: 'center',
+//     marginTop: 20,
+//   },
+//   btntxt: {
+//     color: '#00CE66',
+//     fontSize: 20,
+//     textAlign: 'center'
+//   },
+//   autocompleteContainer: {
+//     flex: 1,
+//     left: 0,
+//     position: 'absolute',
+//     right: 0,
+//     top: 0,
+//     zIndex: 1,
+//   },
+// });

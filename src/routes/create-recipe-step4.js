@@ -6,6 +6,7 @@ import StepInput from './step-input';
 //import IngredientInput from './ingredient-input';
 
 import MSU from '../msu';
+import styles from './style';
 
 const icon0 = require('../../res/add0.png');
 const icon1 = require('../../res/add1.png');
@@ -104,54 +105,60 @@ export default class CreateRecipeScreen4 extends React.Component {
     }
 
     return (
-      <View style={{ flex: 1, }}>
+      <View style={styles.domainContain}>
         {/* recipe image */}
-        <View style={styles.imgContainter}>
-          <ImageBackground source={uri
-            ? { uri: 'data:image/png;base64,' + uri }
-            : turkey} style={styles.recipeImg}>
-
-            <View style={styles.view1}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.props.navigation.navigate('Add')}>
-                <Text style={styles.topbtntxt}>Cancel</Text>
-              </TouchableOpacity>
-              <View style={{ flex: 1, }} />
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.props.navigation.navigate('CreateRecipe5', {
-                  title: title,
-                  uri: uri,
-                  ingredientList: ingredientList,
-                  allSteps: this.state.allSteps,
-                })}>
-                <Text style={styles.topbtntxt}>Save</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={{ flex: 1, height: 100, maxHeight: 100, }} />
-          </ImageBackground>
-        </View>
-
-
         <KeyboardAwareScrollView
           resetScrollToCoords={{ x: 0, y: 0 }}
-          scrollEnabled={true}
+          scrollEnabled={false}
         >
-          <View style={styles.view2}>
-            <Text style={styles.view2txt}>Add instruction steps</Text>
+          <View style={styles.imgContainter}>
+            <ImageBackground source={uri
+              ? { uri: 'data:image/png;base64,' + uri }
+              : turkey} style={styles.recipeImg}>
+
+              <View style={styles.topNav}>
+                <TouchableOpacity
+                  style={styles.buttonLeft}
+                  onPress={() => this.props.navigation.navigate('Add')}>
+                  <Text style={styles.topbtntxt}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.buttonRight}
+                  onPress={() => this.props.navigation.navigate('CreateRecipe5', {
+                    title: title,
+                    uri: uri,
+                    ingredientList: ingredientList,
+                    allSteps: this.state.allSteps,
+                  })}>
+                  <Text style={styles.topbtntxt}>Save</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={{ flex: 1, height: 100, maxHeight: 100, }} />
+            </ImageBackground>
           </View>
 
-          {stepView}
+          <View style={styles.halfBody}>
+            <KeyboardAwareScrollView
+              resetScrollToCoords={{ x: 0, y: 0 }}
+              scrollEnabled={true}
+            >
+              <View style={styles.view2}>
+                <Text style={styles.view2txt}>Add instruction steps</Text>
+              </View>
 
-          {/* Add more Button */}
-          <View style={styles.view3}>
-            <TouchableOpacity
-              style={styles.Button}
-              onPress={this.onPress}>
-              <Text style={{ color: '#00CE66' }}>Add more</Text>
-            </TouchableOpacity>
+              {stepView}
+
+              {/* Add more Button */}
+              <View style={styles.view3}>
+                <TouchableOpacity
+                  style={styles.Button}
+                  onPress={this.onPress}>
+                  <Text style={{ color: '#00CE66' }}>Add more</Text>
+                </TouchableOpacity>
+              </View>
+            </KeyboardAwareScrollView>
           </View>
+          {/* end of half body */}
 
           {/* step 3/5 */}
           <View style={styles.view4}>
@@ -161,25 +168,26 @@ export default class CreateRecipeScreen4 extends React.Component {
           {/* progress bar */}
           <View style={styles.progressbar}>
             <LinearGradient
-              style={styles.progress}
+              style={{
+                marginRight: '20%',
+                borderRadius: 10,
+                maxHeight: 14,
+                height: 14,
+              }}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               colors={['#ABE894', '#54E085']}></LinearGradient>
           </View>
 
-          {/* space */}
-          <View style={{ flex: 1, maxHeight: 30, }} />
-
-          {/*  */}
+          {/* view 5 */}
           <View style={styles.view5}>
             <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonLeft}
               onPress={() => this.props.navigation.goBack()}>
               <Text style={styles.btntxt}>Back</Text>
             </TouchableOpacity>
-            <View style={{ flex: 1 }} />
             <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonRight}
               onPress={() => this.props.navigation.navigate('CreateRecipe5', {
                 title: title,
                 uri: uri,
@@ -188,8 +196,8 @@ export default class CreateRecipeScreen4 extends React.Component {
               <Text style={styles.btntxt}>Skip</Text>
             </TouchableOpacity>
           </View>
-          {/* Testing that the ingredient list was passed from recipe step 3 */}
-          {/* <View>{ingredientList.map(ingredientList =><Text>{ingredientList.ingredName}</Text>)}</View> */}
+
+
         </KeyboardAwareScrollView>
       </View>
     );
@@ -197,111 +205,111 @@ export default class CreateRecipeScreen4 extends React.Component {
 }
 
 
-const styles = StyleSheet.create({
-  imgContainter: {
-    height: 260,
-    maxHeight: 260,
-  },
-  recipeImg: {
-    flex: 1,
-    flexDirection: 'column',
-    height: 250,
-    maxHeight: 250,
-    width: '100%',
-  },
-  view1: {
-    flex: 1,
-    flexDirection: 'row',
-    height: 60,
-    maxHeight: 60,
-  },
-  view2: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 10,
-    maxHeight: 30,
+// const styles = StyleSheet.create({
+//   imgContainter: {
+//     height: 260,
+//     maxHeight: 260,
+//   },
+//   recipeImg: {
+//     flex: 1,
+//     flexDirection: 'column',
+//     height: 250,
+//     maxHeight: 250,
+//     width: '100%',
+//   },
+//   view1: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     height: 60,
+//     maxHeight: 60,
+//   },
+//   view2: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     marginBottom: 10,
+//     maxHeight: 30,
 
-  },
-  view2txt: {
-    fontSize: 20,
-    color: '#565656'
-  },
-  ingredient: {
-    flex: 1,
-    height: 40,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    marginTop: 10,
-  },
-  view3: {
-    flex: 1,
-    flexDirection: 'row',
-    maxHeight: 40,
-    marginTop: 30,
-  },
-  Button: {
-    alignItems: 'center',
-    padding: 10,
-    color: '#00CE66',
-    backgroundColor: null,
-    borderRadius: 20,
-    marginLeft: 30,
-    borderColor: '#00CE66',
-    borderWidth: 3,
-    maxHeight: 40,
-  },
-  view4: {
-    flex: 1,
-    maxHeight: 30,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  progressbar: {
-    marginTop: 0,
-    paddingTop: 0,
-    paddingBottom: 0,
-    marginLeft: 30,
-    marginRight: 30,
-    backgroundColor: '#D2D2D2',
-    borderRadius: 10,
-    maxHeight: 14,
-    height: 14,
-  },
-  progress: {
-    marginRight: '20%',
-    borderRadius: 10,
-    maxHeight: 14,
-    height: 14,
+//   },
+//   view2txt: {
+//     fontSize: 20,
+//     color: '#565656'
+//   },
+//   ingredient: {
+//     flex: 1,
+//     height: 40,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     alignItems: 'stretch',
+//     marginTop: 10,
+//   },
+//   view3: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     maxHeight: 40,
+//     marginTop: 30,
+//   },
+//   Button: {
+//     alignItems: 'center',
+//     padding: 10,
+//     color: '#00CE66',
+//     backgroundColor: null,
+//     borderRadius: 20,
+//     marginLeft: 30,
+//     borderColor: '#00CE66',
+//     borderWidth: 3,
+//     maxHeight: 40,
+//   },
+//   view4: {
+//     flex: 1,
+//     maxHeight: 30,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//   },
+//   progressbar: {
+//     marginTop: 0,
+//     paddingTop: 0,
+//     paddingBottom: 0,
+//     marginLeft: 30,
+//     marginRight: 30,
+//     backgroundColor: '#D2D2D2',
+//     borderRadius: 10,
+//     maxHeight: 14,
+//     height: 14,
+//   },
+//   progress: {
+//     marginRight: '20%',
+//     borderRadius: 10,
+//     maxHeight: 14,
+//     height: 14,
 
-  },
-  view5: {
-    flex: 1,
-    flexDirection: 'row',
-    maxHeight: 60,
-    height: 60,
-    marginLeft: 30,
-    marginRight: 30,
-    marginTop: 30,
-  },
-  pic: {
-    width: 375,
-    height: 220,
-  },
-  button: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  btntxt: {
-    color: '#00CE66',
-    fontSize: 20,
-    textAlign: 'center'
-  },
-  topbtntxt: {
-    color: 'white',
-    fontSize: 20,
-    textAlign: 'center'
-  },
-});
+//   },
+//   view5: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     maxHeight: 60,
+//     height: 60,
+//     marginLeft: 30,
+//     marginRight: 30,
+//     marginTop: 30,
+//   },
+//   pic: {
+//     width: 375,
+//     height: 220,
+//   },
+//   button: {
+//     flex: 1,
+//     flexDirection: 'column',
+//     justifyContent: 'center',
+//   },
+//   btntxt: {
+//     color: '#00CE66',
+//     fontSize: 20,
+//     textAlign: 'center'
+//   },
+//   topbtntxt: {
+//     color: 'white',
+//     fontSize: 20,
+//     textAlign: 'center'
+//   },
+// });

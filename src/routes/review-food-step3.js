@@ -3,11 +3,10 @@ import { BackHandler, Button, Text, TextInput, StyleSheet, TouchableOpacity, Vie
 import Permissions from 'react-native-permissions';
 import LinearGradient from 'react-native-linear-gradient';
 import { Card, CardItem, Icon } from 'native-base';
-import StarRating from 'react-native-star-rating';
-import Autocomplete from 'react-native-autocomplete-input';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import MSU from '../msu';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import styles from './style';
 
 const potatos = require('../../res/potatos.png');
 const icon0 = require('../../res/add0.png');
@@ -196,25 +195,25 @@ export default class ReviewFoodScreen3 extends React.Component {
 
 
     return (
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        scrollEnabled={false}
+      >
         <View style={{ flex: 1, }}>
           <ImageBackground source={uri
             ? { uri: 'data:image/png;base64,' + uri }
-            : potatos} style={styles.itemImg}>
-            <View style={styles.view1}>
-              <View style={styles.view1}>
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => this.props.navigation.navigate('Add')}>
-                  <Text style={styles.topbtntxt}>Cancel</Text>
-                </TouchableOpacity>
-                <View style={{ flex: 1, }} />
-                <TouchableOpacity
-                  style={styles.button}
-                  onPress={() => this.props.navigation.navigate('CreateRecipe4')}>
-                  <Text style={styles.topbtntxt}>Save</Text>
-                </TouchableOpacity>
-              </View>
+            : potatos} style={styles.imgContainter}>
+            <View style={styles.topNav}>
+              <TouchableOpacity
+                style={styles.buttonLeft}
+                onPress={() => this.props.navigation.navigate('Add')}>
+                <Text style={styles.topbtntxt}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.buttonRight}
+                onPress={() => this.props.navigation.navigate('CreateRecipe4')}>
+                <Text style={styles.topbtntxt}>Save</Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.view2} />
             <View style={styles.view2}>
@@ -228,13 +227,14 @@ export default class ReviewFoodScreen3 extends React.Component {
             <View style={styles.view2} />
           </ImageBackground>
 
-          <View style={styles.card}>
-            <TextInput style={{ padding: 10 }}
-              onChangeText={(text) => this.setState({ text })}
-              placeholder={'Any other thoughts...?'}
-              multiline={true} />
+          <View style={styles.quarterBody}>
+            <View style={styles.card}>
+              <TextInput style={{ padding: 10 }}
+                onChangeText={(text) => this.setState({ text })}
+                placeholder={'Any other thoughts...?'}
+                multiline={true} />
+            </View>
           </View>
-
 
 
           <View style={styles.view4}>
@@ -256,13 +256,13 @@ export default class ReviewFoodScreen3 extends React.Component {
             justifyContent: 'center',
             marginLeft: 30,
             marginRight: 30,
-            maxHeight: 50,
+            maxHeight: 60,
           }}>
             <TouchableOpacity
-              style={styles.submitBtn}
+              style={styles.submitButton}
               // onPress={() => params.submit()}
               onPress={() => this.props.navigation.navigate('Feed')}
-              >
+            >
               <Text style={{ color: '#00CE66', fontSize: 24, textAlign: 'center' }}>Send your review</Text>
             </TouchableOpacity>
           </View>
@@ -273,125 +273,125 @@ export default class ReviewFoodScreen3 extends React.Component {
 }
 
 
-const styles = StyleSheet.create({
-  itemImg: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    paddingLeft: 15,
-    paddingRight: 15,
-    marginBottom: 15,
-    maxHeight: 200,
-    height: 200,
-  },
-  view1: {
-    flex: 1,
-    flexDirection: 'row',
-    height: 60,
-    maxHeight: 60,
-  },
-  view2: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    maxHeight: 40,
-    height: 40,
-  },
-  view3: {
-    flex: 1,
-    maxHeight: 50,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  view4: {
-    flex: 1,
-    maxHeight: 30,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  progressbar: {
-    marginTop: 0,
-    paddingTop: 0,
-    paddingBottom: 0,
-    marginLeft: 30,
-    marginRight: 30,
-    backgroundColor: '#D2D2D2',
-    borderRadius: 10,
-    maxHeight: 14,
-    height: 14,
-  },
-  progress: {
-    marginRight: '0%',
-    borderRadius: 10,
-    maxHeight: 14,
-    height: 14,
-  },
-  view5: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    minHeight: 30,
-    marginLeft: 30,
-    marginRight: 30,
-  },
-  Pic: {
-    width: 140,
-    height: 140,
-    marginTop: 18,
-  },
-  pin: {
-    height: 30,
-    width: 30,
-  },
-  rating: {
-    flex: 1,
-    maxHeight: 35,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 30,
-  },
-  title: {
-    fontSize: 18,
-    color: 'gray',
-    flexWrap: 'wrap'
-  },
-  button: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  btntxt: {
-    color: '#00CE66',
-    fontSize: 20,
-    textAlign: 'center'
-  },
-  topbtntxt: {
-    color: 'white',
-    fontSize: 20,
-    textAlign: 'center'
-  },
-  card: {
-    height: deviceHeight * .25,
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 10,
-    borderColor: null,
-    borderWidth: 0,
-    backgroundColor: '#fcfcfc',
-  },
-  submitBtn: {
-    alignItems: 'center',
-    padding: 10,
-    color: '#00CE66',
-    backgroundColor: null,
-    borderRadius: 40,
-    borderColor: '#00CE66',
-    borderWidth: 3,
-    maxHeight: 80,
-    paddingLeft: 20,
-    paddingRight: 20,
-    width: deviceWidth * .75,
-  }
-});
+// const styles = StyleSheet.create({
+//   itemImg: {
+//     flex: 1,
+//     flexDirection: 'column',
+//     justifyContent: 'center',
+//     paddingLeft: 15,
+//     paddingRight: 15,
+//     marginBottom: 15,
+//     maxHeight: 200,
+//     height: 200,
+//   },
+//   view1: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     height: 60,
+//     maxHeight: 60,
+//   },
+//   view2: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     maxHeight: 40,
+//     height: 40,
+//   },
+//   view3: {
+//     flex: 1,
+//     maxHeight: 50,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     marginBottom: 24,
+//   },
+//   view4: {
+//     flex: 1,
+//     maxHeight: 30,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//   },
+//   progressbar: {
+//     marginTop: 0,
+//     paddingTop: 0,
+//     paddingBottom: 0,
+//     marginLeft: 30,
+//     marginRight: 30,
+//     backgroundColor: '#D2D2D2',
+//     borderRadius: 10,
+//     maxHeight: 14,
+//     height: 14,
+//   },
+//   progress: {
+//     marginRight: '0%',
+//     borderRadius: 10,
+//     maxHeight: 14,
+//     height: 14,
+//   },
+//   view5: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     minHeight: 30,
+//     marginLeft: 30,
+//     marginRight: 30,
+//   },
+//   Pic: {
+//     width: 140,
+//     height: 140,
+//     marginTop: 18,
+//   },
+//   pin: {
+//     height: 30,
+//     width: 30,
+//   },
+//   rating: {
+//     flex: 1,
+//     maxHeight: 35,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     marginBottom: 30,
+//   },
+//   title: {
+//     fontSize: 18,
+//     color: 'gray',
+//     flexWrap: 'wrap'
+//   },
+//   button: {
+//     flex: 1,
+//     flexDirection: 'column',
+//     justifyContent: 'center',
+//   },
+//   btntxt: {
+//     color: '#00CE66',
+//     fontSize: 20,
+//     textAlign: 'center'
+//   },
+//   topbtntxt: {
+//     color: 'white',
+//     fontSize: 20,
+//     textAlign: 'center'
+//   },
+//   card: {
+//     height: deviceHeight * .25,
+//     marginLeft: 10,
+//     marginRight: 10,
+//     marginBottom: 10,
+//     borderColor: null,
+//     borderWidth: 0,
+//     backgroundColor: '#fcfcfc',
+//   },
+//   submitBtn: {
+//     alignItems: 'center',
+//     padding: 10,
+//     color: '#00CE66',
+//     backgroundColor: null,
+//     borderRadius: 40,
+//     borderColor: '#00CE66',
+//     borderWidth: 3,
+//     maxHeight: 80,
+//     paddingLeft: 20,
+//     paddingRight: 20,
+//     width: deviceWidth * .75,
+//   }
+// });

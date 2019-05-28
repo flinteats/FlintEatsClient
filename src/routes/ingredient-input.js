@@ -17,10 +17,10 @@ export default class IngredientInput extends React.Component {
       <View style={styles.ingredient}>
         <View style={{
           width: '80%', textAlign: 'center', borderBottomWidth: 1,
-          borderBottomColor: '#B8B8B8',
+          borderBottomColor: '#B8B8B8', backgroundColor: '#8fbc8f' //darkseagreen (#8fbc8f)
         }}>
           <TextInput
-            style={{ fontSize: 20, flex: 1, }}
+            style={{ fontSize: 20, flex: 1, minHeight:50, maxHeight:51, backgroundColor:'#7fffd4' }} //aquamarine (#7fffd4)
             autoFocus={false}
             onChangeText={this.onTextChange}
             placeholder={'Enter Ingredient'}
@@ -64,11 +64,12 @@ const styles = StyleSheet.create({
   },
   ingredient: {
     flex: 1,
-    height: 40,
+    height: 52,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'stretch',
     marginTop: 10,
+    backgroundColor:'#556b2f' //darkolivegreen (#556b2f)
   },
   view3: {
     flex: 1,

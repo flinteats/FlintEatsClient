@@ -1,11 +1,14 @@
 import React from 'react';
-import { BackHandler, Button, Text, TextInput, StyleSheet, TouchableOpacity, View, Image, } from 'react-native';
+import { BackHandler, Button, Text, TextInput, StyleSheet, TouchableOpacity, View, Image, Dimensions } from 'react-native';
 import Permissions from 'react-native-permissions';
 import LinearGradient from 'react-native-linear-gradient';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-
+import styles from './style';
 import MSU from '../msu';
+
+let deviceWidth = Dimensions.get('window').width;
+let deviceHeight = Dimensions.get('window').height;
 
 const camera = require('../../res/camera.png');
 const icon0 = require('../../res/add0.png');
@@ -74,7 +77,7 @@ export default class CreateRecipeScreen extends React.Component {
                 this.setPic();
               } else {
                 Alert.alert('Insufficient Permissions',
-                  'Flint Eats was not granted Camera permissions.');
+                  'Flint Eats was not granted Camera permissions - A.');
               }
             });
         } else if (res.photo != 'authorized'
@@ -85,7 +88,7 @@ export default class CreateRecipeScreen extends React.Component {
                 this.setPic();
               } else {
                 Alert.alert('Insufficient Permissions',
-                  'Flint Eats was not granted Photo permissions.');
+                  'Flint Eats was not granted Photo permissions - B.');
               }
             });
         } else {
@@ -98,12 +101,12 @@ export default class CreateRecipeScreen extends React.Component {
                       this.setPic();
                     } else {
                       Alert.alert('Insufficient Permissions',
-                        'Flint Eats was not granted Camera permissions.');
+                        'Flint Eats was not granted Camera permissions - C.');
                     }
                   });
               } else {
                 Alert.alert('Insufficient Permissions',
-                  'Flint Eats was not granted Photo permissions.');
+                  'Flint Eats was not granted Photo permissions - D.');
               }
             });
         }
@@ -131,20 +134,20 @@ export default class CreateRecipeScreen extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <View style={{ flex: 1, }}>
+      <View style={styles.domainContain}>
         <KeyboardAwareScrollView
           resetScrollToCoords={{ x: 0, y: 0 }}
           scrollEnabled={false}
         >
-          <View style={styles.view1}>
+          {/* topNav */}
+          <View style={styles.topNav}>
             <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonLeft}
               onPress={() => this.props.navigation.goBack()}>
               <Text style={styles.btntxt}>Cancel</Text>
             </TouchableOpacity>
-            <View style={{ flex: 1, }} />
             <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonRight}
               onPress={() => this.props.navigation.navigate('CreateRecipe2', {
                 title: this.state.title
               })}>
@@ -152,40 +155,38 @@ export default class CreateRecipeScreen extends React.Component {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.view2}>
-            <Image
-              style={styles.pic}
-              source={recipe}
-            />
-          </View>
-
-          <View style={styles.view3}>
-            <TextInput
-              style={{
-                fontSize: 30, flex: 1,
-                textAlign: 'center',
-                width: 200,
-              }}
-              autoFocus={false}
-              onChangeText={(title) => this.setState({ title })}
-              placeholder='Name a recipe'
-              returnKeyType={"next"} />
-            {/* <View style={{
-              width: '80%', textAlign: 'center', borderBottomWidth: 1,
-              borderBottomColor: '#B8B8B8',
-            }}>
+          {/* fullBody */}
+          <View style={styles.fullBody}>
+            {/* logoContain */}
+            <View style={styles.logoContain}>
+              <Image
+                style={styles.pic}
+                source={recipe}
+                resizeMode='contain'
+              />
+            </View>
+            {/* title */}
+            <View style={styles.title}>
               <TextInput
-                style={{ fontSize: 30, flex: 1, textAlign: 'center', }}
-                autoFocus={true}
+                style={{
+                  fontSize: 30, flex: 1,
+                  textAlign: 'center',
+                  width: deviceWidth,
+                }}
+                autoFocus={false}
+                multiline={true}
                 onChangeText={(title) => this.setState({ title })}
                 placeholder='Name a recipe'
                 returnKeyType={"next"} />
-            </View> */}
+            </View>
           </View>
 
+          {/* View 4 */}
           <View style={styles.view4}>
             <Text style={{ fontSize: 16, color: 'gray' }}>Step 1/5</Text>
           </View>
+
+          {/* Progress bar */}
           <View style={styles.progressbar}>
             <LinearGradient
               style={styles.progress}
@@ -193,16 +194,18 @@ export default class CreateRecipeScreen extends React.Component {
               end={{ x: 1, y: 1 }}
               colors={['#ABE894', '#54E085']}></LinearGradient>
           </View>
-          <View style={{ flex: 1, maxHeight: 30, }} />
+          {/* <View style={{ flex: 1, maxHeight: 30, }} /> */}
+
+          {/* View 5 */}
           <View style={styles.view5}>
-          <TouchableOpacity
-              style={styles.button}
+            <TouchableOpacity
+              style={styles.buttonLeft}
               onPress={() => this.props.navigation.goBack()}>
               <Text style={styles.btntxt}>Back</Text>
             </TouchableOpacity>
-            <View style={{ flex: 1 }} />
+            {/* <View style={{ flex: 1 }} /> */}
             <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonRight}
               onPress={() => this.props.navigation.navigate('CreateRecipe2')}>
               <Text style={styles.btntxt}>Skip</Text>
             </TouchableOpacity>
@@ -212,80 +215,3 @@ export default class CreateRecipeScreen extends React.Component {
     );
   }
 }
-
-
-
-
-const styles = StyleSheet.create({
-  view1: {
-    flex: 1,
-    flexDirection: 'row',
-    maxHeight: 60,
-    height: 60,
-  },
-  view2: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    paddingTop: 10,
-    maxHeight: 200,
-    minHeight: 200,
-    height: 200,
-  },
-  view3: {
-    flex: 1,
-    maxHeight: 50,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    marginBottom: 75,
-  },
-  view4: {
-    flex: 1,
-    maxHeight: 30,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  progressbar: {
-    marginTop: 0,
-    paddingTop: 0,
-    paddingBottom: 0,
-    marginLeft: 30,
-    marginRight: 30,
-    backgroundColor: '#D2D2D2',
-    borderRadius: 10,
-    maxHeight: 14,
-    height: 14,
-  },
-  progress: {
-    marginRight: '80%',
-    borderRadius: 10,
-    maxHeight: 14,
-    height: 14,
-
-  },
-  view5: {
-    flex: 1,
-    flexDirection: 'row',
-    maxHeight: 60,
-    height: 60,
-    marginLeft: 30,
-    marginRight: 30,
-    marginTop: 30,
-  },
-  pic: {
-    width: 140,
-    height: 140,
-  },
-  button: {
-    flex:1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    marginTop: 20,
-  },
-  btntxt: {
-    color: '#00CE66',
-    fontSize: 20,
-    textAlign: 'center'
-  }
-});

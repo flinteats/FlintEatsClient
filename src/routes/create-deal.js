@@ -8,12 +8,15 @@ import ImagePicker from 'react-native-image-picker';
 import Autocomplete from 'react-native-autocomplete-input';
 import DatePicker from 'react-native-datepicker';
 
+
 import moment from 'moment';
 import MSU from '../msu';
+import styles from './style';
 
 const camera = require('../../res/camera.png');
 
 let tagsCardItem;
+
 
 export default class CreateDealScreen extends React.Component {
   constructor(props) {
@@ -35,24 +38,33 @@ export default class CreateDealScreen extends React.Component {
     };
   }
 
-  static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state;
-    return {
-      title: `New Deal`,
-      headerRight: (
-        <View style={{ marginRight: 5 }}>
-          {params.submitting
-            ? <Spinner />
-            : <Button
-              color='#00CE66'
-              title='Submit'
-              onPress={() => params.submit()}
-            />
-          }
-        </View>
-      )
-    };
-  }
+  // static navigationOptions = ({ navigation }) => {
+  //   const { params = {} } = navigation.state;
+  //   return {
+  //     title: `New Deal`,
+  //     headerRight: (
+  //       <View style={{ marginRight: 5 }}>
+  //         {params.submitting
+  //           ? <Spinner />
+  //           : <Button
+  //             color='#00CE66'
+  //             title='Submit'
+  //             onPress={() => params.submit()}
+  //           />
+  //         }
+  //       </View>
+  //     )
+  //   };
+  // }
+
+
+
+
+
+  static navigationOptions = ({ navigation }) => ({
+    header: null,
+    tabBarLabel: 'new deal',
+  });
 
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', () => {
@@ -64,6 +76,8 @@ export default class CreateDealScreen extends React.Component {
       endDate: moment().format('YYYY-MM-DD')
     });
     this.props.navigation.setParams({ submit: this.submit });
+
+    // Permission trial - tag
   }
 
   marketScan = (q) => {
@@ -134,6 +148,8 @@ export default class CreateDealScreen extends React.Component {
       });
   };
 
+
+
   checkPermissions() {
     let allow = true;
     Permissions.checkMultiple(['camera', 'photo'])
@@ -143,13 +159,14 @@ export default class CreateDealScreen extends React.Component {
           this.setPic();
         } else if (res.camera != 'authorized'
           && res.photo == 'authorized') {
+          // Request not working
           Permissions.request('camera')
             .then(rez => {
               if (rez == 'authorized') {
                 this.setPic();
               } else {
                 Alert.alert('Insufficient Permissions',
-                  'Flint Eats was not granted Camera permissions.');
+                  'Flint Eats was not granted Camera permissions - A.');
               }
             });
         } else if (res.photo != 'authorized'
@@ -208,13 +225,13 @@ export default class CreateDealScreen extends React.Component {
       tags.push(
         <TouchableOpacity
           key={tag.id}
-          style={{ paddingBottom: 2, paddingRight:4 }}
+          style={{ paddingBottom: 2, paddingRight: 4 }}
           onPress={() => this.removeTag(tag)}>
           <LinearGradient
             start={{ x: 0, y: 0.5 }}
             end={{ x: 1, y: 0.5 }}
             colors={['#ABE894', '#54E085']}
-            style={{borderRadius:20}}>
+            style={{ borderRadius: 20 }}>
             <Text style={{ textAlign: 'center' }}>
               {'  ' + tag.name + '  '}
             </Text>
@@ -223,35 +240,55 @@ export default class CreateDealScreen extends React.Component {
       );
     });
 
-    if(tags.length == 0){
+    if (tags.length == 0) {
       tagsCardItem = <View />
-    }else{
-      tagsCardItem = <CardItem style={{flexWrap:'wrap'}}>{tags}</CardItem>
+    } else {
+      tagsCardItem = <CardItem style={{ flexWrap: 'wrap' }}>{tags}</CardItem>
     }
 
     let productimage;
-    if(this.state.uri){
-      productimage = <Image style={{height:125, width:250}} source={{uri: 'data:image/png;base64,' + this.state.uri}}/>
-    }else{
-      productimage = <Image style={styles.pic} source={camera}/>
+    if (this.state.uri) {
+      productimage = <Image style={styles.smallAddPhoto} source={{ uri: 'data:image/png;base64,' + this.state.uri }} />
+    } else {
+      productimage = <Image style={styles.smallAddPhoto} source={camera} />
     }
 
     // Tom's version of create deal. Use the other return for the original.
     return (<KeyboardAwareScrollView keyboardShouldPersistTaps='always'>
-      {/* Image, product name, and comments card */}
-      <Card>
-        <View style={{ justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-          <TouchableOpacity
-            onPress={() => this.checkPermissions()}>
-            {/* <Image
-              style={styles.pic}
-              source={this.state.uri
-                ? { uri: 'data:image/png;base64,' + this.state.uri }
-                : camera}
-            /> */}
-            {productimage}
-          </TouchableOpacity>
 
+      {/* topNav */}
+      <View style={styles.topNav}>
+        <TouchableOpacity
+          style={styles.buttonLeft}
+          onPress={() => this.props.navigation.goBack()}>
+          <Text style={styles.btntxt}>Cancel</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonRight}
+          onPress={() => this.props.navigation.navigate('', {
+            title: this.state.title
+          })}>
+          <Text style={styles.btntxt}>Save</Text>
+        </TouchableOpacity>
+      </View>
+      {/* Image, product name, and comments card */}
+      <View style={styles.dealImageContain}>
+        <TouchableOpacity
+          onPress={() => this.checkPermissions()}
+        // onPress={() => this._alertForPhotosPermission()}
+        >
+          <Image
+            style={styles.dealImage}
+            source={this.state.uri
+              ? { uri: 'data:image/png;base64,' + this.state.uri }
+              : camera}
+          />
+          {/* {productimage} */}
+        </TouchableOpacity>
+      </View>
+
+      <Card>
+        <View style={styles.dealImageContain}>
 
           <TextInput
             style={{ flex: 1, width: '95%', textAlign: 'center', fontSize: 20 }}
@@ -372,20 +409,20 @@ export default class CreateDealScreen extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  autocompleteContainer: {
-    flex: 1,
-    left: 0,
-    //    position: 'absolute',
-    right: 0,
-    top: 0,
-    zIndex: 1
-  },
-  pic: {
-    width: 80,
-    height: 80,
-  }
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1
+//   },
+//   autocompleteContainer: {
+//     flex: 1,
+//     left: 0,
+//     //    position: 'absolute',
+//     right: 0,
+//     top: 0,
+//     zIndex: 1
+//   },
+//   pic: {
+//     width: 80,
+//     height: 80,
+//   }
+// });

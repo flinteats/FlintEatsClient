@@ -6,6 +6,7 @@ import { Card, CardItem, } from 'native-base';
 import Autocomplete from 'react-native-autocomplete-input';
 
 import MSU from '../msu';
+import styles from './style';
 
 const icon0 = require('../../res/add0.png');
 const icon1 = require('../../res/add1.png');
@@ -178,58 +179,63 @@ export default class CreateRecipeScreen5 extends React.Component {
     }
 
     return (
-      <View style={{ flex: 1, }}>
-        {/* recipe image */}
-        <View style={styles.imgContainter}>
-          <ImageBackground source={uri
-            ? { uri: 'data:image/png;base64,' + uri }
-            : turkey} style={styles.recipeImg}>
-
-            <View style={styles.view1}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => this.props.navigation.navigate('Add')}>
-                <Text style={styles.topbtntxt}>Cancel</Text>
-              </TouchableOpacity>
-              <View style={{ flex: 2, }} />
-            </View>
-            <View style={{ flex: 1, height: 100, maxHeight: 100, }} />
-          </ImageBackground>
-        </View>
-
-
+      <View style={styles.domainContain}>
         <KeyboardAwareScrollView
           resetScrollToCoords={{ x: 0, y: 0 }}
-          scrollEnabled={true}
+          scrollEnabled={false}
         >
-          <View style={styles.view2}>
-            <Text style={styles.view2txt}>Choose tags for your recipe</Text>
+          {/* recipe image */}
+          <View style={styles.imgContainter}>
+            <ImageBackground source={uri
+              ? { uri: 'data:image/png;base64,' + uri }
+              : turkey} style={styles.recipeImg}>
+
+              <View style={styles.topNav}>
+                <TouchableOpacity
+                  style={styles.buttonLeft}
+                  onPress={() => this.props.navigation.navigate('Add')}>
+                  <Text style={styles.topbtntxt}>Cancel</Text>
+                </TouchableOpacity>
+                <View style={{ flex: 2, }} />
+              </View>
+            </ImageBackground>
           </View>
 
-          <View style={{backgroundColor: 'transparent'}}>
-
-            <Card transparent style={styles.card} >
-              <CardItem style={{backgroundColor: 'transparent'}}>
-                {tags}
-              </CardItem>
-              <CardItem style={{backgroundColor: 'transparent'}}>
-                <Autocomplete style={styles.autocompleteContainer}
-                  autoCapitalize='none'
-                  data={this.state.tagResults}
-                  value={this.state.tagText}
-                  onChangeText={(text) => this.tagScan(text)}
-                  onSubmitEditing={() => this.addTag({ name: this.state.tagText.toLowerCase(), id: this.state.tags.length })}
-                  placeholder='Add other tags'
-                  renderItem={(data) => (
-                    <TouchableOpacity
-                      onPress={() => this.addTag(data)}>
-                      <Text>{data.name}</Text>
-                    </TouchableOpacity>
-                  )}
-                />
-              </CardItem>
-            </Card>
+          <View style={styles.quarterBody}>
+            <KeyboardAwareScrollView
+              resetScrollToCoords={{ x: 0, y: 0 }}
+              scrollEnabled={true}
+            >
+              <View style={styles.view2}>
+                <Text style={styles.view2txt}>Choose tags for your recipe</Text>
+              </View>
+              <View>
+                <Card transparent style={styles.card} >
+                  <CardItem style={{ backgroundColor: 'transparent' }}>
+                    {tags}
+                  </CardItem>
+                  <CardItem style={{ backgroundColor: 'transparent' }}>
+                    <Autocomplete style={styles.autocompleteContainer}
+                      autoCapitalize='none'
+                      data={this.state.tagResults}
+                      value={this.state.tagText}
+                      onChangeText={(text) => this.tagScan(text)}
+                      onSubmitEditing={() => this.addTag({ name: this.state.tagText.toLowerCase(), id: this.state.tags.length })}
+                      placeholder='Add other tags'
+                      renderItem={(data) => (
+                        <TouchableOpacity
+                          onPress={() => this.addTag(data)}>
+                          <Text>{data.name}</Text>
+                        </TouchableOpacity>
+                      )}
+                    />
+                  </CardItem>
+                </Card>
+              </View>
+            </KeyboardAwareScrollView>
           </View>
+
+
 
           <View style={styles.view4}>
             <Text style={{ fontSize: 16, color: 'gray' }}>Step 5/5: The last step!</Text>
@@ -238,40 +244,37 @@ export default class CreateRecipeScreen5 extends React.Component {
           {/* progress bar */}
           <View style={styles.progressbar}>
             <LinearGradient
-              style={styles.progress}
+              style={{
+                marginRight: '0%',
+                borderRadius: 10,
+                maxHeight: 14,
+                height: 14,
+              }}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               colors={['#ABE894', '#54E085']}></LinearGradient>
           </View>
 
-          {/* space */}
-          {/* <View style={{ flex: 1, maxHeight: 30, }} /> */}
-
-          {/*  */}
+          {/* view 5 */}
           <View style={styles.view5}>
             <TouchableOpacity
-              style={styles.button}
+              style={styles.buttonLeft}
               onPress={() => this.props.navigation.goBack()}>
               <Text style={styles.btntxt}>Back</Text>
             </TouchableOpacity>
             <View style={{ flex: 2, }} />
-            {/* <TouchableOpacity
-              style={styles.button}
-              onPress={() => this.props.navigation.navigate('CreateRecipe4')}>
-              <Text style={styles.btntxt}>Skip</Text>
-            </TouchableOpacity> */}
           </View>
-          <View style={styles.view3}>
+
+          {/* submit */}
+          <View style={styles.submitContain}>
             <TouchableOpacity
-              style={styles.Button}
+              style={styles.submitButton}
               // onPress={() => params.submit()}
               onPress={() => this.props.navigation.navigate('Feed')}
-              >
+            >
               <Text style={{ color: '#00CE66', fontSize: 24, textAlign: 'center' }}>Send your recipe</Text>
             </TouchableOpacity>
           </View>
-          {/* Testing that the ingredient list was passed from recipe step 3 */}
-          {/* <View>{ingredientList.map(ingredientList =><Text>{ingredientList.ingredName}</Text>)}</View> */}
         </KeyboardAwareScrollView>
       </View>
     );
@@ -279,123 +282,123 @@ export default class CreateRecipeScreen5 extends React.Component {
 }
 
 
-const styles = StyleSheet.create({
-  card: {
-    flex: 30,
-    height: 140,
-    backgroundColor: 'transparent'
-  },
-  autocompleteContainer: {
-    backgroundColor: 'transparent',
-    borderColor: 'transparent',
-  },
-  imgContainter: {
-    height: 260,
-    maxHeight: 260,
-  },
-  recipeImg: {
-    flex: 1,
-    flexDirection: 'column',
-    height: 250,
-    maxHeight: 250,
-    width: '100%',
-  },
-  view1: {
-    flex: 1,
-    flexDirection: 'row',
-    height: 60,
-    maxHeight: 60,
-  },
-  view2: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginBottom: 10,
-    maxHeight: 30,
+// const styles = StyleSheet.create({
+//   card: {
+//     flex: 30,
+//     height: 140,
+//     backgroundColor: 'transparent'
+//   },
+//   autocompleteContainer: {
+//     backgroundColor: 'transparent',
+//     borderColor: 'transparent',
+//   },
+//   imgContainter: {
+//     height: 260,
+//     maxHeight: 260,
+//   },
+//   recipeImg: {
+//     flex: 1,
+//     flexDirection: 'column',
+//     height: 250,
+//     maxHeight: 250,
+//     width: '100%',
+//   },
+//   view1: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     height: 60,
+//     maxHeight: 60,
+//   },
+//   view2: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     marginBottom: 10,
+//     maxHeight: 30,
 
-  },
-  view2txt: {
-    fontSize: 20,
-    color: '#565656'
-  },
-  ingredient: {
-    flex: 1,
-    height: 40,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    marginTop: 10,
-  },
-  view3: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    //maxHeight: 50,
-    marginTop: 30,
-    paddingBottom: 10,
-  },
-  Button: {
-    alignItems: 'center',
-    padding: 10,
-    color: '#00CE66',
-    backgroundColor: null,
-    borderRadius: 40,
-    borderColor: '#00CE66',
-    borderWidth: 3,
-    maxHeight: 80,
-    paddingLeft: 20,
-    paddingRight: 20,
-  },
-  view4: {
-    flex: 1,
-    maxHeight: 30,
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  progressbar: {
-    marginLeft: 30,
-    marginRight: 30,
-    backgroundColor: '#D2D2D2',
-    borderRadius: 10,
-    maxHeight: 14,
-    height: 14,
-  },
-  progress: {
-    marginRight: '0%',
-    borderRadius: 10,
-    maxHeight: 14,
-    height: 14,
-  },
-  tag: {
-    borderRadius: 20,
-    height: 25,
-    minHeight: 25,
-    marginRight: 5,
-  },
-  view5: {
-    flex: 1,
-    flexDirection: 'row',
-    maxHeight: 40,
-    height: 40,
-    marginLeft: 30,
-    marginRight: 30,
-  },
-  pic: {
-    width: 375,
-    height: 220,
-  },
-  button: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-  },
-  btntxt: {
-    color: '#00CE66',
-    fontSize: 20,
-  },
-  topbtntxt: {
-    color: 'white',
-    fontSize: 20,
-    textAlign: 'center'
-  },
-});
+//   },
+//   view2txt: {
+//     fontSize: 20,
+//     color: '#565656'
+//   },
+//   ingredient: {
+//     flex: 1,
+//     height: 40,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     alignItems: 'stretch',
+//     marginTop: 10,
+//   },
+//   view3: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     //maxHeight: 50,
+//     marginTop: 30,
+//     paddingBottom: 10,
+//   },
+//   Button: {
+//     alignItems: 'center',
+//     padding: 10,
+//     color: '#00CE66',
+//     backgroundColor: null,
+//     borderRadius: 40,
+//     borderColor: '#00CE66',
+//     borderWidth: 3,
+//     maxHeight: 80,
+//     paddingLeft: 20,
+//     paddingRight: 20,
+//   },
+//   view4: {
+//     flex: 1,
+//     maxHeight: 30,
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//   },
+//   progressbar: {
+//     marginLeft: 30,
+//     marginRight: 30,
+//     backgroundColor: '#D2D2D2',
+//     borderRadius: 10,
+//     maxHeight: 14,
+//     height: 14,
+//   },
+//   progress: {
+//     marginRight: '0%',
+//     borderRadius: 10,
+//     maxHeight: 14,
+//     height: 14,
+//   },
+//   tag: {
+//     borderRadius: 20,
+//     height: 25,
+//     minHeight: 25,
+//     marginRight: 5,
+//   },
+//   view5: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     maxHeight: 40,
+//     height: 40,
+//     marginLeft: 30,
+//     marginRight: 30,
+//   },
+//   pic: {
+//     width: 375,
+//     height: 220,
+//   },
+//   button: {
+//     flex: 1,
+//     flexDirection: 'column',
+//     justifyContent: 'center',
+//   },
+//   btntxt: {
+//     color: '#00CE66',
+//     fontSize: 20,
+//   },
+//   topbtntxt: {
+//     color: 'white',
+//     fontSize: 20,
+//     textAlign: 'center'
+//   },
+// });
