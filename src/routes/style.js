@@ -104,22 +104,18 @@ export default StyleSheet.create({
     pic: {
         height: deviceHeight * .25,
         width: deviceWidth * .4,
-        // backgroundColor: '#8a2be2', // blueviolet (#8a2be2)
     },
     addPhoto: {
         height: deviceHeight * .25,
         width: deviceWidth * .9,
-        // backgroundColor: '#8a2be2', // blueviolet (#8a2be2)
     },
     stepAddPhoto: {
         height: deviceHeight * .2,
         width: '100%',
-        // backgroundColor: '#8a2be2', // blueviolet (#8a2be2)
     },
     smallAddPhoto: {
         height: deviceHeight * .2,
         width: deviceWidth * .5,
-        // backgroundColor: '#8a2be2', // blueviolet (#8a2be2)
     },
     // --------------
     view2: {
@@ -233,10 +229,20 @@ export default StyleSheet.create({
         height: 140,
         backgroundColor: 'transparent'
     },
-    autocompleteContainer: {
-        backgroundColor: 'transparent',
-        borderColor: 'transparent',
+    autocomplete: {
+        flex: 1,
+        left: 0,
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        zIndex: 1
     },
+    autocompleteContain: {
+        backgroundColor: '#F5FCFF',
+        flex: 1,
+        paddingTop: 25
+    },
+    
     tag: {
         borderRadius: 20,
         height: 25,
@@ -257,7 +263,7 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'stretch',
         marginTop: 10,
-      },
+    },
 
 
     // Deal specific styles ======================

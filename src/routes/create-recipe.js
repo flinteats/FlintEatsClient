@@ -148,9 +148,7 @@ export default class CreateRecipeScreen extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonRight}
-              onPress={() => this.props.navigation.navigate('CreateRecipe2', {
-                title: this.state.title
-              })}>
+              >
               <Text style={styles.btntxt}>Save</Text>
             </TouchableOpacity>
           </View>
@@ -206,8 +204,10 @@ export default class CreateRecipeScreen extends React.Component {
             {/* <View style={{ flex: 1 }} /> */}
             <TouchableOpacity
               style={styles.buttonRight}
-              onPress={() => this.props.navigation.navigate('CreateRecipe2')}>
-              <Text style={styles.btntxt}>Skip</Text>
+              onPress={() => this.props.navigation.navigate('CreateRecipe2', {
+                title: this.state.title
+              })}>
+              <Text style={styles.btntxt}>Next</Text>
             </TouchableOpacity>
           </View>
         </KeyboardAwareScrollView>

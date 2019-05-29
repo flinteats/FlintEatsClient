@@ -149,6 +149,7 @@ export default class ReviewFoodScreen extends React.Component {
       <KeyboardAwareScrollView
         resetScrollToCoords={{ x: 0, y: 0 }}
         scrollEnabled={false}
+        keyboardShouldPersistTaps='always'
       >
         <View style={styles.topNav}>
           <TouchableOpacity
@@ -173,6 +174,7 @@ export default class ReviewFoodScreen extends React.Component {
           <KeyboardAwareScrollView
             resetScrollToCoords={{ x: 0, y: 0 }}
             scrollEnabled={true}
+            keyboardShouldPersistTaps='always'
           >
             <View style={styles.logoContain}>
               <Image
@@ -196,34 +198,59 @@ export default class ReviewFoodScreen extends React.Component {
               </View>
             </View>
 
-            <View style={styles.location}>
-
+            {/* <View style={styles.location}>
               <View style={{ height: 42, width: '20%', justifyContent: 'center', alignItems: "center", marginLeft: 5, }}>
                 <Icon name='ios-pin' type='Ionicons' style={{ color: '#00CE66', fontSize: 24 }} />
-                {/* <Image style={{ height: 36, width: 24, }} source={pin} /> */}
               </View>
 
-              <Autocomplete style={styles.autocompleteContainer}
-                containerStyle={{ width: '80%', height: 40, }}
-                style={{ height: 40, fontSize: 18 }}
-                inputContainerStyle={{ borderWidth: 0, borderColor: null, }}
-                listContainerStyle={{ maxHeight: 100, borderWidth: 0, borderColor: null, }}
-                listStyle={{ maxHeight: 100, borderWidth: 0, borderColor: null, }}
+              <View style={styles.autocompleteContain}>
+                <Autocomplete
+                  containerStyle={styles.autocomplete}
+                  style={{ height: '100%', fontSize: 18 }}
+                  inputContainerStyle={{ borderWidth: 0, borderColor: null, }}
+                  listContainerStyle={{ borderWidth: 0, borderColor: null, }}
+                  listStyle={{ borderWidth: 0, borderColor: null, }}
 
-                data={this.state.marketResults}
-                value={this.state.marketText}
-                listUpwards={true}
-                onChangeText={(text) => this.marketScan(text)}
-                placeholder='Location'
-                renderItem={(data) => (
-                  <TouchableOpacity
-                    onPress={() => this.setState({ market: { id: data.id }, marketText: data.name, marketResults: [] })}>
+                  data={this.state.marketResults}
+                  value={this.state.marketText}
+                  listUpwards={true}
+                  onChangeText={(text) => this.marketScan(text)}
+                  placeholder='Location'
+                  renderItem={(data) => (
+                    <TouchableOpacity
+                      onPress={() => this.setState({ market: { id: data.id }, marketText: data.name, marketResults: [] })}>
 
-                    <Text style={{ fontSize: 18 }}>{data.name}</Text>
-                  </TouchableOpacity>
+                      <Text style={{ fontSize: 18 }}>{data.name}</Text>
+                    </TouchableOpacity>
+                  )}
+                />
+              </View>
+            </View> */}
 
-                )}
-              />
+            <View style={{ flexDirection: 'row' }}>
+              <View style={{ flex: 10, alignItems: 'center', justifyContent: 'center' }}>
+                <Icon name='ios-pin' type='Ionicons' style={{ color: '#00CE66', fontSize: 24 }} />
+              </View>
+              <Card style={{ flex: 90 }}>
+                <Autocomplete style={styles.autocompleteContainer}
+                  style={{ height: 40 }}
+                  inputContainerStyle={{ borderWidth: 0, borderColor: null, backgroundColor: '#F5FCFF', }}
+                  listContainerStyle={{ borderWidth: 0, borderColor: null, backgroundColor: '#F5FCFF', }}
+                  listStyle={{ borderWidth: 0, borderColor: null, backgroundColor: '#F5FCFF', }}
+
+                  data={this.state.marketResults}
+                  value={this.state.marketText}
+                  listUpwards={true}
+                  onChangeText={(text) => this.marketScan(text)}
+                  placeholder='Location'
+                  renderItem={(data) => (
+                    <TouchableOpacity
+                      onPress={() => this.setState({ market: { id: data.id }, marketText: data.name, marketResults: [] })}>
+                      <Text>{data.name}</Text>
+                    </TouchableOpacity>
+                  )}
+                />
+              </Card>
             </View>
 
             <View style={{
@@ -240,6 +267,7 @@ export default class ReviewFoodScreen extends React.Component {
                   source={this.state.uri
                     ? { uri: 'data:image/png;base64,' + this.state.uri }
                     : addPhoto}
+                  resizeMode='contain'
                 />
               </TouchableOpacity>
             </View>
@@ -252,7 +280,12 @@ export default class ReviewFoodScreen extends React.Component {
         </View>
         <View style={styles.progressbar}>
           <LinearGradient
-            style={styles.progress}
+            style={{
+              marginRight: '66%',
+              borderRadius: 10,
+              maxHeight: 14,
+              height: 14,
+            }}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             colors={['#ABE894', '#54E085']}></LinearGradient>

@@ -260,7 +260,12 @@ export default class ReviewFoodScreen2 extends React.Component {
           </View>
           <View style={styles.progressbar}>
             <LinearGradient
-              style={styles.progress}
+              style={{
+                marginRight: '33%',
+                borderRadius: 10,
+                maxHeight: 14,
+                height: 14,
+              }}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               colors={['#ABE894', '#54E085']}></LinearGradient>

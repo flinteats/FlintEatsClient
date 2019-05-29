@@ -183,8 +183,9 @@ export default class CreateRecipeScreen3 extends React.Component {
               onPress={() => this.props.navigation.navigate('CreateRecipe4', {
                 title: title,
                 uri: uri,
+                ingredientList: this.state.ingredientList,
               })}>
-              <Text style={styles.btntxt}>Skip</Text>
+              <Text style={styles.btntxt}>Next</Text>
             </TouchableOpacity>
           </View>
 

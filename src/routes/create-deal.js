@@ -250,7 +250,7 @@ export default class CreateDealScreen extends React.Component {
     if (this.state.uri) {
       productimage = <Image style={styles.smallAddPhoto} source={{ uri: 'data:image/png;base64,' + this.state.uri }} />
     } else {
-      productimage = <Image style={styles.smallAddPhoto} source={camera} />
+      productimage = <Image style={styles.dealImage} source={camera} />
     }
 
     // Tom's version of create deal. Use the other return for the original.
@@ -265,9 +265,8 @@ export default class CreateDealScreen extends React.Component {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonRight}
-          onPress={() => this.props.navigation.navigate('', {
-            title: this.state.title
-          })}>
+          onPress={() => params.submit()}
+          >
           <Text style={styles.btntxt}>Save</Text>
         </TouchableOpacity>
       </View>
@@ -277,13 +276,7 @@ export default class CreateDealScreen extends React.Component {
           onPress={() => this.checkPermissions()}
         // onPress={() => this._alertForPhotosPermission()}
         >
-          <Image
-            style={styles.dealImage}
-            source={this.state.uri
-              ? { uri: 'data:image/png;base64,' + this.state.uri }
-              : camera}
-          />
-          {/* {productimage} */}
+          {productimage}
         </TouchableOpacity>
       </View>
 
