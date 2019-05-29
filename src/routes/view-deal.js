@@ -170,6 +170,8 @@ class ViewDealScreenView extends React.Component {
       <ScrollView style={{flex: 1}}>
         <Card>
           <CardItem>
+
+            {/* profile picture */}
             <TouchableOpacity
                 accessibilityLabel={obj.usr.username + '\'s profile picture'}
                 onPress={() => this.goToProfile(obj.usr)}>
@@ -180,6 +182,8 @@ class ViewDealScreenView extends React.Component {
                             : profile}
               />
             </TouchableOpacity>
+
+            {/* deal info */}
             <Body>
               <Text style={{fontWeight: 'bold'}}>
                 {obj.usr.username}
@@ -196,6 +200,8 @@ class ViewDealScreenView extends React.Component {
                 {start + ' – ' + end}
               </Text>
             </Body>
+
+            {/* like button */}
             <TouchableOpacity
                 accessibilityLabel={this.state.reacted ? 'unlike' : 'like'}
                 style={{padding: 20}}
@@ -208,18 +214,26 @@ class ViewDealScreenView extends React.Component {
               />
             </TouchableOpacity>
           </CardItem>
+
+          {/* deal image */}
           <Image
               style={styles.dealPic}
               source={{uri: 'data:image/png;base64,'+obj.image64}}
           />
+
+          {/* additional deal text */}
           <CardItem>
             <AutoLink text={obj.text} />
           </CardItem>
+
+          {/* tag list */}
           <CardItem>
             <Text style={{fontWeight: 'bold'}}>Tags{' '}</Text>
             {tagBubbles}
           </CardItem>
         </Card>
+
+        {/* comment section */}
         <Card>
           {!this.state.comments
             ? <Spinner />

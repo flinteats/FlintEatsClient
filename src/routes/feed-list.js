@@ -20,7 +20,17 @@ const { width, height } = Dimensions.get('window');
 class FeedListView extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { end: false, draw: 0, page: 0, refreshing: false, loading: false, followees: null, queried: '', faveMode: false, updates: [] };
+    this.state = {
+      end: false,
+      draw: 0, 
+      page: 0, 
+      refreshing: false, 
+      loading: false, 
+      followees: null, 
+      queried: '', 
+      faveMode: false, 
+      updates: []
+    };
     this.navigate = this.navigate.bind(this);
   }
 
@@ -244,8 +254,9 @@ class FeedListView extends React.Component {
       return null;
     }
     return (
-      <Card style={{marginBottom:17}}>
+      <Card style={{ marginBottom: 17 }}>
         <CardItem>
+          {/* profile picture */}
           <TouchableOpacity
             accessibilityLabel={item.usr.username + '\'s profile picture'}
             onPress={() => this.goToProfile(item.usr)}>
@@ -256,6 +267,8 @@ class FeedListView extends React.Component {
                 : profile}
             />
           </TouchableOpacity>
+
+          {/* post's user, category, and location */}
           <Body>
             <TouchableOpacity
               onPress={() => this.detail(clazz, item)}>
@@ -270,6 +283,8 @@ class FeedListView extends React.Component {
               </Text>
             </TouchableOpacity>
           </Body>
+
+          {/* follow/unfollow button */}
           {this.props.me.id == item.usr.id
             ? null : (
               <TouchableOpacity
@@ -281,6 +296,8 @@ class FeedListView extends React.Component {
               </TouchableOpacity>)
           }
         </CardItem>
+
+        {/* post image (optional) */}
         <TouchableOpacity
           onPress={() => this.detail(clazz, item)}>
           {item.image64
@@ -290,6 +307,8 @@ class FeedListView extends React.Component {
             />
             : null
           }
+
+          {/* post text content */}
           <CardItem cardBody style={styles.body}>
             <Text>
               {item.title
@@ -307,7 +326,7 @@ class FeedListView extends React.Component {
                   style={{ width: 23, height: 23 }}
                   source={tag}>
                 </Image>
-                <Text style={{marginLeft:5}}>{item.tagCount + '\t'}</Text>
+                <Text style={{ marginLeft: 5 }}>{item.tagCount + '\t'}</Text>
               </View>
 
               <View style={styles.cardResponse}>
@@ -315,17 +334,17 @@ class FeedListView extends React.Component {
                   style={{ width: 28, height: 28 }}
                   source={comment}
                 />
-                <Text style={{marginLeft:5}}>{item.commentCount + '\t'}</Text>
+                <Text style={{ marginLeft: 5 }}>{item.commentCount + '\t'}</Text>
               </View>
 
               <View style={styles.cardResponse}>
                 <Image
-                  style={{ width: 23, height: 23}}
+                  style={{ width: 23, height: 23 }}
                   source={item.iLike
                     ? like1
                     : like0}
                 />
-                <Text style={{marginLeft:5}}>{item.reactionCount + '\t'}</Text>
+                <Text style={{ marginLeft: 5 }}>{item.reactionCount + '\t'}</Text>
               </View>
 
             </View>
@@ -445,15 +464,15 @@ const styles = StyleSheet.create({
     height: width / 3,
     resizeMode: 'cover'
   },
-  cardResponseContainer:{
-    flexDirection: 'row', 
-    height: 25, 
-    width: '50%', 
+  cardResponseContainer: {
+    flexDirection: 'row',
+    height: 25,
+    width: '50%',
     justifyContent: 'space-between'
   },
-  cardResponse:{
-    flexDirection: 'row', 
-    alignItems:'center'
+  cardResponse: {
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 });
 
