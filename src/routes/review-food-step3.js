@@ -162,13 +162,13 @@ export default class ReviewFoodScreen3 extends React.Component {
 
     MSU.post('/ugc/foodReview/create', // is this the right location for food review?
       {
-        item: food,
+        Food: food,
         Image: foodImg,
-        market: market,
+        Market: market,
         FreshnessRating: Freshness,
         PriceRating: Price,
-        QaulityRating: Quality,
-        comments: comments,
+        QualityRating: Quality,
+        Comments: comments,
       })
       .then(res => {
         this.props.navigation.navigate('Feed');

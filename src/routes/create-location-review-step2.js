@@ -211,7 +211,14 @@ export default class CreateLocationReviewScreenStep2 extends React.Component {
                             </View>
 
                             <TouchableOpacity style={{}}
-                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep3', {PassMarket: this.state.market})}
+                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep3', {
+                                    PassMarket: this.state.market,
+                                    clean: this.state.starCountCleanliness,
+                                    friendly: this.state.starCountFriendliness,
+                                    selection: this.state.starCountSelection,
+                                    access: this.state.starCountAccess,
+                                    safe: this.state.starCountSafety,
+                                })}
                             >
                                 <Text style={{
                                     color: '#00CE66',

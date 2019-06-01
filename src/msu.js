@@ -5,10 +5,14 @@ const base64 = require('base-64');
  
 class Msu extends RestClient {
   constructor() {
-    // dev
+    // old dev
 //    super('https://flinteats.etshost.com:8443/eats');
+
+
+    // umflint dev server
+    super('http://141.216.22.12:8080/eats');
     // prod
-    super('https://flinteats.cas.msu.edu/eats');
+    // super('https://flinteats.cas.msu.edu/eats');
   }
 
   async get(path, params = null) {
@@ -48,6 +52,8 @@ class Msu extends RestClient {
 
   async login(username, password, auto = false) {
     this.headers['Authorization'] = 'Basic ' + base64.encode(username.toLowerCase() + ':' + password);
+
+    console.log(this.headers);
     return await this.GET('/users/me')
       .then(res => {
         if (!auto) {
@@ -59,6 +65,7 @@ class Msu extends RestClient {
       })
       .catch(res => {
         console.log(res);
+
         this.headers['Authorization'] = null;
         Alert.alert('Login Failed', 'Please check your credentials and try again.');
       });

@@ -61,10 +61,14 @@ export default class CreateDealScreen extends React.Component {
 
 
 
-  static navigationOptions = ({ navigation }) => ({
-    header: null,
-    tabBarLabel: 'new deal',
-  });
+  static navigationOptions = ({ navigation }) => {
+
+
+    return {
+      header: null,
+      tabBarLabel: 'new deal',
+    }
+  };
 
   componentDidMount() {
     BackHandler.addEventListener('hardwareBackPress', () => {
@@ -240,6 +244,8 @@ export default class CreateDealScreen extends React.Component {
       );
     });
 
+    var params = this.props.navigation.state;
+ 
     if (tags.length == 0) {
       tagsCardItem = <View />
     } else {
@@ -265,8 +271,10 @@ export default class CreateDealScreen extends React.Component {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonRight}
-          onPress={() => params.submit()}
-          >
+          onPress={() => 
+            this.submit()
+          }
+        >
           <Text style={styles.btntxt}>Save</Text>
         </TouchableOpacity>
       </View>

@@ -37,16 +37,20 @@ export default class CreateRecipeScreen5 extends React.Component {
     });
   }
 
-  static navigationOptions = ({ navigation }) => ({
-    header: null,
-    tabBarLabel: 'Feed',
-    tabBarIcon: ({ focused }) => <Image
-      style={{ width: 25, height: 25 }}
-      source={focused
-        ? icon1
-        : icon0}
-    />,
-  });
+  static navigationOptions = ({ navigation }) => {
+    
+    const { params = {} } = navigation.state;
+    return{
+      header: null,
+      tabBarLabel: 'Feed',
+      tabBarIcon: ({ focused }) => <Image
+        style={{ width: 25, height: 25 }}
+        source={focused
+          ? icon1
+          : icon0}
+      />,
+    }
+  };
 
   tagScan = (q) => {
     this.setState({ tagText: q });
@@ -84,9 +88,9 @@ export default class CreateRecipeScreen5 extends React.Component {
     MSU.post('/ugc/recipe/create',
       {
         title: title,
-        recipeImg: recipeImg,
+        image: recipeImg,
         ingredientList: ingredientList,
-        allSteps: allSteps,
+        steps: allSteps,
         tags: tags,
       })
       .then(res => {
@@ -269,8 +273,8 @@ export default class CreateRecipeScreen5 extends React.Component {
           <View style={styles.submitContain}>
             <TouchableOpacity
               style={styles.submitButton}
-              // onPress={() => params.submit()}
-              onPress={() => this.props.navigation.navigate('Feed')}
+              onPress={() => this.submit()}
+              // onPress={() => this.props.navigation.navigate('Feed')}
             >
               <Text style={{ color: '#00CE66', fontSize: 24, textAlign: 'center' }}>Send your recipe</Text>
             </TouchableOpacity>

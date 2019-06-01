@@ -92,8 +92,7 @@ class MapScreenView extends React.Component {
   renderCluster = (cluster, onPress) => {
     const pointCount = cluster.pointCount,
       coordinate = cluster.coordinate,
-      clusterId = cluster.clusterId
-    debugger;
+      clusterId = cluster.clusterId;
 
     // use pointCount to calculate cluster size scaling
     // and apply it to "style" prop below

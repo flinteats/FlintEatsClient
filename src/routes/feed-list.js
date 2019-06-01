@@ -377,6 +377,7 @@ class FeedListView extends React.Component {
     return null;
   }
 
+  // feed render function
   render() {
     let feed = this.props.feeds[this.props.feedKey];
     if ((!feed || feed.length == 0)

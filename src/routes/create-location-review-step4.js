@@ -83,7 +83,47 @@ export default class CreateLocationReviewScreenStep4 extends React.Component {
         header: null,
     });
 
+    // MUST Change for review location
+    submit = () => {
+        this.props.navigation.setParams({ submitting: true });
+        market = this.props.navigation.getParam('PassMarket', null)
+        clean = this.props.navigation.getParam('Clean', null);
+        friendly = this.props.navigation.getParam('Friendly', null);
+        selection = this.props.navigation.getParam('Selection', null);
+        access = this.props.navigation.getParam('Access', null);
+        safe = this.props.navigation.getParam('Safe', null);
+        text = this.props.navigation.getParam('text', null);
+
+        MSU.post('/ugc/marketReview/create', // is this the right location for location review?
+            {
+                market: market,
+                clean: clean,
+                friendly: friendly,
+                selection: selection,
+                access: access,
+                safe: safe,
+                text: text,
+                tags: this.state.tags,
+            })
+            .then(res => {
+                this.props.navigation.navigate('Feed');
+            })
+            .catch(err => {
+                console.log(err);
+                Alert.alert('Error Submitting Food Reivew', err);
+                this.props.navigation.setParams({ submitting: false });
+            });
+    };
+
     render() {
+        const clean = this.props.navigation.getParam('Clean', null);
+        const friendly = this.props.navigation.getParam('Friendly', null);
+        const selection = this.props.navigation.getParam('Selection', null);
+        const access = this.props.navigation.getParam('Access', null);
+        const safe = this.props.navigation.getParam('Safe', null);
+        const text = this.props.navigation.getParam('text', null);
+
+
         // Creates an array of tags for all the tags currently on the review.
         let tags = [];
 
@@ -195,6 +235,7 @@ export default class CreateLocationReviewScreenStep4 extends React.Component {
 
                             <TouchableOpacity style={{}}
                                 onPress={() => this.props.navigation.navigate('Feed')}
+                            // onPress={() => params.submit()}
                             >
                                 <Text style={{
                                     color: '#00CE66',

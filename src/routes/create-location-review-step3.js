@@ -43,6 +43,12 @@ export default class CreateLocationReviewScreenStep3 extends React.Component {
     });
 
     render() {
+        const clean = this.props.navigation.getParam('clean', null);
+        const friendly = this.props.navigation.getParam('friendly', null);
+        const selection = this.props.navigation.getParam('selection', null);
+        const access = this.props.navigation.getParam('access', null);
+        const safe = this.props.navigation.getParam('safe', null);
+
         if (this.state.market) {
             if (this.state.market.image64) {
                 MarketImageSource = { uri: 'data:image/png;base64,' + this.state.market.image64 };
@@ -85,7 +91,15 @@ export default class CreateLocationReviewScreenStep3 extends React.Component {
                             </View>
 
                             <TouchableOpacity style={{}}
-                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep4', {PassMarket: this.state.market})}
+                                onPress={() => this.props.navigation.navigate('CreateLocationReviewStep4', {
+                                    PassMarket: this.state.market,
+                                    Clean: clean,
+                                    Friendly: friendly,
+                                    Selection: selection,
+                                    Access: access,
+                                    Safe: safe,
+                                    text: this.state.title,
+                                })}
                             >
                                 <Text style={{
                                     color: '#00CE66',
