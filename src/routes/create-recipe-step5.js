@@ -1,5 +1,5 @@
 import React from 'react';
-import { BackHandler, Button, Text, TextInput, StyleSheet, TouchableOpacity, View, Image, ImageBackground } from 'react-native';
+import { BackHandler, Button, Text, TextInput, StyleSheet, TouchableOpacity, View, Image, ImageBackground, Alert} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Card, CardItem, } from 'native-base';
@@ -79,17 +79,18 @@ export default class CreateRecipeScreen5 extends React.Component {
 
   submit = () => {
     this.props.navigation.setParams({ submitting: true });
-    let title = navigation.getParam('title', '');
-    let recipeImg = navigation.getParam('uri', '');
-    let ingredientList = navigation.getParam('ingredientList', '');
-    let allSteps = navigation.getParam('allSteps', '');
+    let title = this.props.navigation.getParam('title', '');
+    let recipeImg = this.props.navigation.getParam('uri', '');
+    let ingredientList = this.props.navigation.getParam('ingredientList', '').join();
+    let allSteps = this.props.navigation.getParam('allSteps', '').join();
     let tags = [];
     this.state.tags.forEach(tag => tags.push(tag.name));
-    MSU.post('/ugc/recipe/create',
+    debugger;
+    MSU.post('/ugc/recipes/create',
       {
         title: title,
-        image: recipeImg,
         ingredientList: ingredientList,
+        image: recipeImg,
         steps: allSteps,
         tags: tags,
       })
@@ -97,8 +98,8 @@ export default class CreateRecipeScreen5 extends React.Component {
         this.props.navigation.navigate('Feed');
       })
       .catch(err => {
-        console.log(err);
-        Alert.alert('Error Submitting Recipe', err);
+        // console.log(err);
+        // Alert.alert('Error Submitting Recipe', err);
         this.props.navigation.setParams({ submitting: false });
       });
   };
